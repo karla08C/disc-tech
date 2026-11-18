@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'Fira Code', monospace;
+    
+    --disc-d: #e11d48; /* Dominance - Rose / Crimson */
+    --disc-i: #d97706; /* Influence - Warm Amber */
+    --disc-s: #059669; /* Steadiness - Deep Emerald */
+    --disc-c: #0284c7; /* Conscientiousness - Technical Sky Blue */
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #0b0f17;
+    color: #f1f5f9;
+    min-height: 100vh;
+    overflow-x: hidden;
+    selection-background-color: #6366f1;
+    selection-color: #ffffff;
+  }
+}
+
+.font-code {
+  font-family: var(--font-mono);
+}
+
+/* Minimal technical grid background - subtle and matte */
+.bg-tech-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+/* Custom scrollbar - subtle */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0f17;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Print Utility */
+.print-only {
+  display: none;
+}
+
+/* Clean Professional Print Styles for Sharing / HR / Executive Reports */
+@media print {
+  @page {
+    margin: 12mm 14mm;
+    size: A4 portrait;
+  }
+
+  body {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    font-size: 10pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  /* Convert dark containers to clean white cards with crisp light borders */
+  .bg-\[\#0b0f17\],
+  .bg-\[\#0c0a17\],
+  .bg-slate-900,
+  .bg-slate-950,
+  .bg-slate-900\/80,
+  .bg-slate-900\/90,
+  .bg-slate-950\/80,
+  .bg-slate-950\/60,
+  .bg-slate-950\/70 {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Professional text contrast for paper and PDF readers */
+  .text-white {
+    color: #0f172a !important;
+  }
+  .text-slate-200,
+  .text-slate-300 {
+    color: #1e293b !important;
+  }
+  .text-slate-400,
+  .text-slate-500 {
+    color: #475569 !important;
+  }
+
+  /* Subtle dividers */
+  .border-slate-800,
+  .border-slate-800\/80,
+  .border-slate-700,
+  .border-slate-700\/60 {
+    border-color: #e2e8f0 !important;
+  }
+
+  /* Page break rules to keep sections intact */
+  .break-inside-avoid,
+  .p-6,
+  .p-8,
+  .rounded-2xl,
+  .rounded-3xl {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "DISC Tech 2.0 — Análise de Perfil para TI",
+  "description": "Plataforma de análise de perfil comportamental DISC adaptada ao ecossistema tech. 20 cenários práticos, radar comportamental, bugs e hotfixes, simulador de squad e carreira.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
