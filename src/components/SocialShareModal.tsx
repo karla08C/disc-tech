@@ -211,29 +211,30 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
   const benchMiniPath = benchMiniPts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ') + ' Z';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fadeIn overflow-y-auto">
-      <div className="relative w-full max-w-3xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/50 dark:bg-black/80 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-auto">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800/80 bg-slate-950/60">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-950/60">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300">
+            <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/20 border border-indigo-200 dark:border-indigo-500/30 flex items-center justify-center text-indigo-600 dark:text-indigo-300">
               <Share2 className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-white flex items-center gap-2">
-                Compartilhar Perfil DISC Tech
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                  Card Social & Link Único
+              <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span>Compartilhar Perfil DISC Tech</span>
+                <span className="text-xs font-normal text-slate-500 dark:text-slate-400">
+                  · Card Social & Link Único
                 </span>
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-600 dark:text-slate-400">
                 Divulgue suas fortalezas comportamentais no LinkedIn, Twitter ou com sua squad.
               </p>
             </div>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 transition"
+            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -244,11 +245,11 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
           {/* Card Preview Container */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                <ImageIcon className="w-4 h-4 text-purple-400" />
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                <ImageIcon className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                 Prévia do Card Social (1200 x 630px)
               </span>
-              <span className="text-[11px] text-slate-400 font-mono">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
                 Otimizado para LinkedIn & Twitter
               </span>
             </div>
@@ -433,7 +434,7 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
                 type="button"
                 onClick={handleDownloadCard}
                 disabled={downloadingImg}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white shadow-md transition cursor-pointer disabled:opacity-50"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs transition cursor-pointer disabled:opacity-50"
               >
                 {downloadingImg ? (
                   <>
@@ -452,7 +453,7 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
                 type="button"
                 onClick={handleCopyCardImage}
                 disabled={copyingImg}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer disabled:opacity-50"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition cursor-pointer disabled:opacity-50"
               >
                 {copyingImg ? (
                   <>
@@ -470,13 +471,13 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
           </div>
 
           {/* Unique Link Section */}
-          <div className="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                <Link2 className="w-4 h-4 text-indigo-400" />
+          <div className="bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                <Link2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                 Seu Link Único de Compartilhamento
               </span>
-              <span className="text-[11px] text-emerald-400 font-mono">
+              <span className="text-[11px] text-emerald-700 dark:text-emerald-400 font-mono">
                 Permite a qualquer pessoa ver seu relatório interativo
               </span>
             </div>
@@ -486,15 +487,15 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
                 type="text"
                 readOnly
                 value={shareUrl}
-                className="flex-1 bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2 text-xs font-mono text-slate-300 focus:outline-none focus:border-indigo-500 select-all"
+                className="flex-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700/80 rounded-xl px-3 py-2 text-xs font-mono text-slate-800 dark:text-slate-300 focus:outline-none focus:border-indigo-500 select-all"
               />
               <button
                 type="button"
                 onClick={handleCopyLink}
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer shrink-0 border ${
                   copiedLink
-                    ? 'bg-emerald-600 text-white border-emerald-500'
-                    : 'bg-slate-800 hover:bg-slate-700 text-white border-slate-700'
+                    ? 'bg-emerald-600 text-white border-emerald-600'
+                    : 'bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white border-slate-900 dark:border-slate-700'
                 }`}
               >
                 {copiedLink ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -505,21 +506,23 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
 
           {/* 1-Click Social Media Sharing Buttons */}
           <div className="space-y-3">
-            <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-              <Share2 className="w-4 h-4 text-indigo-400" />
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+              <Share2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
               Publicar nas Redes Sociais
             </span>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {/* LinkedIn Share */}
-              <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-3.5 flex flex-col justify-between space-y-3">
+              <div className="bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 flex flex-col justify-between space-y-3">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center">
+                  <div className="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-600/20 text-blue-700 dark:text-blue-400 flex items-center justify-center">
                     <Linkedin className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-white">LinkedIn</h4>
-                    <span className="text-[10px] text-slate-400">Post profissional completo</span>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white">LinkedIn</h4>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                      Post profissional completo
+                    </span>
                   </div>
                 </div>
 
@@ -535,22 +538,24 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
                   <button
                     type="button"
                     onClick={() => handleCopyPostText('linkedin')}
-                    className="w-full text-center text-[10px] text-slate-400 hover:text-slate-200 transition py-0.5"
+                    className="w-full text-center text-[10px] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition py-0.5 cursor-pointer"
                   >
-                    {copiedTextType === 'linkedin' ? '✓ Texto copiado!' : 'Copiar texto para post'}
+                    {copiedTextType === 'linkedin' ? 'Texto copiado!' : 'Copiar texto para post'}
                   </button>
                 </div>
               </div>
 
               {/* Twitter / X Share */}
-              <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-3.5 flex flex-col justify-between space-y-3">
+              <div className="bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 flex flex-col justify-between space-y-3">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-slate-800 text-slate-200 flex items-center justify-center">
+                  <div className="w-7 h-7 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 flex items-center justify-center">
                     <Twitter className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-white">Twitter / X</h4>
-                    <span className="text-[10px] text-slate-400">Tweet com métricas & link</span>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white">Twitter / X</h4>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                      Tweet com métricas & link
+                    </span>
                   </div>
                 </div>
 
@@ -558,7 +563,7 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
                   <button
                     type="button"
                     onClick={handleShareTwitter}
-                    className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-white transition cursor-pointer border border-slate-700"
+                    className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white transition cursor-pointer border border-slate-900 dark:border-slate-700"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                     Publicar no X
@@ -566,22 +571,26 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
                   <button
                     type="button"
                     onClick={() => handleCopyPostText('twitter')}
-                    className="w-full text-center text-[10px] text-slate-400 hover:text-slate-200 transition py-0.5"
+                    className="w-full text-center text-[10px] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition py-0.5 cursor-pointer"
                   >
-                    {copiedTextType === 'twitter' ? '✓ Tweet copiado!' : 'Copiar texto do tweet'}
+                    {copiedTextType === 'twitter' ? 'Tweet copiado!' : 'Copiar texto do tweet'}
                   </button>
                 </div>
               </div>
 
               {/* WhatsApp Share */}
-              <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-3.5 flex flex-col justify-between space-y-3">
+              <div className="bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 flex flex-col justify-between space-y-3">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-emerald-600/20 text-emerald-400 flex items-center justify-center">
+                  <div className="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-600/20 text-emerald-700 dark:text-emerald-400 flex items-center justify-center">
                     <MessageCircle className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-white">WhatsApp / Squad</h4>
-                    <span className="text-[10px] text-slate-400">Envio direto para o time</span>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                      WhatsApp / Squad
+                    </h4>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                      Envio direto para o time
+                    </span>
                   </div>
                 </div>
 
@@ -589,15 +598,15 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
                   <button
                     type="button"
                     onClick={handleShareWhatsApp}
-                    className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-bold transition cursor-pointer"
+                    className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#16a34a] hover:bg-[#15803d] text-white font-bold transition cursor-pointer"
                   >
-                    <ExternalLink className="w-3.5 h-3.5 text-slate-950" />
+                    <ExternalLink className="w-3.5 h-3.5" />
                     Enviar no WhatsApp
                   </button>
                   <button
                     type="button"
                     onClick={() => handleCopyPostText('twitter')}
-                    className="w-full text-center text-[10px] text-slate-400 hover:text-slate-200 transition py-0.5"
+                    className="w-full text-center text-[10px] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition py-0.5 cursor-pointer"
                   >
                     Copiar resumo formatado
                   </button>
@@ -608,11 +617,14 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3.5 bg-slate-950/80 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-          <span>Dica: cole a imagem baixada diretamente na publicação do LinkedIn para maior engajamento.</span>
+        <div className="px-6 py-3.5 bg-slate-50 dark:bg-slate-950/80 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+          <span>
+            Dica: cole a imagem baixada diretamente na publicação do LinkedIn para maior engajamento.
+          </span>
           <button
+            type="button"
             onClick={onClose}
-            className="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium transition cursor-pointer"
+            className="px-4 py-1.5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-300 dark:border-slate-700 font-medium transition cursor-pointer"
           >
             Fechar
           </button>

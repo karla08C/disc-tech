@@ -432,7 +432,7 @@ export const TECH_CAREERS: TechCareer[] = [
     primaryDisc: "D",
     secondaryDisc: "I",
     description: "Lidera tecnicamente a squad, desbloqueia decisões arquiteturais, alinha entregas com o negócio e apoia a evolução do time.",
-    salaryRange: "R$ 16.000 – R$ 26.000 / mês",
+    salaryRange: "R$ 13.000 – R$ 20.000 / mês",
     keySkills: ["Tomada de Decisão", "System Design", "Mentoria", "Pragmatismo"],
     weights: { D: 0.45, I: 0.25, S: 0.15, C: 0.15 },
     dailyRoutine: [
@@ -455,7 +455,7 @@ export const TECH_CAREERS: TechCareer[] = [
     primaryDisc: "I",
     secondaryDisc: "D",
     description: "Responsável pelo desenvolvimento de pessoas, planos de carreira (1:1s), processos ágeis, contratação e alinhamento estratégico.",
-    salaryRange: "R$ 18.000 – R$ 30.000 / mês",
+    salaryRange: "R$ 15.000 – R$ 24.000 / mês",
     keySkills: ["Gestão de Pessoas", "Comunicação", "Resolução de Conflitos", "Estratégia"],
     weights: { D: 0.30, I: 0.45, S: 0.15, C: 0.10 },
     dailyRoutine: [
@@ -478,7 +478,7 @@ export const TECH_CAREERS: TechCareer[] = [
     primaryDisc: "C",
     secondaryDisc: "D",
     description: "Desenha sistemas distribuídos, define diretrizes globais de arquitetura, contratos de microsserviços e governança de tecnologia.",
-    salaryRange: "R$ 20.000 – R$ 32.000 / mês",
+    salaryRange: "R$ 15.000 – R$ 24.000 / mês",
     keySkills: ["Sistemas Distribuídos", "Modelagem", "Trade-off Analysis", "Escalabilidade"],
     weights: { D: 0.25, I: 0.10, S: 0.15, C: 0.50 },
     dailyRoutine: [
@@ -501,7 +501,7 @@ export const TECH_CAREERS: TechCareer[] = [
     primaryDisc: "S",
     secondaryDisc: "C",
     description: "Garante alta disponibilidade, observabilidade, esteiras de CI/CD, gestão de incidentes e tolerância a falhas na infraestrutura.",
-    salaryRange: "R$ 14.000 – R$ 24.000 / mês",
+    salaryRange: "R$ 10.000 – R$ 17.500 / mês",
     keySkills: ["Observabilidade", "Kubernetes", "Post-Mortems", "Resiliência"],
     weights: { D: 0.15, I: 0.10, S: 0.45, C: 0.30 },
     dailyRoutine: [
@@ -524,7 +524,7 @@ export const TECH_CAREERS: TechCareer[] = [
     primaryDisc: "I",
     secondaryDisc: "C",
     description: "A ponte entre a empresa e a comunidade dev. Cria documentações, palestras, SDKs de exemplo e dá voz aos desenvolvedores.",
-    salaryRange: "R$ 13.000 – R$ 22.000 / mês",
+    salaryRange: "R$ 9.000 – R$ 16.000 / mês",
     keySkills: ["Storytelling Tech", "Oratória", "Open Source", "Empatia"],
     weights: { D: 0.15, I: 0.50, S: 0.15, C: 0.20 },
     dailyRoutine: [
@@ -547,7 +547,7 @@ export const TECH_CAREERS: TechCareer[] = [
     primaryDisc: "C",
     secondaryDisc: "S",
     description: "Desenvolve esteiras automatizadas de testes (E2E, carga, contrato), previne regressões e garante a integridade dos deploys.",
-    salaryRange: "R$ 10.000 – R$ 18.000 / mês",
+    salaryRange: "R$ 7.500 – R$ 14.000 / mês",
     keySkills: ["Automação de Testes", "Edge Cases", "Paciência", "Rigor Metódico"],
     weights: { D: 0.10, I: 0.10, S: 0.35, C: 0.45 },
     dailyRoutine: [
@@ -570,7 +570,7 @@ export const TECH_CAREERS: TechCareer[] = [
     primaryDisc: "I",
     secondaryDisc: "D",
     description: "Descobre dores de usuários, orquestra o roadmap, prioriza hipóteses e conecta métricas de negócio às capacidades técnicas.",
-    salaryRange: "R$ 15.000 – R$ 25.000 / mês",
+    salaryRange: "R$ 11.000 – R$ 18.500 / mês",
     keySkills: ["Product Discovery", "Comunicação", "Data-Driven", "Negociação"],
     weights: { D: 0.35, I: 0.40, S: 0.10, C: 0.15 },
     dailyRoutine: [
@@ -593,7 +593,7 @@ export const TECH_CAREERS: TechCareer[] = [
     primaryDisc: "C",
     secondaryDisc: "S",
     description: "Constrói APIs performáticas, regras de negócio complexas, otimiza consultas em banco de dados e mantém a consistência transacional.",
-    salaryRange: "R$ 12.000 – R$ 22.000 / mês",
+    salaryRange: "R$ 10.500 – R$ 17.500 / mês",
     keySkills: ["Clean Code", "SQL/NoSQL", "Testes Unitários", "Consistência"],
     weights: { D: 0.15, I: 0.10, S: 0.35, C: 0.40 },
     dailyRoutine: [
@@ -616,7 +616,7 @@ export const TECH_CAREERS: TechCareer[] = [
     primaryDisc: "C",
     secondaryDisc: "D",
     description: "Protege a aplicação contra vulnerabilidades (OWASP), realiza threat modeling, auditorias criptográficas e políticas de zero trust.",
-    salaryRange: "R$ 16.000 – R$ 28.000 / mês",
+    salaryRange: "R$ 11.500 – R$ 19.500 / mês",
     keySkills: ["Threat Modeling", "Criptografia", "Compliance", "Rigor Investigativo"],
     weights: { D: 0.25, I: 0.05, S: 0.20, C: 0.50 },
     dailyRoutine: [
@@ -639,7 +639,7 @@ export const TECH_CAREERS: TechCareer[] = [
     primaryDisc: "S",
     secondaryDisc: "I",
     description: "Facilita cerimônias ágeis, remove impedimentos, promove melhoria contínua e estimula a auto-organização da equipe.",
-    salaryRange: "R$ 12.000 – R$ 20.000 / mês",
+    salaryRange: "R$ 8.500 – R$ 15.000 / mês",
     keySkills: ["Facilitação", "Escuta Ativa", "Métricas Ágeis", "Resolução de Conflitos"],
     weights: { D: 0.10, I: 0.40, S: 0.40, C: 0.10 },
     dailyRoutine: [

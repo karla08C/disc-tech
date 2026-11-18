@@ -51,7 +51,6 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
   const currentQuestion = activeQuestions[currentIndex];
   const progressPct = Math.round((currentIndex / activeQuestions.length) * 100);
 
-  // Setup keyboard shortcut listener (1, 2, 3, 4)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (['1', '2', '3', '4'].includes(e.key)) {
@@ -76,19 +75,17 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
     newAnswers[currentIndex] = chosenLetter;
     setAnswers(newAnswers);
 
-    // Short transition before advancing
     setTimeout(() => {
       setSelectedOption(null);
       if (currentIndex + 1 < activeQuestions.length) {
         setCurrentIndex(currentIndex + 1);
       } else {
-        // Complete quiz
         try {
           confetti({
             particleCount: 80,
             spread: 70,
             origin: { y: 0.6 },
-            colors: ['#ef4444', '#f59e0b', '#10b981', '#06b6d4', '#a855f7'],
+            colors: ['#ef4444', '#f59e0b', '#10b981', '#06b6d4', '#4f46e5'],
           });
         } catch {
           // ignore if canvas not supported
@@ -109,44 +106,49 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
     <div className="w-full max-w-3xl mx-auto px-4 py-8">
       {/* Top Header & Progress */}
       <div className="mb-8">
-        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400 mb-2">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600 dark:text-slate-400 mb-2">
           <div className="flex items-center gap-2">
-            <span className="text-indigo-300 font-medium">
+            <span className="text-indigo-600 dark:text-indigo-300 font-medium">
               {quizMode === 'beginner' ? 'Modo Iniciante & Transição' : 'Modo Profissional Tech'}
             </span>
             <span aria-hidden="true">·</span>
-            <span className="text-slate-300 font-mono text-[11px]">
-              {activeCategories[currentQuestion.id] || "Cenário"}
+            <span className="text-slate-700 dark:text-slate-300 font-mono text-[11px]">
+              {activeCategories[currentQuestion.id] || 'Cenário'}
             </span>
             <span aria-hidden="true">·</span>
-            <span>Respondendo como <strong className="text-slate-200">{userName || 'Visitante'}</strong></span>
+            <span>
+              Respondendo como{' '}
+              <strong className="text-slate-900 dark:text-slate-200">
+                {userName || 'Visitante'}
+              </strong>
+            </span>
           </div>
-          <div className="font-mono tabular-nums text-indigo-300 font-medium">
+          <div className="font-mono tabular-nums text-indigo-600 dark:text-indigo-300 font-semibold">
             {currentIndex + 1} de {activeQuestions.length} ({progressPct}%)
           </div>
         </div>
 
         {/* Progress bar */}
-        <div className="w-full h-2 bg-slate-800/80 rounded-full overflow-hidden border border-slate-700/50">
+        <div className="w-full h-2 bg-slate-200 dark:bg-slate-800/80 rounded-full overflow-hidden border border-slate-300/60 dark:border-slate-700/50">
           <div
-            className="h-full bg-indigo-500 transition-all duration-300 ease-out"
+            className="h-full bg-indigo-600 dark:bg-indigo-500 transition-all duration-300 ease-out"
             style={{ width: `${((currentIndex + 1) / activeQuestions.length) * 100}%` }}
           />
         </div>
       </div>
 
       {/* Question Card */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
         <div className="flex items-start gap-4 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 flex items-center justify-center font-mono font-bold text-lg shrink-0 tabular-nums">
+          <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-200 flex items-center justify-center font-mono font-bold text-lg shrink-0 tabular-nums">
             {currentQuestion.id}
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white leading-relaxed">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-relaxed">
             {currentQuestion.prompt}
           </h2>
         </div>
 
-        <p className="text-xs text-slate-400 mb-6 italic">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">
           {quizMode === 'beginner'
             ? 'Escolha a alternativa que mais combina com a sua forma natural de agir no dia a dia:'
             : 'Escolha a alternativa que mais reflete sua reação genuína na rotina real de tecnologia:'}
@@ -158,49 +160,47 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
             const isCurrentlySelected = selectedOption === idx;
             const letter = option.letter;
 
-            // Accent border on hover
             const letterColorMap: Record<DiscLetter, string> = {
-              D: 'group-hover:border-rose-500/50 group-hover:bg-rose-950/10',
-              I: 'group-hover:border-amber-500/50 group-hover:bg-amber-950/10',
-              S: 'group-hover:border-emerald-500/50 group-hover:bg-emerald-950/10',
-              C: 'group-hover:border-sky-500/50 group-hover:bg-sky-950/10',
+              D: 'group-hover:border-rose-400 dark:group-hover:border-rose-500/50 group-hover:bg-rose-50/60 dark:group-hover:bg-rose-950/10',
+              I: 'group-hover:border-amber-400 dark:group-hover:border-amber-500/50 group-hover:bg-amber-50/60 dark:group-hover:bg-amber-950/10',
+              S: 'group-hover:border-emerald-400 dark:group-hover:border-emerald-500/50 group-hover:bg-emerald-50/60 dark:group-hover:bg-emerald-950/10',
+              C: 'group-hover:border-sky-400 dark:group-hover:border-sky-500/50 group-hover:bg-sky-50/60 dark:group-hover:bg-sky-950/10',
             };
 
             const keyColorMap: Record<number, string> = {
-              0: 'bg-rose-500/10 text-rose-300 border-rose-500/30',
-              1: 'bg-amber-500/10 text-amber-300 border-amber-500/30',
-              2: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30',
-              3: 'bg-sky-500/10 text-sky-300 border-sky-500/30',
+              0: 'bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-500/30',
+              1: 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-500/30',
+              2: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/30',
+              3: 'bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-500/30',
             };
 
             return (
               <button
                 key={idx}
+                type="button"
                 onClick={() => handleSelectOption(idx)}
                 className={`group w-full text-left p-4 sm:p-5 rounded-xl border transition-all duration-150 flex items-center gap-4 cursor-pointer relative ${
                   isCurrentlySelected
-                    ? 'border-indigo-500 bg-slate-800/80 shadow-md scale-[1.005]'
-                    : 'border-slate-800 bg-slate-950/60 hover:border-slate-700 hover:bg-slate-800/40'
+                    ? 'border-indigo-500 bg-indigo-50 dark:bg-slate-800/80 shadow-xs'
+                    : 'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/60 hover:bg-slate-100/70 dark:hover:bg-slate-800/40'
                 } ${letterColorMap[letter]}`}
               >
-                {/* Numeric key indicator */}
                 <div
                   className={`w-7 h-7 rounded-lg border flex items-center justify-center text-xs font-mono font-semibold shrink-0 transition-colors ${
                     isCurrentlySelected
-                      ? 'bg-indigo-600 text-white border-indigo-500'
+                      ? 'bg-indigo-600 text-white border-indigo-600'
                       : keyColorMap[idx]
                   }`}
                 >
                   {idx + 1}
                 </div>
 
-                <div className="flex-1 text-sm sm:text-base text-slate-200 font-medium group-hover:text-white transition-colors">
+                <div className="flex-1 text-sm sm:text-base text-slate-800 dark:text-slate-200 font-medium group-hover:text-slate-950 dark:group-hover:text-white transition-colors">
                   {option.text}
                 </div>
 
-                {/* Selection check */}
                 <div className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <CheckCircle2 className="w-5 h-5 text-purple-400" />
+                  <CheckCircle2 className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
                 </div>
               </button>
             );
@@ -208,20 +208,22 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
         </div>
 
         {/* Footer controls & Shortcuts hint */}
-        <div className="mt-8 pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
+        <div className="mt-8 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
           <div className="flex items-center gap-2">
             {currentIndex > 0 ? (
               <button
+                type="button"
                 onClick={handlePrev}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900 text-slate-300 hover:text-white hover:border-slate-700 transition"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 Voltar anterior
               </button>
             ) : (
               <button
+                type="button"
                 onClick={onCancel}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:text-rose-400 transition"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition cursor-pointer"
               >
                 Cancelar teste
               </button>
@@ -230,10 +232,10 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
 
           <div className="hidden sm:flex items-center gap-2 text-slate-500 font-mono text-[11px]">
             <span>Atalho rápido: pressione</span>
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-bold">1</kbd>
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-bold">2</kbd>
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-bold">3</kbd>
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-bold">4</kbd>
+            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold">1</kbd>
+            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold">2</kbd>
+            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold">3</kbd>
+            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold">4</kbd>
           </div>
         </div>
       </div>

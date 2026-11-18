@@ -30,16 +30,19 @@ export const HistoryComparison: React.FC<HistoryComparisonProps> = ({
   if (records.length === 0) {
     return (
       <div className="w-full max-w-4xl mx-auto px-4 py-16 text-center space-y-4">
-        <div className="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-400 flex items-center justify-center mx-auto">
+        <div className="w-16 h-16 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto">
           <History className="w-8 h-8" />
         </div>
-        <h2 className="text-xl font-bold text-white">Nenhum teste salvo ainda</h2>
-        <p className="text-sm text-slate-400 max-w-md mx-auto">
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+          Nenhum teste salvo ainda
+        </h2>
+        <p className="text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto">
           Ao concluir uma avaliação comportamental DISC Tech, você poderá salvar o resultado para comparar sua evolução ao longo do tempo.
         </p>
         <button
+          type="button"
           onClick={onStartNewTest}
-          className="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs tracking-wide transition cursor-pointer"
+          className="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs tracking-wide transition cursor-pointer"
         >
           Iniciar Avaliação de 20 Cenários
         </button>
@@ -48,45 +51,46 @@ export const HistoryComparison: React.FC<HistoryComparisonProps> = ({
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-8 space-y-8 animate-fadeIn">
+    <div className="w-full max-w-6xl mx-auto px-4 py-8 space-y-8">
       {/* Header */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 sm:p-8 backdrop-blur-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-2xs">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-mono mb-2">
+          <div className="flex items-center gap-2 text-xs text-indigo-600 dark:text-indigo-400 font-medium mb-2">
             <History className="w-3.5 h-3.5" />
-            Histórico de Avaliações
+            <span>Histórico de Avaliações</span>
           </div>
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
             Evolução Comportamental e Comparações
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
             Compare como seu perfil se adaptou após mudanças de empresa, transição para liderança ou novos desafios.
           </p>
         </div>
 
         <button
+          type="button"
           onClick={onStartNewTest}
-          className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition cursor-pointer"
+          className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition cursor-pointer whitespace-nowrap"
         >
           Novo Teste
         </button>
       </div>
 
-      {/* Comparison Workspace (if at least 2 records) */}
+      {/* Comparison Workspace */}
       {records.length >= 2 && recordA && recordB && (
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-xl space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <Award className="w-4 h-4 text-purple-400" />
+        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-6 shadow-2xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Award className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
               Comparativo Lado a Lado
             </h3>
 
             <div className="flex flex-wrap items-center gap-2 text-xs">
-              <span className="text-slate-400">Comparando:</span>
+              <span className="text-slate-500 dark:text-slate-400">Comparando:</span>
               <select
                 value={selectedForCompareA || ''}
                 onChange={(e) => setSelectedForCompareA(e.target.value)}
-                className="px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-slate-200 text-xs"
+                className="px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-200 text-xs"
               >
                 {records.map((r) => (
                   <option key={r.id} value={r.id}>
@@ -94,11 +98,11 @@ export const HistoryComparison: React.FC<HistoryComparisonProps> = ({
                   </option>
                 ))}
               </select>
-              <ArrowRight className="w-3.5 h-3.5 text-slate-500" />
+              <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
               <select
                 value={selectedForCompareB || ''}
                 onChange={(e) => setSelectedForCompareB(e.target.value)}
-                className="px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-slate-200 text-xs"
+                className="px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-200 text-xs"
               >
                 {records.map((r) => (
                   <option key={r.id} value={r.id}>
@@ -111,36 +115,52 @@ export const HistoryComparison: React.FC<HistoryComparisonProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             {/* Record A */}
-            <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 text-center flex flex-col items-center">
-              <div className="text-xs text-purple-400 font-mono mb-1">
-                {new Date(recordA.date).toLocaleDateString('pt-BR')} • {recordA.name}
+            <div className="p-6 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-center flex flex-col items-center">
+              <div className="text-xs text-indigo-600 dark:text-indigo-400 font-mono mb-1">
+                {new Date(recordA.date).toLocaleDateString('pt-BR')} · {recordA.name}
               </div>
-              <h4 className="text-lg font-bold text-white mb-2">
+              <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
                 {PROFILES[recordA.dominant].title} ({recordA.dominant})
               </h4>
               <RadarChart pct={recordA.pct} size={260} showBenchmark={false} />
-              <div className="grid grid-cols-4 gap-2 w-full mt-4 font-mono text-xs">
-                <div className="p-1.5 rounded bg-red-950/20 text-red-300">D: {recordA.pct.D}%</div>
-                <div className="p-1.5 rounded bg-amber-950/20 text-amber-300">I: {recordA.pct.I}%</div>
-                <div className="p-1.5 rounded bg-emerald-950/20 text-emerald-300">S: {recordA.pct.S}%</div>
-                <div className="p-1.5 rounded bg-cyan-950/20 text-cyan-300">C: {recordA.pct.C}%</div>
+              <div className="grid grid-cols-4 gap-2 w-full mt-4 font-mono tabular-nums text-xs">
+                <div className="p-1.5 rounded bg-rose-50 dark:bg-red-950/20 text-rose-700 dark:text-red-300 font-semibold">
+                  D: {recordA.pct.D}%
+                </div>
+                <div className="p-1.5 rounded bg-amber-50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-300 font-semibold">
+                  I: {recordA.pct.I}%
+                </div>
+                <div className="p-1.5 rounded bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-300 font-semibold">
+                  S: {recordA.pct.S}%
+                </div>
+                <div className="p-1.5 rounded bg-sky-50 dark:bg-cyan-950/20 text-sky-700 dark:text-cyan-300 font-semibold">
+                  C: {recordA.pct.C}%
+                </div>
               </div>
             </div>
 
             {/* Record B */}
-            <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 text-center flex flex-col items-center">
-              <div className="text-xs text-purple-400 font-mono mb-1">
-                {new Date(recordB.date).toLocaleDateString('pt-BR')} • {recordB.name}
+            <div className="p-6 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-center flex flex-col items-center">
+              <div className="text-xs text-indigo-600 dark:text-indigo-400 font-mono mb-1">
+                {new Date(recordB.date).toLocaleDateString('pt-BR')} · {recordB.name}
               </div>
-              <h4 className="text-lg font-bold text-white mb-2">
+              <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
                 {PROFILES[recordB.dominant].title} ({recordB.dominant})
               </h4>
               <RadarChart pct={recordB.pct} size={260} showBenchmark={false} />
-              <div className="grid grid-cols-4 gap-2 w-full mt-4 font-mono text-xs">
-                <div className="p-1.5 rounded bg-red-950/20 text-red-300">D: {recordB.pct.D}%</div>
-                <div className="p-1.5 rounded bg-amber-950/20 text-amber-300">I: {recordB.pct.I}%</div>
-                <div className="p-1.5 rounded bg-emerald-950/20 text-emerald-300">S: {recordB.pct.S}%</div>
-                <div className="p-1.5 rounded bg-cyan-950/20 text-cyan-300">C: {recordB.pct.C}%</div>
+              <div className="grid grid-cols-4 gap-2 w-full mt-4 font-mono tabular-nums text-xs">
+                <div className="p-1.5 rounded bg-rose-50 dark:bg-red-950/20 text-rose-700 dark:text-red-300 font-semibold">
+                  D: {recordB.pct.D}%
+                </div>
+                <div className="p-1.5 rounded bg-amber-50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-300 font-semibold">
+                  I: {recordB.pct.I}%
+                </div>
+                <div className="p-1.5 rounded bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-300 font-semibold">
+                  S: {recordB.pct.S}%
+                </div>
+                <div className="p-1.5 rounded bg-sky-50 dark:bg-cyan-950/20 text-sky-700 dark:text-cyan-300 font-semibold">
+                  C: {recordB.pct.C}%
+                </div>
               </div>
             </div>
           </div>
@@ -148,8 +168,8 @@ export const HistoryComparison: React.FC<HistoryComparisonProps> = ({
       )}
 
       {/* Saved Records Table */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-xl">
-        <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4">
+      <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-2xs">
+        <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-4 tabular-nums">
           Todas as Avaliações Salvas ({records.length})
         </h3>
 
@@ -159,13 +179,13 @@ export const HistoryComparison: React.FC<HistoryComparisonProps> = ({
             return (
               <div
                 key={rec.id}
-                className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-slate-700 transition"
+                className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-slate-300 dark:hover:border-slate-700 transition"
               >
                 <div className="flex items-center gap-3">
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center font-mono font-bold text-base shrink-0 border"
                     style={{
-                      backgroundColor: `${p.color}20`,
+                      backgroundColor: `${p.color}18`,
                       color: p.color,
                       borderColor: `${p.color}40`,
                     }}
@@ -174,13 +194,13 @@ export const HistoryComparison: React.FC<HistoryComparisonProps> = ({
                   </div>
 
                   <div>
-                    <div className="text-sm font-bold text-white flex items-center gap-2">
-                      {rec.name}
-                      <span className="text-xs font-normal text-slate-400">
-                        • {p.title}
+                    <div className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                      <span>{rec.name}</span>
+                      <span className="text-xs font-normal text-slate-500 dark:text-slate-400">
+                        · {p.title}
                       </span>
                     </div>
-                    <div className="text-xs text-slate-500 flex items-center gap-2 mt-0.5">
+                    <div className="text-xs text-slate-500 flex items-center gap-2 mt-0.5 tabular-nums">
                       <Calendar className="w-3 h-3" />
                       {new Date(rec.date).toLocaleDateString('pt-BR', {
                         day: '2-digit',
@@ -194,24 +214,26 @@ export const HistoryComparison: React.FC<HistoryComparisonProps> = ({
                 </div>
 
                 <div className="flex items-center gap-3 self-end sm:self-center">
-                  <div className="hidden sm:flex items-center gap-2 font-mono text-xs text-slate-400 bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-800">
-                    <span className="text-red-400">D:{rec.pct.D}%</span>
-                    <span className="text-amber-400">I:{rec.pct.I}%</span>
-                    <span className="text-emerald-400">S:{rec.pct.S}%</span>
-                    <span className="text-cyan-400">C:{rec.pct.C}%</span>
+                  <div className="hidden sm:flex items-center gap-2 font-mono tabular-nums text-xs text-slate-600 dark:text-slate-400">
+                    <span className="text-rose-600 dark:text-red-400 font-semibold">D:{rec.pct.D}%</span>
+                    <span className="text-amber-600 dark:text-amber-400 font-semibold">I:{rec.pct.I}%</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">S:{rec.pct.S}%</span>
+                    <span className="text-sky-600 dark:text-cyan-400 font-semibold">C:{rec.pct.C}%</span>
                   </div>
 
                   <button
+                    type="button"
                     onClick={() => onSelectRecord(rec)}
-                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/30 text-purple-200 text-xs font-medium transition cursor-pointer"
+                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-600/20 hover:bg-indigo-100 dark:hover:bg-indigo-600/40 border border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-200 text-xs font-semibold transition cursor-pointer"
                   >
                     <Eye className="w-3.5 h-3.5" />
                     Abrir Relatório
                   </button>
 
                   <button
+                    type="button"
                     onClick={() => onDeleteRecord(rec.id)}
-                    className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition cursor-pointer"
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 dark:hover:text-red-400 hover:bg-rose-50 dark:hover:bg-red-500/10 transition cursor-pointer"
                     title="Excluir"
                   >
                     <Trash2 className="w-4 h-4" />

@@ -324,7 +324,7 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
       "Não tem paciência para conferir números, tabelas e validar se um dado está correto",
     ],
     entryRoles: ["Analista de Dados Júnior", "Analista de BI Júnior", "Estagiário de Analytics"],
-    salaryEntryRange: "R$ 3.200 – R$ 5.800 / mês",
+    salaryEntryRange: "R$ 3.000 – R$ 5.200 / mês",
     first30Days: [
       { week: "Semana 1", focus: "Fundamentos de análise de dados e Excel/Google Sheets intermediário (PROCV, Tabelas Dinâmicas)." },
       { week: "Semana 2", focus: "Primeiros passos com SQL (SELECT, WHERE, GROUP BY, JOIN) em bases gratuitas." },
@@ -356,7 +356,7 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
       "Fica entediado ao repetir fluxos passo a passo para garantir que nada quebrou",
     ],
     entryRoles: ["Analista de QA Júnior", "Tester Manual Júnior", "Estagiário de Qualidade"],
-    salaryEntryRange: "R$ 3.000 – R$ 5.500 / mês",
+    salaryEntryRange: "R$ 2.800 – R$ 4.800 / mês",
     first30Days: [
       { week: "Semana 1", focus: "Entender como a web funciona, o ciclo de vida de um bug e como escrever casos de teste." },
       { week: "Semana 2", focus: "Praticar testes exploratórios em sites reais, criando relatórios claros de falhas (Bug Report)." },
@@ -388,7 +388,7 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
       "Não tem interesse em aprender sintaxe de programação ou lidar com detalhes de layout",
     ],
     entryRoles: ["Desenvolvedor Frontend Júnior", "Estagiário Web", "Dev UI Júnior"],
-    salaryEntryRange: "R$ 3.500 – R$ 6.000 / mês",
+    salaryEntryRange: "R$ 3.200 – R$ 5.500 / mês",
     first30Days: [
       { week: "Semana 1", focus: "Estrutura de páginas com HTML5 e estilização moderna básica com CSS (Flexbox)." },
       { week: "Semana 2", focus: "Deixar páginas responsivas (celular e desktop) e publicar seu 1º site gratuito no GitHub Pages." },
@@ -420,7 +420,7 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
       "Não gosta de receber críticas sobre telas desenhadas ou prefere trabalhar com números e sistemas internos",
     ],
     entryRoles: ["Product Designer Júnior", "UX/UI Designer Júnior", "Estagiário de UX"],
-    salaryEntryRange: "R$ 3.500 – R$ 6.000 / mês",
+    salaryEntryRange: "R$ 3.200 – R$ 5.500 / mês",
     first30Days: [
       { week: "Semana 1", focus: "Princípios básicos de usabilidade (Heurísticas de Nielsen) e diferença entre UX e UI." },
       { week: "Semana 2", focus: "Dominar ferramentas básicas do Figma (frames, grids, componentes e protótipo clicável)." },
@@ -452,7 +452,7 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
       "Prefere passar o dia focado em silêncio executando tarefas individuais sem muitas reuniões",
     ],
     entryRoles: ["Analista de Produto Júnior", "Product Owner (PO) Júnior", "Analista de Requisitos / Negócios"],
-    salaryEntryRange: "R$ 4.000 – R$ 7.000 / mês",
+    salaryEntryRange: "R$ 3.500 – R$ 6.000 / mês",
     first30Days: [
       { week: "Semana 1", focus: "Entender como funciona uma equipe ágil (Scrum/Kanban) e o papel de PO vs. Dev vs. Designer." },
       { week: "Semana 2", focus: "Aprender a escrever Histórias de Usuário claras e critérios de aceitação no Trello/Jira." },
@@ -484,7 +484,7 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
       "Prefere resultados altamente visuais logo de início ou não curte programar lógica pura",
     ],
     entryRoles: ["Desenvolvedor Backend Júnior", "Estagiário em Desenvolvimento", "Programador Júnior"],
-    salaryEntryRange: "R$ 3.800 – R$ 6.500 / mês",
+    salaryEntryRange: "R$ 3.500 – R$ 6.000 / mês",
     first30Days: [
       { week: "Semana 1", focus: "Lógica de programação (condições, laços de repetição, funções) em Python ou JavaScript." },
       { week: "Semana 2", focus: "Versionamento básico com Git/GitHub e entendimento de como funciona uma API REST." },
@@ -516,7 +516,7 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
       "Não gosta de lidar com atendimentos técnicos, chamados ou rotinas operacionais",
     ],
     entryRoles: ["Analista de Suporte N2 Júnior", "Assistente de Infraestrutura / Cloud", "Service Desk Especializado"],
-    salaryEntryRange: "R$ 2.800 – R$ 5.000 / mês",
+    salaryEntryRange: "R$ 2.600 – R$ 4.500 / mês",
     first30Days: [
       { week: "Semana 1", focus: "Fundamentos de redes (IP, DNS, HTTP) e como sistemas conversam na internet." },
       { week: "Semana 2", focus: "Comandos básicos de Linux no terminal (navegar pastas, permissões, ver logs)." },
@@ -548,7 +548,7 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
       "Não gosta de ler normas, criar políticas de controle ou lidar com auditorias",
     ],
     entryRoles: ["Analista de Segurança da Informação Jr (GRC)", "Analista de Privacidade / LGPD", "Assistente de Riscos Tech"],
-    salaryEntryRange: "R$ 3.800 – R$ 6.800 / mês",
+    salaryEntryRange: "R$ 3.400 – R$ 5.800 / mês",
     first30Days: [
       { week: "Semana 1", focus: "Tríade da Segurança (Confidencialidade, Integridade, Disponibilidade) e tipos de ataques comuns." },
       { week: "Semana 2", focus: "Fundamentos da LGPD aplicados a sistemas digitais e proteção de dados pessoais." },

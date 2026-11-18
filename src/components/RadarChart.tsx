@@ -50,14 +50,12 @@ export const RadarChart: React.FC<RadarChartProps> = ({
     }
   };
 
-  // Fixed logical coordinate space with generous margins so axis labels never clip
   const vbWidth = 440;
   const vbHeight = 340;
   const cx = vbWidth / 2;
   const cy = vbHeight / 2;
   const radius = 104;
 
-  // Dynamic scale domain tailored for DISC (where D+I+S+C = 100%, peaks usually range 25%–55%)
   const scaleMax = useMemo(() => {
     const userPeak = Math.max(pct.D || 0, pct.I || 0, pct.S || 0, pct.C || 0);
     const benchPeak = showBenchmark
@@ -80,12 +78,10 @@ export const RadarChart: React.FC<RadarChartProps> = ({
     return [scaleMax * 0.25, scaleMax * 0.5, scaleMax * 0.75, scaleMax];
   }, [scaleMax]);
 
-  // D3 radial scale mapped to [0, scaleMax] -> [0, radius]
   const rScale = useMemo(() => {
     return d3.scaleLinear().domain([0, scaleMax]).range([0, radius]);
   }, [scaleMax, radius]);
 
-  // Axis definitions with angles (D = Top, I = Right, S = Bottom, C = Left)
   const axes: AxisConfig[] = useMemo(() => {
     return [
       {
@@ -103,7 +99,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
         name: 'Influência',
         letter: 'I',
         angle: 0,
-        color: '#f59e0b',
+        color: '#d97706',
         techRoleExplanation: 'Comunicação construtiva em dailies, code reviews e alinhamento com produto.',
         userScore: pct.I || 0,
         benchmarkScore: currentBenchmark.scores.I,
@@ -113,7 +109,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
         name: 'Estabilidade',
         letter: 'S',
         angle: Math.PI / 2,
-        color: '#10b981',
+        color: '#059669',
         techRoleExplanation: 'Consistência de entregas, previsibilidade de rotina e resiliência com legados.',
         userScore: pct.S || 0,
         benchmarkScore: currentBenchmark.scores.S,
@@ -123,7 +119,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
         name: 'Conformidade',
         letter: 'C',
         angle: Math.PI,
-        color: '#0ea5e9',
+        color: '#0284c7',
         techRoleExplanation: 'Rigor com testes unitários, padrões arquiteturais, segurança e edge cases.',
         userScore: pct.C || 0,
         benchmarkScore: currentBenchmark.scores.C,
@@ -184,14 +180,14 @@ export const RadarChart: React.FC<RadarChartProps> = ({
     <div className="flex flex-col items-center w-full mx-auto" style={{ maxWidth: maxContainerWidth }}>
       {/* Benchmark Selector Segmented Control */}
       {showBenchmark && (
-        <div className="flex items-center gap-1 p-1 bg-slate-950 border border-slate-800 rounded-xl mb-3 text-xs">
+        <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl mb-3 text-xs">
           <button
             type="button"
             onClick={() => handleBenchmarkSelect('pleno')}
             className={`px-3 py-1.5 rounded-lg font-medium transition cursor-pointer whitespace-nowrap ${
               activeBenchmarkId === 'pleno'
-                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                : 'text-slate-400 hover:text-slate-200 border border-transparent'
+                ? 'bg-white dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-500/40 shadow-xs'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-transparent'
             }`}
           >
             Dev Pleno (Ideal)
@@ -201,8 +197,8 @@ export const RadarChart: React.FC<RadarChartProps> = ({
             onClick={() => handleBenchmarkSelect('senior')}
             className={`px-3 py-1.5 rounded-lg font-medium transition cursor-pointer whitespace-nowrap ${
               activeBenchmarkId === 'senior'
-                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40'
-                : 'text-slate-400 hover:text-slate-200 border border-transparent'
+                ? 'bg-white dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-300 dark:border-indigo-500/40 shadow-xs'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-transparent'
             }`}
           >
             Dev Sênior
@@ -212,8 +208,8 @@ export const RadarChart: React.FC<RadarChartProps> = ({
             onClick={() => handleBenchmarkSelect('industry')}
             className={`px-3 py-1.5 rounded-lg font-medium transition cursor-pointer whitespace-nowrap ${
               activeBenchmarkId === 'industry'
-                ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40'
-                : 'text-slate-400 hover:text-slate-200 border border-transparent'
+                ? 'bg-white dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-300 dark:border-sky-500/40 shadow-xs'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-transparent'
             }`}
           >
             Média Tech
@@ -231,17 +227,17 @@ export const RadarChart: React.FC<RadarChartProps> = ({
         >
           <defs>
             <linearGradient id="userRadarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#6366f1" stopOpacity="0.34" />
-              <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0.16" />
+              <stop offset="0%" stopColor="#4f46e5" stopOpacity="0.24" />
+              <stop offset="100%" stopColor="#0284c7" stopOpacity="0.12" />
             </linearGradient>
 
             <linearGradient id="benchmarkRadarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.10" />
-              <stop offset="100%" stopColor="#d97706" stopOpacity="0.03" />
+              <stop offset="0%" stopColor="#d97706" stopOpacity="0.10" />
+              <stop offset="100%" stopColor="#b45309" stopOpacity="0.03" />
             </linearGradient>
           </defs>
 
-          {/* Concentric Diamond Webs & Subtle Rings */}
+          {/* Concentric Diamond Webs */}
           {gridLevels.map((lvl) => {
             const webPoints = axes
               .map((a) => {
@@ -249,30 +245,26 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                 return `${pt.x.toFixed(1)},${pt.y.toFixed(1)}`;
               })
               .join(' ');
-            const labelPos = getCoordinates(-Math.PI / 4, lvl * 0.72);
 
             return (
               <g key={lvl}>
                 <polygon
                   points={webPoints}
                   fill="none"
-                  stroke="#1e293b"
+                  className="stroke-slate-200 dark:stroke-slate-800"
                   strokeWidth={lvl === scaleMax ? '1.25' : '1'}
                   strokeDasharray={lvl === scaleMax ? 'none' : '3 3'}
-                  opacity={lvl === scaleMax ? 0.95 : 0.7}
                 />
                 <text
                   x={cx + 5}
                   y={cy - rScale(lvl) + 10}
-                  fill="#64748b"
+                  className="fill-slate-400 dark:fill-slate-500"
                   fontSize="9"
                   fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"
                   fontWeight="500"
                 >
                   {Math.round(lvl)}%
                 </text>
-                {/* Keep unused lint clean */}
-                <circle cx={labelPos.x} cy={labelPos.y} r="0" fill="none" />
               </g>
             );
           })}
@@ -288,8 +280,9 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                 y1={cy}
                 x2={edge.x}
                 y2={edge.y}
-                stroke={isActive ? a.color : '#334155'}
-                strokeWidth={isActive ? '1.75' : '1.15'}
+                className={isActive ? '' : 'stroke-slate-300 dark:stroke-slate-700'}
+                stroke={isActive ? a.color : undefined}
+                strokeWidth={isActive ? '1.75' : '1.1'}
                 opacity={isActive ? 0.85 : 0.75}
               />
             );
@@ -301,10 +294,10 @@ export const RadarChart: React.FC<RadarChartProps> = ({
               <path
                 d={benchmarkPath}
                 fill="url(#benchmarkRadarGrad)"
-                stroke="#f59e0b"
+                stroke="#d97706"
                 strokeWidth="1.75"
                 strokeDasharray="5 4"
-                opacity="0.9"
+                opacity="0.95"
               />
               {benchmarkCoordinates.map((pt, i) => (
                 <rect
@@ -314,8 +307,8 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                   width="7"
                   height="7"
                   transform={`rotate(45 ${pt.x} ${pt.y})`}
-                  fill="#f59e0b"
-                  stroke="#0f172a"
+                  fill="#d97706"
+                  className="stroke-white dark:stroke-slate-900"
                   strokeWidth="1.5"
                 />
               ))}
@@ -326,7 +319,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
           <path
             d={userPath}
             fill="url(#userRadarGrad)"
-            stroke="#818cf8"
+            stroke="#4f46e5"
             strokeWidth="2.5"
             strokeLinejoin="round"
           />
@@ -362,7 +355,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                   cy={pt.y}
                   r={isActive ? 6.5 : 5}
                   fill={a.color}
-                  stroke="#090d16"
+                  className="stroke-white dark:stroke-slate-950"
                   strokeWidth="2"
                 />
               </g>
@@ -410,7 +403,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                   <tspan fill={a.color} fontWeight="700">
                     {a.letter}
                   </tspan>
-                  <tspan fill="#e2e8f0"> · {a.name}</tspan>
+                  <tspan className="fill-slate-800 dark:fill-slate-200"> · {a.name}</tspan>
                 </text>
                 <text
                   x={x}
@@ -423,7 +416,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                     {a.userScore}%
                   </tspan>
                   {showBenchmark && (
-                    <tspan fill="#94a3b8" fontSize="10.5">
+                    <tspan className="fill-slate-500 dark:fill-slate-400" fontSize="10.5">
                       {' '}
                       (ref {a.benchmarkScore}%)
                     </tspan>
@@ -439,28 +432,30 @@ export const RadarChart: React.FC<RadarChartProps> = ({
       {interactive && (
         <div className="w-full mt-2">
           {inspectedAxis ? (
-            <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
+            <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs space-y-1.5">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="font-semibold text-white flex items-center gap-2">
+                <div className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                   <span style={{ color: inspectedAxis.color }} className="font-mono font-bold">
                     {inspectedAxis.letter}
                   </span>
                   <span>{inspectedAxis.name}</span>
                 </div>
                 <div className="flex items-center gap-2 font-mono tabular-nums text-[11px]">
-                  <span className="text-white font-semibold">Você: {inspectedAxis.userScore}%</span>
+                  <span className="text-slate-900 dark:text-white font-semibold">
+                    Você: {inspectedAxis.userScore}%
+                  </span>
                   {showBenchmark && (
                     <>
-                      <span className="text-slate-600" aria-hidden="true">·</span>
-                      <span className="text-amber-300">
+                      <span className="text-slate-400 dark:text-slate-600" aria-hidden="true">·</span>
+                      <span className="text-amber-700 dark:text-amber-300 font-medium">
                         {currentBenchmark.shortName}: {inspectedAxis.benchmarkScore}%
                       </span>
-                      <span className="text-slate-600" aria-hidden="true">·</span>
+                      <span className="text-slate-400 dark:text-slate-600" aria-hidden="true">·</span>
                       <span
                         className={
                           inspectedAxis.userScore - inspectedAxis.benchmarkScore >= 0
-                            ? 'text-emerald-400'
-                            : 'text-amber-400'
+                            ? 'text-emerald-700 dark:text-emerald-400 font-semibold'
+                            : 'text-amber-700 dark:text-amber-400 font-semibold'
                         }
                       >
                         {inspectedAxis.userScore - inspectedAxis.benchmarkScore > 0
@@ -471,7 +466,9 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                   )}
                 </div>
               </div>
-              <p className="text-slate-400 leading-relaxed">{inspectedAxis.techRoleExplanation}</p>
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                {inspectedAxis.techRoleExplanation}
+              </p>
             </div>
           ) : (
             <div className="text-center text-[11px] text-slate-500 py-1.5">
@@ -483,28 +480,30 @@ export const RadarChart: React.FC<RadarChartProps> = ({
 
       {/* Clean Legend & Adherence Summary */}
       {showBenchmark && (
-        <div className="w-full mt-3 pt-3 border-t border-slate-800/80 flex flex-col items-center gap-1.5 text-xs">
-          <div className="flex flex-wrap items-center justify-center gap-4 text-slate-300 select-none">
+        <div className="w-full mt-3 pt-3 border-t border-slate-200 dark:border-slate-800/80 flex flex-col items-center gap-1.5 text-xs">
+          <div className="flex flex-wrap items-center justify-center gap-4 text-slate-600 dark:text-slate-300 select-none">
             <div className="flex items-center gap-2">
-              <span className="w-3.5 h-2 rounded-xs bg-indigo-500/80 inline-block border border-indigo-400" />
-              <span className="font-medium text-white">Seu Perfil</span>
+              <span className="w-3.5 h-2 rounded-xs bg-indigo-600/80 inline-block border border-indigo-500" />
+              <span className="font-medium text-slate-900 dark:text-white">Seu Perfil</span>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="w-3.5 h-0.5 border-t-2 border-dashed border-amber-400 inline-block" />
-              <span className="font-medium text-amber-300">{currentBenchmark.shortName}</span>
+              <span className="w-3.5 h-0.5 border-t-2 border-dashed border-amber-600 dark:border-amber-400 inline-block" />
+              <span className="font-medium text-amber-700 dark:text-amber-300">
+                {currentBenchmark.shortName}
+              </span>
             </div>
 
-            <span className="text-slate-600" aria-hidden="true">·</span>
+            <span className="text-slate-300 dark:text-slate-600" aria-hidden="true">·</span>
 
-            <span className="text-[11px] font-mono tabular-nums text-slate-400">
+            <span className="text-[11px] font-mono tabular-nums text-slate-500 dark:text-slate-400">
               Escala 0–{scaleMax}%
             </span>
           </div>
 
-          <div className="text-[11px] text-slate-400 tabular-nums">
+          <div className="text-[11px] text-slate-600 dark:text-slate-400 tabular-nums">
             Aderência ao perfil {currentBenchmark.shortName}:{' '}
-            <strong className="font-mono text-amber-400">{adherence}%</strong>
+            <strong className="font-mono text-amber-700 dark:text-amber-400">{adherence}%</strong>
           </div>
         </div>
       )}
