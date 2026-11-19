@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { GoogleGenAI } from '@google/genai';
 
@@ -8,6 +9,17 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Resolve static bundle location robustly (root or dist folder)
+const distPath = fs.existsSync(path.resolve(__dirname, 'dist', 'index.html'))
+  ? path.resolve(__dirname, 'dist')
+  : fs.existsSync(path.resolve(__dirname, 'index.html'))
+    ? __dirname
+    : path.resolve(__dirname, 'dist');
+
+const rootPath = fs.existsSync(path.resolve(__dirname, 'package.json'))
+  ? __dirname
+  : path.resolve(__dirname, '..');
 
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
@@ -161,24 +173,39 @@ function generateStructuredPlan(
 - **Dias 61 a 90 (Candidaturas + Entrevistas):** faça candidaturas direcionadas para Estágio, Trainee ou Júnior, peça feedback do portfólio e treine sua apresentação pessoal.`;
 }
 
-// In development, mount Vite middleware. In production, serve dist.
+// In development, mount Vite middleware. In production or built mode, serve dist.
 async function setupServer() {
-  if (process.env.NODE_ENV !== 'production') {
+  const isProduction = process.env.NODE_ENV === 'production';
+  const hasDist = fs.existsSync(path.resolve(distPath, 'index.html'));
+
+  if (!isProduction && !hasDist) {
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true, host: '0.0.0.0' },
-      appType: 'spa'
+      appType: 'custom',
+      root: rootPath,
     });
     app.use(vite.middlewares);
+    app.use('*', async (req, res, next) => {
+      const url = req.originalUrl;
+      try {
+        let template = fs.readFileSync(path.resolve(rootPath, 'index.html'), 'utf-8');
+        template = await vite.transformIndexHtml(url, template);
+        res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
+      } catch (e) {
+        vite.ssrFixStacktrace(e as Error);
+        next(e);
+      }
+    });
   } else {
-    app.use(express.static(path.resolve(__dirname, 'dist')));
+    app.use(express.static(distPath));
     app.get('*', (_req, res) => {
-      res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+      res.sendFile(path.resolve(distPath, 'index.html'));
     });
   }
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server listening on http://0.0.0.0:${PORT}`);
+    console.log(`🚀 DISC Tech rodando com sucesso em http://localhost:${PORT}`);
   });
 }
 
