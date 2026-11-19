@@ -39,43 +39,48 @@ app.post('/api/ai/coach', async (req, res) => {
       return res.json({
         success: true,
         isFallback: true,
-        content: generateStructuredPdi(name || 'Dev', dominant, pct, targetRole || 'Tech Lead')
+        content: generateStructuredPlan(
+          name || 'Profissional em Transição',
+          dominant,
+          pct,
+          targetRole || 'Primeira Vaga em TI (Estágio / Júnior)',
+          requestType
+        )
       });
     }
 
     let prompt = '';
     if (requestType === 'interview') {
-      prompt = `Você é um Staff Principal Engineer e Head de Pessoas experiente no mercado tech brasileiro e global.
-O profissional tech se chama "${name || 'Candidato'}" e fez o teste DISC Tech (comportamental para TI):
+      prompt = `Você é um mentor de carreira e recrutador experiente em vagas de entrada (Estágio, Trainee e Júnior) e transição de carreira para o mercado de tecnologia brasileiro.
+A pessoa candidata se chama "${name || 'Candidato(a)'}" e fez a avaliação comportamental DISC Tech:
 - Dominância (D): ${pct.D}%
 - Influência (I): ${pct.I}%
 - Estabilidade (S): ${pct.S}%
 - Conformidade (C): ${pct.C}%
 - Perfil Dominante: ${dominant}
-- Objetivo de Carreira: ${targetRole || 'Liderança Técnica / Senior'}
+- Área ou Vaga Alvo: ${targetRole || 'Primeira Vaga em TI (Estágio / Júnior)'}
 
-Gere um simulador de entrevista comportamental com:
-1. Três perguntas difíceis de entrevista comportamental (metodologia STAR) feitas sob medida para investigar os prováveis pontos cegos desse perfil DISC.
-2. Como um entrevistador de Big Tech / Unicórnio avalia as respostas.
-3. Sugestão prática de como estruturar a resposta ideal evidenciando maturidade e autoconhecimento.
-Mantenha um tom profissional, construtivo e focado no mercado de tecnologia em Português do Brasil.`;
+Gere um treino prático para a primeira entrevista em tecnologia com:
+1. Três perguntas reais muito comuns em entrevistas para iniciantes e pessoas em transição de carreira, adaptadas ao perfil DISC dessa pessoa.
+2. O que quem entrevista realmente busca avaliar em cada resposta (sem exigir experiência prévia em TI).
+3. Como estruturar uma resposta clara e sincera aproveitando experiências anteriores, projetos de estudo e pontos fortes do perfil ${dominant}.
+Use linguagem direta, acolhedora e prática em Português do Brasil, sem jargões corporativos desnecessários e sem emojis.`;
     } else {
-      prompt = `Você é um Mentor Executivo de Engenharia de Software e Especialista em Perfil Comportamental DISC para o mercado tech.
-O profissional se chama "${name || 'Dev'}" e obteve o seguinte resultado no DISC Tech:
-- Dominância (D): ${pct.D}% (Execução, velocidade, assertividade)
-- Influência (I): ${pct.I}% (Comunicação, articulação, motivação)
-- Estabilidade (S): ${pct.S}% (Consistência, resiliência, calma)
-- Conformidade (C): ${pct.C}% (Precisão, qualidade técnica, rigor)
+      prompt = `Você é um mentor de carreira especializado em ajudar iniciantes e profissionais em transição a conquistar a primeira vaga em tecnologia no Brasil.
+A pessoa se chama "${name || 'Profissional em Transição'}" e obteve o seguinte resultado no DISC Tech:
+- Dominância (D): ${pct.D}% (Execução, iniciativa, foco em resultado)
+- Influência (I): ${pct.I}% (Comunicação, empatia, articulação)
+- Estabilidade (S): ${pct.S}% (Consistência, organização, trabalho em equipe)
+- Conformidade (C): ${pct.C}% (Análise, atenção a detalhes, qualidade)
 - Perfil Dominante: ${dominant}
-- Alvo de Carreira: ${targetRole || 'Tech Lead / Staff Engineer'}
+- Área ou Vaga Alvo: ${targetRole || 'Primeira Vaga em TI (Estágio / Júnior)'}
 
-Crie um Plano de Desenvolvimento Individual (PDI) hiperpersonalizado contendo:
-1. Diagnóstico Comportamental no Contexto Tech (pontos fortes como diferencial e armadilhas diárias no trabalho).
-2. Plano de Ação 30-60-90 Dias (ações concretas de aprendizado, portfólio, comunicação e rotina).
-3. Roteiro de Comunicação com Outros Perfis (como alinhar expectativas com perfis mais analíticos, comunicativos ou executores).
-4. 2 Recomendações de Livros/Recursos essenciais para este momento de carreira.
+Crie um Plano Prático de 90 Dias para entrada em TI contendo:
+1. Como usar seu perfil ${dominant} a favor dos estudos e da transição (vantagens naturais e 1 ou 2 cuidados simples no início).
+2. Roteiro 30-60-90 Dias (Dias 1-30: base + 1º projeto; Dias 31-60: portfólio + currículo e LinkedIn; Dias 61-90: candidaturas direcionadas + entrevistas).
+3. Dica prática de consistência para conciliar estudos com rotina atual.
 
-Retorne em Markdown bem formatado, sem emojis, direto ao ponto e em Português do Brasil.`;
+Retorne em Markdown bem formatado, sem emojis, sem jargões corporativos complexos e em Português do Brasil.`;
     }
 
     const response = await aiClient.models.generateContent({
@@ -91,40 +96,69 @@ Retorne em Markdown bem formatado, sem emojis, direto ao ponto e em Português d
   } catch (error: any) {
     console.error('Error generating AI coaching:', error);
     // Provide graceful fallback
-    const { name, dominant, pct, targetRole } = req.body;
+    const { name, dominant, pct, targetRole, requestType } = req.body;
     return res.json({
       success: true,
       isFallback: true,
-      content: generateStructuredPdi(name || 'Dev', dominant || 'D', pct || { D: 40, I: 20, S: 20, C: 20 }, targetRole || 'Tech Lead')
+      content: generateStructuredPlan(
+        name || 'Profissional em Transição',
+        dominant || 'D',
+        pct || { D: 40, I: 20, S: 20, C: 20 },
+        targetRole || 'Primeira Vaga em TI (Estágio / Júnior)',
+        requestType
+      )
     });
   }
 });
 
-function generateStructuredPdi(name: string, dominant: string, pct: any, targetRole: string) {
+function generateStructuredPlan(
+  name: string,
+  dominant: string,
+  pct: any,
+  targetRole: string,
+  requestType?: string
+) {
   const profileNames: Record<string, string> = {
-    D: 'O Tech Lead Executor (Dominância)',
-    I: 'O Catalisador de Times (Influência)',
-    S: 'O Engenheiro Estável (Estabilidade)',
-    C: 'O Arquiteto Analítico (Conformidade)'
+    D: 'Executor / Direcionador (Dominância)',
+    I: 'Comunicador / Catalisador (Influência)',
+    S: 'Estável / Sustentador (Estabilidade)',
+    C: 'Analítico / Estruturador (Conformidade)'
   };
 
-  return `### Diagnóstico Comportamental para ${name}
+  if (requestType === 'interview') {
+    return `### Treino de Entrevista (1ª Vaga / Transição) — ${name}
 **Perfil:** ${profileNames[dominant] || dominant}  
 **Distribuição:** D: ${pct.D}% | I: ${pct.I}% | S: ${pct.S}% | C: ${pct.C}%  
-**Carreira Alvo:** ${targetRole}
+**Área / Vaga Alvo:** ${targetRole}
 
-#### Pontos Fortes no Dia a Dia
-- Capacidade natural de contribuir para iniciativas com base no seu quadrante predominante.
-- Visão pragmática de entrega e resolução de problemas práticos.
+#### Pergunta 1 — Por que migrar para tecnologia agora?
+"O que te motivou a escolher esta área e como sua experiência anterior ajuda neste novo desafio?"
+- **O que avaliam:** clareza de objetivo, motivação real e capacidade de conectar habilidades transferíveis.
+- **Como responder:** apresente em 3 passos (o que você fazia antes, por que escolheu a área de TI e o que já construiu estudando).
 
-#### Plano de Ação Personalizado (30-60-90 Dias)
-- **Primeiros 30 Dias:** Mapeie seus 2 principais pontos de atenção comportamentais durante reuniões e revisões. Solicite feedback direto a 2 pares de confiança.
-- **Em 60 Dias:** Pratique comunicação adaptada com colegas que possuem perfis opostos (ex.: se for D, dê mais espaço a C e S; se for C, pratique entregar versões incrementais antes da perfeição).
-- **Em 90 Dias:** Lidere um alinhamento ou melhoria de processo utilizando escuta ativa e critérios objetivos.
+#### Pergunta 2 — Aprendendo algo do zero
+"Conte sobre uma ferramenta ou habilidade nova que você aprendeu recentemente. Qual foi a maior dificuldade?"
+- **O que avaliam:** autonomia para aprender e lidar com erros sem travar.
+- **Como responder:** use seu 1º projeto de portfólio como exemplo concreto e explique como resolveu o problema.
 
-#### Leituras Recomendadas
-- *The Manager's Path* — Camille Fournier
-- *Crucial Conversations* — Kerry Patterson`;
+#### Pergunta 3 — Trabalho em equipe e feedback
+"Conte uma situação em que recebeu um feedback construtivo ou precisou alinhar uma tarefa em grupo."
+- **O que avaliam:** escuta ativa, postura colaborativa e maturidade para vagas de Estágio ou Júnior.`;
+  }
+
+  return `### Plano de Estudos e Entrada em TI (90 Dias) — ${name}
+**Perfil:** ${profileNames[dominant] || dominant}  
+**Distribuição:** D: ${pct.D}% | I: ${pct.I}% | S: ${pct.S}% | C: ${pct.C}%  
+**Área / Vaga Alvo:** ${targetRole}
+
+#### Como usar seu perfil a favor da transição
+- Aproveite sua força natural do perfil ${dominant} para manter ritmo constante nos estudos e apresentar seus projetos com clareza.
+- Evite tentar aprender várias áreas ao mesmo tempo; foque em 1 trilha principal por 60 dias.
+
+#### Roteiro Prático 30-60-90 Dias
+- **Dias 1 a 30 (Base + 1º Projeto):** escolha 1 área recomendada, siga o roadmap.sh por 45 min/dia e conclua um projeto inicial simples.
+- **Dias 31 a 60 (Portfólio + LinkedIn):** publique seu projeto no GitHub, Figma, Notion ou Power BI explicando o problema resolvido e adapte seu LinkedIn e currículo.
+- **Dias 61 a 90 (Candidaturas + Entrevistas):** faça candidaturas direcionadas para Estágio, Trainee ou Júnior, peça feedback do portfólio e treine sua apresentação pessoal.`;
 }
 
 // In development, mount Vite middleware. In production, serve dist.

@@ -1,12 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Header, ActiveTab } from './components/Header';
-import { AssessmentQuiz } from './components/AssessmentQuiz';
-import { ResultReport } from './components/ResultReport';
-import { CareerExplorer } from './components/CareerExplorer';
-import { TransitionExplorer } from './components/TransitionExplorer';
-import { HistoryComparison } from './components/HistoryComparison';
-import { AiCoachModal } from './components/AiCoachModal';
 import { DiscLetter, QuizMode, TestRecord } from './types/disc';
+
+const AssessmentQuiz = lazy(() =>
+  import('./components/AssessmentQuiz').then((m) => ({ default: m.AssessmentQuiz }))
+);
+const ResultReport = lazy(() =>
+  import('./components/ResultReport').then((m) => ({ default: m.ResultReport }))
+);
+const TransitionExplorer = lazy(() =>
+  import('./components/TransitionExplorer').then((m) => ({ default: m.TransitionExplorer }))
+);
+const HistoryComparison = lazy(() =>
+  import('./components/HistoryComparison').then((m) => ({ default: m.HistoryComparison }))
+);
+const AiCoachModal = lazy(() =>
+  import('./components/AiCoachModal').then((m) => ({ default: m.AiCoachModal }))
+);
 import { calculateDiscResult, loadTestHistory, saveTestRecord, deleteTestRecord } from './utils/discCalculator';
 import { decodeSharedProfile, buildAnswersFromPercentages } from './utils/shareUtils';
 import { PROFILES } from './data/discData';
@@ -24,11 +34,10 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('test');
   const [userName, setUserName] = useState<string>('');
   const [quizActive, setQuizActive] = useState<boolean>(false);
-  const [quizMode, setQuizMode] = useState<QuizMode>('beginner');
+  const quizMode: QuizMode = 'beginner';
   const [selectedBgId, setSelectedBgId] = useState<string>('first-job');
   const [answers, setAnswers] = useState<DiscLetter[]>([]);
   const [history, setHistory] = useState<TestRecord[]>([]);
-  const [savedResultId, setSavedResultId] = useState<string | null>(null);
   const [isAiCoachOpen, setIsAiCoachOpen] = useState<boolean>(false);
   const [selectedTargetRole, setSelectedTargetRole] = useState<string>('Primeira Vaga em TI (Júnior / Estágio)');
   const [sharedBanner, setSharedBanner] = useState<{ isShared: boolean; name: string; dominant: DiscLetter } | null>(null);
@@ -90,16 +99,11 @@ export default function App() {
       mode: quizMode,
     };
     saveTestRecord(newRecord);
-    setSavedResultId(newRecord.id);
     setHistory(loadTestHistory());
   };
 
-  const handleStartQuiz = (modeOverride?: QuizMode) => {
-    if (modeOverride) {
-      setQuizMode(modeOverride);
-    }
+  const handleStartQuiz = () => {
     setAnswers([]);
-    setSavedResultId(null);
     setQuizActive(true);
     setActiveTab('test');
   };
@@ -111,33 +115,16 @@ export default function App() {
     }
   };
 
-  const handleManualSave = () => {
-    if (!currentResult) return;
-    const newRecord: TestRecord = {
-      id: crypto.randomUUID(),
-      name: userName.trim() || 'Profissional Tech',
-      date: new Date().toISOString(),
-      dominant: currentResult.dominant,
-      secondary: currentResult.secondary,
-      pct: currentResult.pct,
-      mode: quizMode,
-    };
-    saveTestRecord(newRecord);
-    setSavedResultId(newRecord.id);
-    setHistory(loadTestHistory());
-  };
-
   const handleDeleteHistory = (id: string) => {
     const updated = deleteTestRecord(id);
     setHistory(updated);
-    if (savedResultId === id) {
-      setSavedResultId(null);
+    if (updated.length === 0 && activeTab === 'history') {
+      setActiveTab(answers.length > 0 ? 'result' : 'test');
     }
   };
 
   const handleSelectRecordFromHistory = (rec: TestRecord) => {
     setUserName(rec.name);
-    setQuizMode(rec.mode || 'standard');
     const mockAnswers: DiscLetter[] = [];
     const countD = Math.round((rec.pct.D / 100) * 20);
     const countI = Math.round((rec.pct.I / 100) * 20);
@@ -150,7 +137,6 @@ export default function App() {
     for (let i = 0; i < countC; i++) mockAnswers.push('C');
 
     setAnswers(mockAnswers);
-    setSavedResultId(rec.id);
     setActiveTab('result');
   };
 
@@ -161,6 +147,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#fafbfc] dark:bg-[#0b0f17] text-slate-900 dark:text-slate-100 flex flex-col font-sans bg-tech-grid relative transition-colors">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:rounded-xl focus:bg-indigo-600 focus:text-white focus:text-xs focus:font-semibold focus:shadow-lg no-print"
+      >
+        Pular para o conteúdo principal
+      </a>
       {/* Top Navigation */}
       <Header
         activeTab={activeTab}
@@ -178,7 +170,7 @@ export default function App() {
 
       {/* Shared Profile Notification Banner */}
       {sharedBanner && (
-        <div className="bg-indigo-50 dark:bg-indigo-950/60 border-b border-indigo-200 dark:border-indigo-500/30 px-4 py-3 text-xs flex flex-wrap items-center justify-between gap-3">
+        <div className="bg-indigo-50 dark:bg-indigo-950/60 border-b border-indigo-200 dark:border-indigo-500/30 px-4 py-3 text-xs flex flex-wrap items-center justify-between gap-3 no-print">
           <div className="text-slate-700 dark:text-slate-200">
             Você está visualizando o perfil compartilhado de{' '}
             <strong className="text-slate-900 dark:text-white font-semibold">{sharedBanner.name}</strong>{' '}
@@ -220,7 +212,18 @@ export default function App() {
       )}
 
       {/* Main Content Area */}
-      <main className="flex-1 pb-16">
+      <main id="main-content" tabIndex={-1} className="flex-1 pb-16 focus:outline-none">
+        <Suspense
+          fallback={
+            <div
+              role="status"
+              aria-live="polite"
+              className="w-full max-w-4xl mx-auto px-4 py-16 text-center text-xs text-slate-500 dark:text-slate-400"
+            >
+              Carregando módulo...
+            </div>
+          }
+        >
         {/* TAB: TEST / ASSESSMENT */}
         {activeTab === 'test' && (
           <>
@@ -307,60 +310,18 @@ export default function App() {
                       </select>
                     </div>
 
-                    {/* Quiz Mode Selector */}
-                    <div className="space-y-2">
-                      <span className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                        Formato das perguntas:
-                      </span>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        <button
-                          type="button"
-                          onClick={() => setQuizMode('beginner')}
-                          className={`p-3 rounded-xl border text-left transition cursor-pointer ${
-                            quizMode === 'beginner'
-                              ? 'bg-indigo-50/70 dark:bg-indigo-600/20 border-indigo-500 text-slate-900 dark:text-white'
-                              : 'bg-slate-50/70 dark:bg-slate-950 border-slate-200/80 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-700'
-                          }`}
-                        >
-                          <div className="text-xs font-semibold">Iniciante ou Transição</div>
-                          <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                            Recomendado · Sem siglas técnicas
-                          </div>
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() => setQuizMode('standard')}
-                          className={`p-3 rounded-xl border text-left transition cursor-pointer ${
-                            quizMode === 'standard'
-                              ? 'bg-indigo-50/70 dark:bg-indigo-600/20 border-indigo-500 text-slate-900 dark:text-white'
-                              : 'bg-slate-50/70 dark:bg-slate-950 border-slate-200/80 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-700'
-                          }`}
-                        >
-                          <div className="text-xs font-semibold">Já atuo em Tecnologia</div>
-                          <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                            Cenários de equipe, UX e código
-                          </div>
-                        </button>
-                      </div>
-                    </div>
-
                     <button
                       type="button"
-                      onClick={() => handleStartQuiz(quizMode)}
+                      onClick={() => handleStartQuiz()}
                       className="w-full py-3.5 px-6 rounded-xl font-semibold text-sm tracking-wide bg-indigo-600 hover:bg-indigo-700 dark:hover:bg-indigo-500 text-white border border-indigo-600/30 shadow-2xs transition duration-150 flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <span>
-                        {quizMode === 'beginner'
-                          ? 'Descobrir Minha Área em Tech'
-                          : 'Iniciar Análise Comportamental'}
-                      </span>
+                      <span>Descobrir Minha Área em Tech</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
 
                     <div className="pt-2 border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-2 text-xs">
                       <span className="text-slate-500 dark:text-slate-400">
-                        Prefere comparar áreas antes de testar?
+                        Prefere pesquisar áreas sem fazer o teste?
                       </span>
                       <button
                         type="button"
@@ -368,7 +329,7 @@ export default function App() {
                         className="inline-flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-semibold transition cursor-pointer whitespace-nowrap shrink-0"
                       >
                         <Map className="w-3.5 h-3.5" />
-                        Explorar Guia de Entrada
+                        Explorar Áreas de TI
                       </button>
                     </div>
                   </div>
@@ -457,21 +418,21 @@ export default function App() {
                 {/* Footer */}
                 <div className="text-center text-xs text-slate-500 space-y-1">
                   <div>DISC Tech 2.0 · Análise Comportamental para Tecnologia</div>
-                  <div>Metodologia adaptada para iniciantes, profissionais em transição e squads de software.</div>
+                  <div>Metodologia DISC adaptada para iniciantes e pessoas em transição de carreira para TI.</div>
                 </div>
               </div>
             )}
           </>
         )}
 
-        {/* TAB: TRANSITION & BEGINNERS GUIDE */}
+        {/* TAB: EXPLORE ENTRY TECH AREAS */}
         {activeTab === 'transition' && (
           <TransitionExplorer
             userPct={currentResult?.pct || null}
             userName={userName}
             selectedBgId={selectedBgId}
             onSelectBgId={setSelectedBgId}
-            onStartBeginnerQuiz={() => handleStartQuiz('beginner')}
+            onStartBeginnerQuiz={() => handleStartQuiz()}
             onSelectCareerForCoach={handleSelectCareerForCoach}
           />
         )}
@@ -484,23 +445,11 @@ export default function App() {
             secondary={currentResult.secondary}
             dualCode={currentResult.dualCode}
             pct={currentResult.pct}
-            quizMode={quizMode}
             selectedBgId={selectedBgId}
             onSelectBgId={setSelectedBgId}
-            onRestart={() => handleStartQuiz(quizMode)}
+            onRestart={() => handleStartQuiz()}
             onOpenAiCoach={() => setIsAiCoachOpen(true)}
             onOpenTransitionGuide={() => setActiveTab('transition')}
-            onSaveResult={handleManualSave}
-            isSaved={!!savedResultId}
-          />
-        )}
-
-        {/* TAB: CAREERS EXPLORER */}
-        {activeTab === 'careers' && (
-          <CareerExplorer
-            userPct={currentResult?.pct || null}
-            userName={userName}
-            onSelectCareerForCoach={handleSelectCareerForCoach}
           />
         )}
 
@@ -510,22 +459,27 @@ export default function App() {
             records={history}
             onDeleteRecord={handleDeleteHistory}
             onSelectRecord={handleSelectRecordFromHistory}
-            onStartNewTest={() => handleStartQuiz(quizMode)}
+            onStartNewTest={() => handleStartQuiz()}
           />
         )}
+        </Suspense>
       </main>
 
       {/* AI Coaching Modal */}
-      <AiCoachModal
-        isOpen={isAiCoachOpen}
-        onClose={() => setIsAiCoachOpen(false)}
-        userName={userName}
-        dominant={currentResult?.dominant || 'D'}
-        pct={currentResult?.pct || { D: 35, I: 25, S: 20, C: 20 }}
-        currentCareers={currentResult ? PROFILES[currentResult.dominant].careers : []}
-        initialTargetRole={selectedTargetRole}
-        quizMode={quizMode}
-      />
+      {isAiCoachOpen && (
+        <Suspense fallback={null}>
+          <AiCoachModal
+            isOpen={isAiCoachOpen}
+            onClose={() => setIsAiCoachOpen(false)}
+            userName={userName}
+            dominant={currentResult?.dominant || 'D'}
+            pct={currentResult?.pct || { D: 35, I: 25, S: 20, C: 20 }}
+            currentCareers={currentResult ? PROFILES[currentResult.dominant].careers : []}
+            initialTargetRole={selectedTargetRole}
+            quizMode={quizMode}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

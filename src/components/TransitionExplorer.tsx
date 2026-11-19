@@ -14,6 +14,8 @@ import {
   Database,
   Users,
   ExternalLink,
+  ArrowUpRight,
+  Clock,
 } from 'lucide-react';
 import { ROADMAP_SH_DESIGN_HUB_URL } from '../data/roadmapData';
 import { DiscLetter, DiscPercentages, EntryTechArea } from '../types/disc';
@@ -150,16 +152,16 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
           <div className="space-y-3 max-w-2xl">
             <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
               <span className="text-indigo-600 dark:text-indigo-400 font-semibold">
-                Guia de Entrada em Tecnologia
+                Explorar Áreas de TI
               </span>
               <span aria-hidden="true">·</span>
               <span>Iniciantes e Transição de Carreira</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight text-balance">
-              Ainda não sabe qual área de TI escolher?
+              Pesquise e compare portas de entrada em tecnologia
             </h1>
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              Você não precisa saber programar para descobrir seu espaço na tecnologia. Escolha de onde você vem, responda 3 preferências simples e veja quais portas de entrada combinam com você — com roteiro prático de 30 dias e trilhas conectadas ao{' '}
+              Você não precisa saber programar para descobrir seu espaço na tecnologia. Escolha de onde você vem, ajuste 3 preferências simples e compare as áreas de entrada — com plano de 30 dias, evolução na carreira e trilhas no{' '}
               <a
                 href={ROADMAP_SH_DESIGN_HUB_URL}
                 target="_blank"
@@ -197,7 +199,7 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
                   onClick={onStartBeginnerQuiz}
                   className="w-full py-2 px-3 rounded-lg text-xs font-medium bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 transition cursor-pointer whitespace-nowrap"
                 >
-                  Refazer teste (Modo Iniciante)
+                  Refazer Avaliação DISC
                 </button>
               </>
             ) : (
@@ -206,7 +208,7 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
                   Teste DISC comportamental opcional
                 </div>
                 <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                  Quer ainda mais precisão? Faça nosso teste de 20 cenários escritos sem termos técnicos difíceis.
+                  Quer recomendações ainda mais precisas? Faça o teste de 20 situações do dia a dia sem siglas técnicas.
                 </p>
                 <button
                   type="button"
@@ -214,7 +216,7 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
                   className="w-full py-2.5 px-4 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 dark:hover:bg-indigo-500 text-white border border-indigo-600/30 transition flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
                 >
                   <Compass className="w-3.5 h-3.5" />
-                  Fazer Teste Modo Iniciante
+                  Fazer Avaliação DISC
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </>
@@ -236,13 +238,14 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5" role="group" aria-label="Selecionar experiência anterior">
             {PREVIOUS_BACKGROUNDS.map((bg) => {
               const active = bg.id === selectedBgId;
               return (
                 <button
                   key={bg.id}
                   type="button"
+                  aria-pressed={active}
                   onClick={() => setSelectedBgId(bg.id)}
                   className={`text-left p-3.5 rounded-xl border transition cursor-pointer ${
                     active
@@ -303,10 +306,10 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
 
           {/* Q1 */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold text-slate-800 dark:text-slate-200">
+            <span className="block text-xs font-semibold text-slate-800 dark:text-slate-200">
               Com o que você prefere lidar na maior parte do dia?
-            </label>
-            <div className="grid grid-cols-2 gap-2">
+            </span>
+            <div className="grid grid-cols-2 gap-2" role="group" aria-label="Com o que você prefere lidar na maior parte do dia?">
               {[
                 { id: 'visual', label: 'Telas, visual e experiência' },
                 { id: 'data', label: 'Números, planilhas e padrões' },
@@ -316,6 +319,7 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
                 <button
                   key={opt.id}
                   type="button"
+                  aria-pressed={preferredFocus === opt.id}
                   onClick={() => setPreferredFocus(preferredFocus === opt.id ? null : (opt.id as FocusChoice))}
                   className={`p-2.5 rounded-xl border text-left text-xs font-medium transition cursor-pointer ${
                     preferredFocus === opt.id
@@ -331,10 +335,10 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
 
           {/* Q2 */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold text-slate-800 dark:text-slate-200">
+            <span className="block text-xs font-semibold text-slate-800 dark:text-slate-200">
               Qual a sua vontade em relação a programar código?
-            </label>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2" role="group" aria-label="Qual a sua vontade em relação a programar código?">
               {[
                 { id: 'no-code', label: 'Prefiro pouco ou nenhum código' },
                 { id: 'low-code', label: 'Topo lógica simples e consultas' },
@@ -343,6 +347,7 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
                 <button
                   key={opt.id}
                   type="button"
+                  aria-pressed={codeComfort === opt.id}
                   onClick={() => setCodeComfort(codeComfort === opt.id ? null : (opt.id as CodeComfort))}
                   className={`p-2.5 rounded-xl border text-left text-xs font-medium transition cursor-pointer ${
                     codeComfort === opt.id
@@ -358,10 +363,10 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
 
           {/* Q3 */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold text-slate-800 dark:text-slate-200">
+            <span className="block text-xs font-semibold text-slate-800 dark:text-slate-200">
               O que te dá mais satisfação ao concluir uma tarefa?
-            </label>
-            <div className="grid grid-cols-2 gap-2">
+            </span>
+            <div className="grid grid-cols-2 gap-2" role="group" aria-label="O que te dá mais satisfação ao concluir uma tarefa?">
               {[
                 { id: 'visual', label: 'Ver algo bonito funcionando na tela' },
                 { id: 'logic', label: 'Descobrir um erro antes do usuário' },
@@ -371,6 +376,7 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
                 <button
                   key={opt.id}
                   type="button"
+                  aria-pressed={problemStyle === opt.id}
                   onClick={() => setProblemStyle(problemStyle === opt.id ? null : (opt.id as FocusChoice))}
                   className={`p-2.5 rounded-xl border text-left text-xs font-medium transition cursor-pointer ${
                     problemStyle === opt.id
@@ -399,7 +405,11 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
           </div>
 
           {/* Filter by Code Requirement */}
-          <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl overflow-x-auto">
+          <div
+            role="group"
+            aria-label="Filtrar áreas por nível de programação"
+            className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl overflow-x-auto"
+          >
             {[
               { id: 'all', label: 'Todas' },
               { id: 'no-code', label: 'Sem código' },
@@ -409,6 +419,7 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
               <button
                 key={tab.id}
                 type="button"
+                aria-pressed={codeFilter === tab.id}
                 onClick={() => setCodeFilter(tab.id as CodeFilter)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition whitespace-nowrap shrink-0 cursor-pointer ${
                   codeFilter === tab.id
@@ -461,6 +472,11 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
                           <span aria-hidden="true">·</span>
                           <span>{area.codeLevelLabel}</span>
                           <span aria-hidden="true">·</span>
+                          <span className="inline-flex items-center gap-1">
+                            <Clock className="w-3 h-3" aria-hidden="true" />
+                            1º projeto em {area.timeToFirstProject}
+                          </span>
+                          <span aria-hidden="true">·</span>
                           <span className="font-mono tabular-nums text-emerald-700 dark:text-emerald-400 font-medium">
                             Inicial: {area.salaryEntryRange}
                           </span>
@@ -473,6 +489,14 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
 
                         <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
                           {area.summary}
+                        </p>
+
+                        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed flex items-start gap-1.5">
+                          <ArrowUpRight className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" aria-hidden="true" />
+                          <span>
+                            <strong className="font-semibold text-slate-800 dark:text-slate-200">Evolução na carreira:</strong>{' '}
+                            {area.careerProgression}
+                          </span>
                         </p>
 
                         {area.matchReasons.length > 0 && (
@@ -492,6 +516,7 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
 
                         <button
                           type="button"
+                          aria-expanded={isExpanded}
                           onClick={() => setExpandedAreaId(isExpanded ? null : area.id)}
                           className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition cursor-pointer whitespace-nowrap shrink-0"
                         >
@@ -644,7 +669,7 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
                             className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition cursor-pointer whitespace-nowrap shrink-0"
                           >
                             <BrainCircuit className="w-4 h-4" />
-                            Gerar roteiro de transição 90 dias
+                            Gerar Plano de 90 Dias
                           </button>
                         )}
                       </div>

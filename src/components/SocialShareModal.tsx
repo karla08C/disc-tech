@@ -1,5 +1,4 @@
-import React, { useRef, useState, useMemo } from 'react';
-import html2canvas from 'html2canvas';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import {
   Share2,
   Download,
@@ -11,16 +10,15 @@ import {
   ExternalLink,
   Link2,
   MessageCircle,
-  Award,
-  TrendingUp,
   Image as ImageIcon,
   CheckCircle2,
-  Loader2
+  Loader2,
+  FileText
 } from 'lucide-react';
 import { DiscLetter, DiscPercentages } from '../types/disc';
-import { PROFILES, DUAL_PROFILES, PLENO_DEV_BENCHMARK } from '../data/discData';
+import { PROFILES, DUAL_PROFILES } from '../data/discData';
+import { ENTRY_TECH_AREAS } from '../data/transitionData';
 import { buildShareUrl, generateSocialPostText, SharedProfileData } from '../utils/shareUtils';
-import { calculateCareerMatches } from '../utils/discCalculator';
 
 interface SocialShareModalProps {
   isOpen: boolean;
@@ -30,6 +28,7 @@ interface SocialShareModalProps {
   secondary: DiscLetter;
   dualCode: string;
   pct: DiscPercentages;
+  topArea?: { title: string; matchScore: number };
 }
 
 export const SocialShareModal: React.FC<SocialShareModalProps> = ({
@@ -40,21 +39,64 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
   secondary,
   dualCode,
   pct,
+  topArea,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
   const [downloadingImg, setDownloadingImg] = useState(false);
   const [copyingImg, setCopyingImg] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [copiedSummary, setCopiedSummary] = useState(false);
   const [copiedTextType, setCopiedTextType] = useState<'linkedin' | 'twitter' | null>(null);
-  const [activeTab, setActiveTab] = useState<'card' | 'social'>('card');
+  const [imageNotice, setImageNotice] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const previousFocused = document.activeElement as HTMLElement | null;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const timer = window.setTimeout(() => {
+      closeBtnRef.current?.focus();
+    }, 10);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.clearTimeout(timer);
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+      previousFocused?.focus?.();
+    };
+  }, [isOpen, onClose]);
 
   const profile = PROFILES[dominant];
   const dual = DUAL_PROFILES[dualCode] || DUAL_PROFILES[`${dominant}${secondary}`];
-  const careerMatches = useMemo(() => calculateCareerMatches(pct), [pct]);
-  const topCareer = careerMatches[0];
+
+  const resolvedTopArea = useMemo(() => {
+    if (topArea) return topArea;
+    const ranked = [...ENTRY_TECH_AREAS]
+      .map((entry) => {
+        const diff =
+          Math.abs(pct.D - entry.weights.D * 100) +
+          Math.abs(pct.I - entry.weights.I * 100) +
+          Math.abs(pct.S - entry.weights.S * 100) +
+          Math.abs(pct.C - entry.weights.C * 100);
+        const matchScore = Math.max(55, Math.min(96, Math.round(100 - diff * 0.42)));
+        return { title: entry.title, matchScore };
+      })
+      .sort((a, b) => b.matchScore - a.matchScore);
+    return ranked[0];
+  }, [topArea, pct]);
 
   const shareData: SharedProfileData = useMemo(() => ({
-    name: name || 'Profissional Tech',
+    name: name || 'Profissional em Transição',
     dominant,
     secondary,
     dualCode,
@@ -62,15 +104,6 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
   }), [name, dominant, secondary, dualCode, pct]);
 
   const shareUrl = useMemo(() => buildShareUrl(shareData), [shareData]);
-
-  // Adherence to Pleno Dev Benchmark
-  const adherence = useMemo(() => {
-    let diffSum = 0;
-    (['D', 'I', 'S', 'C'] as DiscLetter[]).forEach((k) => {
-      diffSum += Math.abs(pct[k] - PLENO_DEV_BENCHMARK[k]);
-    });
-    return Math.max(0, Math.round(100 - diffSum / 2));
-  }, [pct]);
 
   if (!isOpen) return null;
 
@@ -82,6 +115,24 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
       setTimeout(() => setCopiedLink(false), 2500);
     } catch (err) {
       console.error('Failed to copy link', err);
+    }
+  };
+
+  // Copy concise plain-text summary
+  const handleCopyPlainSummary = async () => {
+    try {
+      const text = `Meu resultado no DISC Tech 2.0 (Iniciantes & Transição para TI):
+Perfil Dominante: ${dominant} — ${profile.title}${dual ? ` (${dual.code})` : ''}
+Distribuição: D:${pct.D}% | I:${pct.I}% | S:${pct.S}% | C:${pct.C}%${
+        resolvedTopArea ? `\nPorta de entrada recomendada: ${resolvedTopArea.title} (${resolvedTopArea.matchScore}% aderência)` : ''
+      }
+Link do relatório: ${shareUrl}`;
+      await navigator.clipboard.writeText(text);
+      setCopiedSummary(true);
+      setImageNotice('Resumo em texto copiado para a área de transferência.');
+      setTimeout(() => setCopiedSummary(false), 2500);
+    } catch (err) {
+      console.error('Failed to copy summary', err);
     }
   };
 
@@ -101,7 +152,9 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
   const handleDownloadCard = async () => {
     if (!cardRef.current) return;
     setDownloadingImg(true);
+    setImageNotice(null);
     try {
+      const { default: html2canvas } = await import('html2canvas');
       const canvas = await html2canvas(cardRef.current, {
         backgroundColor: '#07090e',
         scale: 2,
@@ -116,8 +169,10 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
       link.download = filename;
       link.href = canvas.toDataURL('image/png');
       link.click();
+      setImageNotice('Imagem PNG do card salva nos seus downloads.');
     } catch (err) {
       console.error('Failed to export card image:', err);
+      setImageNotice('Não foi possível gerar a imagem agora. Tente novamente.');
     } finally {
       setDownloadingImg(false);
     }
@@ -127,7 +182,9 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
   const handleCopyCardImage = async () => {
     if (!cardRef.current) return;
     setCopyingImg(true);
+    setImageNotice(null);
     try {
+      const { default: html2canvas } = await import('html2canvas');
       const canvas = await html2canvas(cardRef.current, {
         backgroundColor: '#07090e',
         scale: 2,
@@ -145,19 +202,20 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
             await navigator.clipboard.write([
               new ClipboardItem({ 'image/png': blob }),
             ]);
-            alert('Imagem copiada para a área de transferência! Cole direto no LinkedIn ou Twitter com Ctrl+V.');
+            setImageNotice('Imagem copiada para a área de transferência. Cole no LinkedIn ou X com Ctrl+V.');
           } else {
-            handleDownloadCard();
+            await handleDownloadCard();
           }
         } catch (clipErr) {
           console.warn('Clipboard write failed, downloading instead:', clipErr);
-          handleDownloadCard();
+          await handleDownloadCard();
         } finally {
           setCopyingImg(false);
         }
       }, 'image/png');
     } catch (err) {
       console.error('Failed to copy card image:', err);
+      setImageNotice('Não foi possível copiar a imagem. Use o botão de download PNG.');
       setCopyingImg(false);
     }
   };
@@ -190,10 +248,10 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
   const miniCenter = miniRadarSize / 2;
   const miniRadius = 52;
   const miniAxes = [
-    { key: 'D', angle: -Math.PI / 2, val: pct.D, bench: PLENO_DEV_BENCHMARK.D, color: '#e11d48' },
-    { key: 'I', angle: 0, val: pct.I, bench: PLENO_DEV_BENCHMARK.I, color: '#f59e0b' },
-    { key: 'S', angle: Math.PI / 2, val: pct.S, bench: PLENO_DEV_BENCHMARK.S, color: '#10b981' },
-    { key: 'C', angle: Math.PI, val: pct.C, bench: PLENO_DEV_BENCHMARK.C, color: '#0ea5e9' },
+    { key: 'D', angle: -Math.PI / 2, val: pct.D, color: '#e11d48' },
+    { key: 'I', angle: 0, val: pct.I, color: '#f59e0b' },
+    { key: 'S', angle: Math.PI / 2, val: pct.S, color: '#10b981' },
+    { key: 'C', angle: Math.PI, val: pct.C, color: '#0ea5e9' },
   ];
 
   const getMiniPt = (angle: number, value: number) => {
@@ -207,36 +265,48 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
   const userMiniPts = miniAxes.map((a) => getMiniPt(a.angle, a.val));
   const userMiniPath = userMiniPts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ') + ' Z';
 
-  const benchMiniPts = miniAxes.map((a) => getMiniPt(a.angle, a.bench));
-  const benchMiniPath = benchMiniPts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ') + ' Z';
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/50 dark:bg-black/80 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-auto">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/50 dark:bg-black/80 backdrop-blur-sm overflow-y-auto"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="social-share-modal-title"
+        className="relative w-full max-w-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-auto"
+      >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-950/60">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/20 border border-indigo-200 dark:border-indigo-500/30 flex items-center justify-center text-indigo-600 dark:text-indigo-300">
-              <Share2 className="w-5 h-5" />
+              <Share2 className="w-5 h-5" aria-hidden="true" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <h2
+                id="social-share-modal-title"
+                className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2"
+              >
                 <span>Compartilhar Perfil DISC Tech</span>
                 <span className="text-xs font-normal text-slate-500 dark:text-slate-400">
                   · Card Social & Link Único
                 </span>
               </h2>
               <p className="text-xs text-slate-600 dark:text-slate-400">
-                Divulgue suas fortalezas comportamentais no LinkedIn, Twitter ou com sua squad.
+                Divulgue seu perfil e sua área de entrada em TI no LinkedIn, X ou com mentores e colegas.
               </p>
             </div>
           </div>
           <button
+            ref={closeBtnRef}
             type="button"
             onClick={onClose}
+            aria-label="Fechar janela de compartilhamento"
             className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 
@@ -279,14 +349,14 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
                         DISC TECH • RELATÓRIO COMPORTAMENTAL
                       </div>
                       <div className="text-[9px] text-slate-400">
-                        Engenharia de Software & Liderança Técnica
+                        Iniciantes & Transição de Carreira em TI
                       </div>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2 text-[10px] font-mono">
-                    <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30">
-                      Aderência Dev Pleno: {adherence}%
+                    <span className="px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                      Perfil {dual ? dual.code : dominant}
                     </span>
                   </div>
                 </div>
@@ -373,15 +443,6 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
                             />
                           );
                         })}
-                        {/* Pleno benchmark line */}
-                        <path
-                          d={benchMiniPath}
-                          fill="none"
-                          stroke="#f59e0b"
-                          strokeWidth="1.25"
-                          strokeDasharray="3 3"
-                          opacity="0.8"
-                        />
                         {/* User filled polygon */}
                         <path
                           d={userMiniPath}
@@ -403,17 +464,17 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
                         ))}
                       </svg>
                       <div className="absolute bottom-0 inset-x-0 text-center text-[9px] font-mono text-slate-400">
-                        Radar vs. Dev Pleno
+                        Radar DISC
                       </div>
                     </div>
 
-                    {topCareer && (
+                    {resolvedTopArea && (
                       <div className="w-full text-center bg-slate-950/60 border border-slate-800/80 rounded-lg p-1.5">
                         <span className="text-[9px] uppercase font-mono text-slate-500 block">
-                          Carreira Recomendada
+                          Porta de Entrada Recomendada
                         </span>
                         <span className="text-[11px] font-bold text-white truncate block">
-                          {topCareer.title} ({topCareer.matchScore}% Match)
+                          {resolvedTopArea.title} ({resolvedTopArea.matchScore}% Match)
                         </span>
                       </div>
                     )}
@@ -423,7 +484,7 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
                 {/* Card Footer */}
                 <div className="flex items-center justify-between border-t border-slate-800/80 pt-2 relative z-10 text-[9px] font-mono text-slate-400">
                   <span>Mapeado no DISC Tech 2.0</span>
-                  <span className="text-slate-300">disc-tech.app • Análise de Perfil</span>
+                  <span className="text-slate-300">disc-tech.app • Iniciantes & Transição em TI</span>
                 </div>
               </div>
             </div>
@@ -467,6 +528,33 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
                   </>
                 )}
               </button>
+
+              <button
+                type="button"
+                onClick={handleCopyPlainSummary}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition cursor-pointer"
+              >
+                {copiedSummary ? (
+                  <>
+                    <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                    Resumo Copiado!
+                  </>
+                ) : (
+                  <>
+                    <FileText className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                    Copiar Resumo em Texto
+                  </>
+                )}
+              </button>
+            </div>
+
+            <div aria-live="polite" className="min-h-0">
+              {imageNotice && (
+                <div className="mt-2.5 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-500/30 text-xs text-emerald-800 dark:text-emerald-200">
+                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                  <span>{imageNotice}</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -486,6 +574,7 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
               <input
                 type="text"
                 readOnly
+                aria-label="Link único do seu perfil"
                 value={shareUrl}
                 className="flex-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700/80 rounded-xl px-3 py-2 text-xs font-mono text-slate-800 dark:text-slate-300 focus:outline-none focus:border-indigo-500 select-all"
               />
@@ -586,10 +675,10 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
                   </div>
                   <div>
                     <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                      WhatsApp / Squad
+                      WhatsApp
                     </h4>
                     <span className="text-[10px] text-slate-500 dark:text-slate-400">
-                      Envio direto para o time
+                      Envio rápido do resumo
                     </span>
                   </div>
                 </div>
@@ -605,10 +694,10 @@ export const SocialShareModal: React.FC<SocialShareModalProps> = ({
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleCopyPostText('twitter')}
+                    onClick={handleCopyPlainSummary}
                     className="w-full text-center text-[10px] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition py-0.5 cursor-pointer"
                   >
-                    Copiar resumo formatado
+                    {copiedSummary ? 'Resumo copiado!' : 'Copiar resumo formatado'}
                   </button>
                 </div>
               </div>

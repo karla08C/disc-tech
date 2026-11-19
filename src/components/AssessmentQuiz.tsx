@@ -3,7 +3,6 @@ import { DiscLetter, QuizMode } from '../types/disc';
 import { QUESTIONS } from '../data/discData';
 import { BEGINNER_QUESTIONS, BEGINNER_CATEGORIES_BY_ID } from '../data/transitionData';
 import { ArrowLeft, CheckCircle2 } from 'lucide-react';
-import confetti from 'canvas-confetti';
 
 interface AssessmentQuizProps {
   userName: string;
@@ -37,7 +36,7 @@ const CATEGORIES_BY_ID: Record<number, string> = {
 
 export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
   userName,
-  quizMode = 'standard',
+  quizMode = 'beginner',
   onComplete,
   onCancel,
 }) => {
@@ -53,6 +52,7 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
       if (['1', '2', '3', '4'].includes(e.key)) {
         const optionIndex = parseInt(e.key, 10) - 1;
         if (currentQuestion.options[optionIndex]) {
@@ -75,20 +75,26 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
     newAnswers[currentIndex] = chosenLetter;
     setAnswers(newAnswers);
 
-    setTimeout(() => {
+    setTimeout(async () => {
       setSelectedOption(null);
       if (currentIndex + 1 < activeQuestions.length) {
         setCurrentIndex(currentIndex + 1);
       } else {
-        try {
-          confetti({
-            particleCount: 80,
-            spread: 70,
-            origin: { y: 0.6 },
-            colors: ['#ef4444', '#f59e0b', '#10b981', '#06b6d4', '#4f46e5'],
-          });
-        } catch {
-          // ignore if canvas not supported
+        const prefersReducedMotion =
+          typeof window !== 'undefined' &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!prefersReducedMotion) {
+          try {
+            const { default: confetti } = await import('canvas-confetti');
+            confetti({
+              particleCount: 80,
+              spread: 70,
+              origin: { y: 0.6 },
+              colors: ['#ef4444', '#f59e0b', '#10b981', '#06b6d4', '#4f46e5'],
+            });
+          } catch {
+            // ignore if canvas not supported
+          }
         }
         onComplete(newAnswers);
       }
@@ -104,6 +110,10 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
 
   return (
     <div className="w-full max-w-3xl mx-auto px-4 py-8">
+      <div className="sr-only" aria-live="polite">
+        Pergunta {currentIndex + 1} de {activeQuestions.length}: {currentQuestion.prompt}
+      </div>
+
       {/* Top Header & Progress */}
       <div className="mb-8">
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600 dark:text-slate-400 mb-2">
@@ -129,7 +139,14 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
         </div>
 
         {/* Progress bar */}
-        <div className="w-full h-2 bg-slate-200 dark:bg-slate-800/80 rounded-full overflow-hidden border border-slate-300/60 dark:border-slate-700/50">
+        <div
+          role="progressbar"
+          aria-label="Progresso da avaliação"
+          aria-valuemin={1}
+          aria-valuemax={activeQuestions.length}
+          aria-valuenow={currentIndex + 1}
+          className="w-full h-2 bg-slate-200 dark:bg-slate-800/80 rounded-full overflow-hidden border border-slate-300/60 dark:border-slate-700/50"
+        >
           <div
             className="h-full bg-indigo-600 dark:bg-indigo-500 transition-all duration-300 ease-out"
             style={{ width: `${((currentIndex + 1) / activeQuestions.length) * 100}%` }}
@@ -155,7 +172,7 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
         </p>
 
         {/* Options Grid */}
-        <div className="space-y-3">
+        <div role="radiogroup" aria-label={currentQuestion.prompt} className="space-y-3">
           {currentQuestion.options.map((option, idx) => {
             const isCurrentlySelected = selectedOption === idx;
             const letter = option.letter;
@@ -178,6 +195,8 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
               <button
                 key={idx}
                 type="button"
+                role="radio"
+                aria-checked={isCurrentlySelected}
                 onClick={() => handleSelectOption(idx)}
                 className={`group w-full text-left p-4 sm:p-5 rounded-xl border transition-all duration-150 flex items-center gap-4 cursor-pointer relative ${
                   isCurrentlySelected

@@ -20,7 +20,6 @@ interface RoadmapSectionProps {
   dominant: DiscLetter;
   pct: DiscPercentages;
   resultAreas: ResultAreaInput[];
-  careerTrackView: 'entry' | 'pro';
   selectedAreaId?: string | null;
   onSelectAreaId?: (areaId: string) => void;
 }
@@ -31,11 +30,19 @@ export const RoadmapSection: React.FC<RoadmapSectionProps> = ({
   dominant,
   pct,
   resultAreas,
-  careerTrackView,
   selectedAreaId,
   onSelectAreaId,
 }) => {
   const [groupMode, setGroupMode] = useState<'result' | 'design'>('result');
+
+  const hasDesignAffinity = useMemo(
+    () =>
+      dominant === 'I' ||
+      resultAreas.some((a) =>
+        ['ux-ui-design', 'frontend-entry', 'product-agile'].includes(a.id)
+      ),
+    [dominant, resultAreas]
+  );
 
   const resultTracks = useMemo(
     () => getRoadmapsForResultAreas(resultAreas),
@@ -60,12 +67,16 @@ export const RoadmapSection: React.FC<RoadmapSectionProps> = ({
     return designTracks.find((t) => t.id === selectedDesignId) || designTracks[0];
   }, [designTracks, selectedDesignId]);
 
-  // If user clicked "Ver roadmap" on a specific result card, make sure we're in 'result' mode
+  // If user clicked "Ver roadmap" on a specific result card, or has no design affinity, stay in 'result' mode
   useEffect(() => {
+    if (!hasDesignAffinity) {
+      setGroupMode('result');
+      return;
+    }
     if (selectedAreaId && resultTracks.some((t) => t.areaId === selectedAreaId)) {
       setGroupMode('result');
     }
-  }, [selectedAreaId, resultTracks]);
+  }, [hasDesignAffinity, selectedAreaId, resultTracks]);
 
   const [completedTopics, setCompletedTopics] = useState<Record<string, boolean>>(() => {
     if (typeof window === 'undefined') return {};
@@ -140,12 +151,12 @@ export const RoadmapSection: React.FC<RoadmapSectionProps> = ({
             </span>
             <span aria-hidden="true">·</span>
             <a
-              href={ROADMAP_SH_DESIGN_HUB_URL}
+              href={hasDesignAffinity ? ROADMAP_SH_DESIGN_HUB_URL : 'https://roadmap.sh/roadmaps'}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-300 underline underline-offset-2 transition"
             >
-              <span>Coleção Design (roadmap.sh)</span>
+              <span>{hasDesignAffinity ? 'Coleção Design (roadmap.sh)' : 'Ver todas as trilhas no roadmap.sh'}</span>
               <ExternalLink className="w-3 h-3" />
             </a>
           </div>
@@ -158,13 +169,7 @@ export const RoadmapSection: React.FC<RoadmapSectionProps> = ({
           <p className="text-xs text-slate-600 dark:text-slate-300 mt-1.5 max-w-2xl leading-relaxed">
             {groupMode === 'result' ? (
               <>
-                Conectado diretamente às 3 áreas de maior aderência na trilha{' '}
-                <strong className="font-semibold text-slate-900 dark:text-white">
-                  {careerTrackView === 'entry'
-                    ? 'Portas de Entrada (Iniciantes)'
-                    : 'Carreiras Consolidadas'}
-                </strong>
-                . Selecione abaixo qualquer uma das áreas do seu resultado para seguir o roteiro oficial no{' '}
+                Conectado diretamente às 3 portas de entrada recomendadas para o seu perfil. Selecione abaixo qualquer uma das áreas do seu resultado para acompanhar o passo a passo oficial no{' '}
                 <strong className="font-semibold text-slate-900 dark:text-white">roadmap.sh</strong>.
               </>
             ) : (
@@ -177,37 +182,49 @@ export const RoadmapSection: React.FC<RoadmapSectionProps> = ({
           </p>
         </div>
 
-        {/* Category Switcher */}
-        <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 rounded-xl shrink-0 self-start no-print">
-          <button
-            type="button"
-            onClick={() => setGroupMode('result')}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer whitespace-nowrap ${
-              groupMode === 'result'
-                ? 'bg-white dark:bg-indigo-600 text-slate-900 dark:text-white shadow-2xs'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-            }`}
+        {/* Category Switcher — shown when profile has visual/design/product affinity */}
+        {hasDesignAffinity && (
+          <div
+            role="group"
+            aria-label="Selecionar origem dos roadmaps"
+            className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 rounded-xl shrink-0 self-start no-print"
           >
-            <Compass className="w-3.5 h-3.5" />
-            Áreas do meu Resultado
-          </button>
-          <button
-            type="button"
-            onClick={() => setGroupMode('design')}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer whitespace-nowrap ${
-              groupMode === 'design'
-                ? 'bg-white dark:bg-indigo-600 text-slate-900 dark:text-white shadow-2xs'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-            }`}
-          >
-            <Palette className="w-3.5 h-3.5" />
-            Roadmaps de Design
-          </button>
-        </div>
+            <button
+              type="button"
+              aria-pressed={groupMode === 'result'}
+              onClick={() => setGroupMode('result')}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer whitespace-nowrap ${
+                groupMode === 'result'
+                  ? 'bg-white dark:bg-indigo-600 text-slate-900 dark:text-white shadow-2xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+              }`}
+            >
+              <Compass className="w-3.5 h-3.5" aria-hidden="true" />
+              Áreas do meu Resultado
+            </button>
+            <button
+              type="button"
+              aria-pressed={groupMode === 'design'}
+              onClick={() => setGroupMode('design')}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer whitespace-nowrap ${
+                groupMode === 'design'
+                  ? 'bg-white dark:bg-indigo-600 text-slate-900 dark:text-white shadow-2xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+              }`}
+            >
+              <Palette className="w-3.5 h-3.5" aria-hidden="true" />
+              Roadmaps de Design
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Track Selector Tabs */}
-      <div className="flex flex-wrap items-center gap-2 no-print">
+      <div
+        role="group"
+        aria-label="Selecionar trilha de roadmap"
+        className="flex flex-wrap items-center gap-2 no-print"
+      >
         {groupMode === 'result'
           ? resultTracks.map((track) => {
               const isSelected = track.areaId === activeResultTrack?.areaId;
@@ -215,6 +232,7 @@ export const RoadmapSection: React.FC<RoadmapSectionProps> = ({
                 <button
                   key={track.areaId}
                   type="button"
+                  aria-pressed={isSelected}
                   onClick={() => onSelectAreaId?.(track.areaId)}
                   className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition cursor-pointer flex items-center gap-2 ${
                     isSelected
@@ -240,6 +258,7 @@ export const RoadmapSection: React.FC<RoadmapSectionProps> = ({
                 <button
                   key={track.id}
                   type="button"
+                  aria-pressed={isSelected}
                   onClick={() => setSelectedDesignId(track.id)}
                   className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition cursor-pointer flex items-center gap-2 ${
                     isSelected
@@ -308,7 +327,14 @@ export const RoadmapSection: React.FC<RoadmapSectionProps> = ({
                   {doneTopics}/{totalTopics} ({completionPct}%)
                 </span>
               </div>
-              <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+              <div
+                role="progressbar"
+                aria-label="Progresso na trilha de estudos"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={completionPct}
+                className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden"
+              >
                 <div
                   className="h-full bg-emerald-600 dark:bg-emerald-500 transition-all duration-300"
                   style={{ width: `${completionPct}%` }}
@@ -333,7 +359,7 @@ export const RoadmapSection: React.FC<RoadmapSectionProps> = ({
           {activeTrack.stages.map((stage, sIdx) => (
             <div
               key={stage.step}
-              className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex flex-col justify-between gap-3"
+              className="print-card p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex flex-col justify-between gap-3"
             >
               <div className="space-y-1">
                 <div className="text-[11px] font-mono font-semibold text-indigo-600 dark:text-indigo-400">
@@ -354,13 +380,14 @@ export const RoadmapSection: React.FC<RoadmapSectionProps> = ({
                     <li key={tIdx}>
                       <button
                         type="button"
+                        aria-pressed={checked}
                         onClick={() => toggleTopic(sIdx, tIdx)}
                         className="w-full text-left flex items-start gap-2 text-xs transition cursor-pointer group"
                       >
                         {checked ? (
-                          <CheckSquare className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                          <CheckSquare className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" aria-hidden="true" />
                         ) : (
-                          <Square className="w-4 h-4 text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 shrink-0 mt-0.5" />
+                          <Square className="w-4 h-4 text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 shrink-0 mt-0.5" aria-hidden="true" />
                         )}
                         <span
                           className={`leading-relaxed ${

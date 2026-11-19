@@ -88,6 +88,7 @@ export const HistoryComparison: React.FC<HistoryComparisonProps> = ({
             <div className="flex flex-wrap items-center gap-2 text-xs">
               <span className="text-slate-500 dark:text-slate-400">Comparando:</span>
               <select
+                aria-label="Selecionar primeira avaliação para comparar"
                 value={selectedForCompareA || ''}
                 onChange={(e) => setSelectedForCompareA(e.target.value)}
                 className="px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-200 text-xs"
@@ -98,8 +99,9 @@ export const HistoryComparison: React.FC<HistoryComparisonProps> = ({
                   </option>
                 ))}
               </select>
-              <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
+              <ArrowRight className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
               <select
+                aria-label="Selecionar segunda avaliação para comparar"
                 value={selectedForCompareB || ''}
                 onChange={(e) => setSelectedForCompareB(e.target.value)}
                 className="px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-200 text-xs"
@@ -122,7 +124,7 @@ export const HistoryComparison: React.FC<HistoryComparisonProps> = ({
               <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
                 {PROFILES[recordA.dominant].title} ({recordA.dominant})
               </h4>
-              <RadarChart pct={recordA.pct} size={260} showBenchmark={false} />
+              <RadarChart pct={recordA.pct} size={260} />
               <div className="grid grid-cols-4 gap-2 w-full mt-4 font-mono tabular-nums text-xs">
                 <div className="p-1.5 rounded bg-rose-50 dark:bg-red-950/20 text-rose-700 dark:text-red-300 font-semibold">
                   D: {recordA.pct.D}%
@@ -147,7 +149,7 @@ export const HistoryComparison: React.FC<HistoryComparisonProps> = ({
               <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
                 {PROFILES[recordB.dominant].title} ({recordB.dominant})
               </h4>
-              <RadarChart pct={recordB.pct} size={260} showBenchmark={false} />
+              <RadarChart pct={recordB.pct} size={260} />
               <div className="grid grid-cols-4 gap-2 w-full mt-4 font-mono tabular-nums text-xs">
                 <div className="p-1.5 rounded bg-rose-50 dark:bg-red-950/20 text-rose-700 dark:text-red-300 font-semibold">
                   D: {recordB.pct.D}%
@@ -233,10 +235,11 @@ export const HistoryComparison: React.FC<HistoryComparisonProps> = ({
                   <button
                     type="button"
                     onClick={() => onDeleteRecord(rec.id)}
+                    aria-label={`Excluir avaliação de ${rec.name}`}
                     className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 dark:hover:text-red-400 hover:bg-rose-50 dark:hover:bg-red-500/10 transition cursor-pointer"
                     title="Excluir"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-4 h-4" aria-hidden="true" />
                   </button>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import { Question, PreviousBackground, EntryTechArea } from '../types/disc';
+import { Question, PreviousBackground, EntryTechArea, GlossaryTerm } from '../types/disc';
 
 export const BEGINNER_CATEGORIES_BY_ID: Record<number, string> = {
   1: "Início de Projeto & Ação",
@@ -309,6 +309,9 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     codeLevel: "low-code",
     codeLevelLabel: "Lógica & Consultas (SQL)",
     entryCurve: "Entrada Acessível · Alta Demanda",
+    careerProgression: "Analista de Dados Jr → Analista Pleno → Analytics Engineer",
+    timeToFirstProject: "3 a 4 semanas",
+    routineShort: "Consultas SQL, limpeza de dados e dashboards",
     primaryDisc: "C",
     secondaryDisc: "S",
     weights: { D: 0.15, I: 0.20, S: 0.25, C: 0.40 },
@@ -343,6 +346,9 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     codeLevel: "low-code",
     codeLevelLabel: "Baixo no início · Evolui para código",
     entryCurve: "Excelente Porta de Entrada",
+    careerProgression: "QA Júnior → QA Automação → QA Lead",
+    timeToFirstProject: "2 a 3 semanas",
+    routineShort: "Testar fluxos, registrar bugs e automatizar",
     primaryDisc: "C",
     secondaryDisc: "S",
     weights: { D: 0.10, I: 0.15, S: 0.35, C: 0.40 },
@@ -377,6 +383,9 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     codeLevel: "code",
     codeLevelLabel: "Código Visual (HTML, CSS, JS)",
     entryCurve: "Visual & Gratificante",
+    careerProgression: "Dev Frontend Jr → Frontend Pleno → Engenheiro UI",
+    timeToFirstProject: "3 a 4 semanas",
+    routineShort: "Criar telas, componentes e integrações web",
     primaryDisc: "I",
     secondaryDisc: "C",
     weights: { D: 0.20, I: 0.30, S: 0.20, C: 0.30 },
@@ -411,6 +420,9 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     codeLevel: "no-code",
     codeLevelLabel: "Sem código obrigatório",
     entryCurve: "Forte em Empatia & Visual",
+    careerProgression: "UX/UI Designer Jr → Product Designer → Design Lead",
+    timeToFirstProject: "3 a 4 semanas",
+    routineShort: "Pesquisa com usuários, fluxos e protótipos no Figma",
     primaryDisc: "I",
     secondaryDisc: "S",
     weights: { D: 0.15, I: 0.40, S: 0.25, C: 0.20 },
@@ -445,6 +457,9 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     codeLevel: "no-code",
     codeLevelLabel: "Sem código · Ponte Negócio-TI",
     entryCurve: "Ideal para Transição de Negócios",
+    careerProgression: "Analista de Produto Jr → Product Owner → Product Manager",
+    timeToFirstProject: "2 a 3 semanas",
+    routineShort: "Priorizar demandas, alinhar clientes e organizar time",
     primaryDisc: "I",
     secondaryDisc: "D",
     weights: { D: 0.30, I: 0.40, S: 0.20, C: 0.10 },
@@ -479,6 +494,9 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     codeLevel: "code",
     codeLevelLabel: "Código Intenso & Dados",
     entryCurve: "Base Lógica Sólida",
+    careerProgression: "Dev Backend Jr → Backend Pleno → Especialista em Sistemas",
+    timeToFirstProject: "4 a 6 semanas",
+    routineShort: "Regras de negócio, APIs e bancos de dados",
     primaryDisc: "C",
     secondaryDisc: "S",
     weights: { D: 0.20, I: 0.05, S: 0.30, C: 0.45 },
@@ -513,6 +531,9 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     codeLevel: "low-code",
     codeLevelLabel: "Comandos, Scripts & Infra",
     entryCurve: "Porta Rápida para Infraestrutura",
+    careerProgression: "Suporte N2 Jr → Analista de Cloud → Engenheiro DevOps",
+    timeToFirstProject: "2 a 3 semanas",
+    routineShort: "Resolver chamados, redes, Linux e servidores em nuvem",
     primaryDisc: "S",
     secondaryDisc: "C",
     weights: { D: 0.15, I: 0.15, S: 0.40, C: 0.30 },
@@ -547,6 +568,9 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     codeLevel: "no-code",
     codeLevelLabel: "Análise de Riscos & Políticas",
     entryCurve: "Ótimo para Direito / Auditoria",
+    careerProgression: "Analista GRC Jr → Especialista em Privacidade → Líder de Segurança",
+    timeToFirstProject: "2 a 3 semanas",
+    routineShort: "Mapear riscos, revisões de acesso e adequação LGPD",
     primaryDisc: "C",
     secondaryDisc: "D",
     weights: { D: 0.25, I: 0.10, S: 0.20, C: 0.45 },
@@ -573,5 +597,56 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     freeTools: ["OWASP Top 10 (Leitura)", "Cisco Skills for All (Cybersecurity)", "Notion", "Checklists ISO 27001"],
     roadmapUrl: "https://roadmap.sh/cyber-security",
     roadmapLabel: "Trilha Cyber Security (roadmap.sh)",
+  },
+];
+
+export const TECH_GLOSSARY: GlossaryTerm[] = [
+  {
+    term: "GitHub",
+    meaning: "Site gratuito onde profissionais de tecnologia guardam projetos, códigos e documentações para mostrar a recrutadores.",
+  },
+  {
+    term: "Portfólio",
+    meaning: "Vitrine prática com 1 a 3 projetos seus (no GitHub, Figma, Notion ou Power BI) que provam o que você já sabe fazer.",
+  },
+  {
+    term: "Estágio / Júnior",
+    meaning: "Níveis iniciais de entrada em TI; esperam base sólida, vontade de aprender e entregas acompanhadas por pessoas mais experientes.",
+  },
+  {
+    term: "Front-end",
+    meaning: "A parte visual e interativa de sites e aplicativos com a qual o usuário clica, digita e navega.",
+  },
+  {
+    term: "Back-end",
+    meaning: "Os bastidores de um sistema: servidor, regras de negócio, segurança e salvamento de dados que o usuário não vê.",
+  },
+  {
+    term: "SQL",
+    meaning: "Linguagem direta usada para consultar, filtrar e cruzar informações armazenadas em bancos de dados.",
+  },
+  {
+    term: "QA (Qualidade)",
+    meaning: "Área responsável por testar sistemas e aplicativos antes do lançamento para encontrar erros e garantir boa experiência.",
+  },
+  {
+    term: "UX / UI Design",
+    meaning: "UX cuida de tornar o produto fácil e útil; UI cuida das cores, tipografia, botões e acabamento visual das telas.",
+  },
+  {
+    term: "Figma",
+    meaning: "Ferramenta gratuita no navegador usada por designers para desenhar telas e criar protótipos clicáveis.",
+  },
+  {
+    term: "API",
+    meaning: "Ponte que permite dois sistemas diferentes trocarem informações automaticamente (por exemplo, um app buscar seu CEP).",
+  },
+  {
+    term: "Cloud (Nuvem)",
+    meaning: "Servidores e serviços hospedados na internet (como AWS, Azure e Google Cloud) onde empresas rodam seus sistemas.",
+  },
+  {
+    term: "Scrum / Ágil",
+    meaning: "Forma de organizar o trabalho em ciclos curtos (sprints), com entregas frequentes e alinhamentos rápidos em equipe.",
   },
 ];

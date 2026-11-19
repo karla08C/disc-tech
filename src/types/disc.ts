@@ -99,6 +99,9 @@ export interface EntryTechArea {
   codeLevel: 'no-code' | 'low-code' | 'code';
   codeLevelLabel: string;
   entryCurve: string;
+  careerProgression: string;
+  timeToFirstProject: string;
+  routineShort: string;
   primaryDisc: DiscLetter;
   secondaryDisc: DiscLetter;
   weights: Record<DiscLetter, number>;
@@ -117,6 +120,11 @@ export interface EntryTechArea {
   freeTools: string[];
   roadmapUrl?: string;
   roadmapLabel?: string;
+}
+
+export interface GlossaryTerm {
+  term: string;
+  meaning: string;
 }
 
 export interface RoadmapStage {
