@@ -33,12 +33,12 @@ export const QUESTIONS: Question[] = [
   },
   {
     id: 4,
-    prompt: "Ao aprender uma nova stack ou tecnologia:",
+    prompt: "Ao aprender uma nova stack, ferramenta ou disciplina:",
     options: [
-      { text: "Mergulho direto na prática e coloco algo no ar o mais rápido possível", letter: "D" },
+      { text: "Mergulho direto na prática e coloco um projeto real no ar rápido", letter: "D" },
       { text: "Assisto tech talks, troco ideias com a comunidade e vejo cases reais", letter: "I" },
-      { text: "Sigo um curso estruturado e tutoriais passo a passo com consistência", letter: "S" },
-      { text: "Leio a documentação oficial, release notes e RFCs minuciosamente", letter: "C" },
+      { text: "Sigo uma trilha guiada (estilo roadmap.sh) passo a passo com consistência", letter: "S" },
+      { text: "Mapeio os fundamentos da trilha, leio a documentação oficial e RFCs a fundo", letter: "C" },
     ],
   },
   {
@@ -63,12 +63,12 @@ export const QUESTIONS: Question[] = [
   },
   {
     id: 7,
-    prompt: "Em uma entrevista técnica, sinto-me mais à vontade com:",
+    prompt: "Em uma entrevista ou desafio técnico/de produto, sinto-me mais à vontade com:",
     options: [
-      { text: "Desafios de System Design e decisões estratégicas de trade-offs", letter: "D" },
-      { text: "Conversas sobre cultura, visão de produto e liderança colaborativa", letter: "I" },
-      { text: "Pair programming colaborativo em um ambiente receptivo e acolhedor", letter: "S" },
-      { text: "Live coding rigoroso com testes unitários, algoritmos e cobertura", letter: "C" },
+      { text: "Desafios de System Design, arquitetura ou decisões de trade-offs", letter: "D" },
+      { text: "Conversas sobre visão de produto, UX, cultura e liderança colaborativa", letter: "I" },
+      { text: "Pair programming ou dinâmicas práticas guiadas em ambiente acolhedor", letter: "S" },
+      { text: "Avaliação rigorosa de portfólio, testes automatizados, dados e critérios", letter: "C" },
     ],
   },
   {
@@ -93,12 +93,12 @@ export const QUESTIONS: Question[] = [
   },
   {
     id: 10,
-    prompt: "Minha visão prática sobre documentação de software:",
+    prompt: "Minha visão prática sobre documentação, padrões e Design Systems:",
     options: [
-      { text: "Mínima e pragmática: o código limpo e o deploy contínuo falam por si", letter: "D" },
-      { text: "Visual, interativa, com diagramas e tutoriais que facilitem o onboarding", letter: "I" },
+      { text: "Mínima e pragmática: o produto funcionando em produção fala por si", letter: "D" },
+      { text: "Visual, interativa, com fluxos de UX, diagramas e guias de onboarding", letter: "I" },
       { text: "Padronizada, estável e sempre acessível como referência da equipe", letter: "S" },
-      { text: "Completa, exata, cobrindo contratos de API, schemas e edge cases", letter: "C" },
+      { text: "Completa, exata, cobrindo Design Tokens, contratos de API e edge cases", letter: "C" },
     ],
   },
   {
@@ -183,22 +183,22 @@ export const QUESTIONS: Question[] = [
   },
   {
     id: 19,
-    prompt: "Em um Pull Request com mais de 30 arquivos alterados:",
+    prompt: "Ao revisar uma entrega grande antes da publicação (Pull Request ou protótipo):",
     options: [
-      { text: "Aprovo se a pipeline passou verde e a funcionalidade principal roda", letter: "D" },
-      { text: "Parabenizo o autor pelo esforço e deixo comentários agregadores", letter: "I" },
-      { text: "Reviso sem pressa, assegurando que nada quebre fluxos já existentes", letter: "S" },
-      { text: "Inspeciono cada linha, tipagem, complexidade ciclomática e testes", letter: "C" },
+      { text: "Aprovo se os testes passaram e o fluxo principal resolve o problema", letter: "D" },
+      { text: "Parabenizo a autoria pelo avanço e deixo sugestões agregadoras", letter: "I" },
+      { text: "Reviso sem pressa, assegurando que nada quebre padrões já existentes", letter: "S" },
+      { text: "Inspeciono cada detalhe: edge cases, acessibilidade, tipagem e cobertura", letter: "C" },
     ],
   },
   {
     id: 20,
-    prompt: "Para planejar o próximo salto da minha carreira tech:",
+    prompt: "Para planejar o próximo salto da minha carreira em tecnologia:",
     options: [
-      { text: "Busco posições de liderança técnica, gestão ou novos desafios de escala", letter: "D" },
-      { text: "Amplio meu networking, palestras, mentorias e comunidades de tech", letter: "I" },
-      { text: "Aprofundo com consistência na empresa e fortaleço laços no time", letter: "S" },
-      { text: "Estudo teorias avançadas, certificações sólidas e arquiteturas de ponta", letter: "C" },
+      { text: "Busco posições de liderança técnica, estratégia de produto ou escala", letter: "D" },
+      { text: "Amplio meu networking, talks, mentorias e projetos de design/comunidade", letter: "I" },
+      { text: "Sigo um roadmap estruturado passo a passo (como roadmap.sh) no meu ritmo", letter: "S" },
+      { text: "Aprofundo fundamentos avançados, especializações e certificações sólidas", letter: "C" },
     ],
   },
 ];
@@ -208,29 +208,29 @@ export const PROFILES: Record<DiscLetter, ProfileDetails> = {
     letter: "D",
     title: "O Tech Lead Executor",
     tagline: "Decisão rápida, foco em resultado, impacto e entrega em produção.",
-    summary: "Profissionais com alta Dominância são movidos por desafios e velocidade. Assumem riscos calculados, quebram bloqueios técnicos e mantêm a squad focada no objetivo final sem hesitação.",
+    summary: "Profissionais com alta Dominância são movidos por desafios e velocidade. Assumem riscos calculados, removem bloqueios e mantêm o time focado no objetivo final sem hesitação.",
     superpowers: [
-      "Toma decisões técnicas críticas sob forte pressão sem paralisar a squad",
-      "Converte backlogs estagnados em entregas em produção com velocidade notável",
-      "Encara problemas de alta complexidade como oportunidades imediatas de evolução",
-      "Protege a equipe contra bloqueios operacionais e burocracias desnecessárias"
+      "Toma decisões importantes sob pressão sem paralisar o ritmo do time",
+      "Transforma tarefas paradas em entregas reais com velocidade notável",
+      "Encara problemas complexos como oportunidades imediatas de evolução",
+      "Protege a equipe contra burocracias desnecessárias e perda de foco"
     ],
     debugs: [
       {
-        issue: "Stack Overflow de Opinião: Pode atropelar discussões e ignorar sinais dos colegas",
-        fix: "Hotfix: Implemente a 'Regra dos 60 segundos'. Antes de deliberar, dê espaço formal para os membros mais introvertidos falarem. Você ganha contexto vital sem perder velocidade."
+        issue: "Centralização de Opiniões: Pode atropelar discussões e ignorar sinais dos colegas",
+        fix: "Ajuste prático: Adote a 'Regra dos 60 segundos'. Antes de concluir uma decisão, dê espaço para que pessoas mais reservadas falem primeiro. Você ganha contexto valioso sem perder agilidade."
       },
       {
-        issue: "Timeout com Processos: Baixa tolerância a ritos e documentação",
-        fix: "Hotfix: Encare processos como o 'CI/CD comportamental do time': rituais bem feitos existem para escalar a sua capacidade de delegar, e não para amarrar suas mãos."
+        issue: "Impaciência com Processos: Baixa tolerância a rituais e documentação",
+        fix: "Ajuste prático: Encare processos organizados como um acelerador da equipe: rotinas claras existem para escalar sua capacidade de delegar com segurança, não para travar entregas."
       }
     ],
     careers: ["Tech Lead", "Engineering Manager", "Head of Engineering", "Staff Engineer", "Product Owner"],
     growthAreas: [
       "Praticar escuta ativa: ouvir até o final da explicação antes de formular a resposta",
-      "Empatia no code review e feedbacks: focar no código e no aprendizado, preservando as pessoas",
-      "Paciência com os ciclos colaborativos de maturação de ideias no time",
-      "Aprender a delegar a propriedade intelectual das soluções, sem microgerenciamento"
+      "Empatia nas revisões e feedbacks: focar na melhoria e no aprendizado, preservando as pessoas",
+      "Paciência com o tempo colaborativo de amadurecimento de ideias no time",
+      "Aprender a delegar a condução das soluções sem centralizar cada detalhe"
     ],
     color: "#ef4444",
     accentColor: "from-rose-500 to-red-600",
@@ -240,30 +240,30 @@ export const PROFILES: Record<DiscLetter, ProfileDetails> = {
   I: {
     letter: "I",
     title: "O Catalisador de Times",
-    tagline: "Conecta pessoas, articula visões, contagia squads e fecha pontes entre tech e negócios.",
-    summary: "Profissionais com alta Influência são os polinizadores da cultura tech. Transformam ideias abstratas em projetos empolgantes, comunicam-se com maestria com áreas não técnicas e mantém o moral elevado.",
+    tagline: "Conecta pessoas, articula visões, contagia equipes e cria pontes entre tecnologia e negócios.",
+    summary: "Profissionais com alta Influência impulsionam a cultura colaborativa. Transformam ideias abstratas em projetos envolventes, comunicam-se com facilidade com áreas não técnicas e mantêm o time engajado.",
     superpowers: [
-      "Traduz conceitos de computação de alta complexidade em linguagem clara para stakeholders",
-      "Cria e fortalece segurança psicológica (psychological safety) e cooperação na squad",
-      "Destaca-se em demos de produto, hackathons, tech talks e pitches estratégicos",
-      "Atrai talentos para a equipe e engaja devs juniores e plenos com facilidade"
+      "Traduz conceitos técnicos complexos em linguagem simples para diferentes públicos",
+      "Cria um ambiente de confiança, abertura e cooperação dentro da equipe",
+      "Destaca-se em apresentações de produto, demonstrações e alinhamentos estratégicos",
+      "Atrai talentos e engaja pessoas iniciantes com facilidade e entusiasmo"
     ],
     debugs: [
       {
-        issue: "Memory Leak de Atenção: Foco disperso em múltiplas frentes sem conclusão",
-        fix: "Hotfix: Reserve blocos inegociáveis de 2h diárias de Deep Work sem Slack, Teams ou e-mails abertos. A criatividade ganha potência exponencial quando unida ao foco profundo."
+        issue: "Dispersão de Foco: Atenção dividida em múltiplas frentes sem conclusão",
+        fix: "Ajuste prático: Reserve blocos diários de 2 horas de foco contínuo, sem chat ou notificações abertas. A criatividade ganha força real quando combinada com execução constante."
       },
       {
-        issue: "Overpromising em Sprint: Subestimar prazos e complexidade técnica real",
-        fix: "Hotfix: Utilize uma checagem cruzada com um par 'C' antes de formalizar compromissos de entrega com POs. Sua palavra adquire credibilidade inabalável com precisão."
+        issue: "Prazos Otimistas Demais: Subestimar o tempo e a complexidade real das entregas",
+        fix: "Ajuste prático: Valide suas estimativas com um colega de perfil mais analítico ('C') antes de confirmar prazos. Sua comunicação ganha ainda mais credibilidade com previsibilidade."
       }
     ],
-    careers: ["Developer Relations (DevRel)", "Product Manager", "Scrum Master / Agile Coach", "Solutions Engineer", "Tech Evangelist"],
+    careers: ["Product Designer / UX", "Product Manager", "Developer Relations (DevRel)", "Scrum Master / Agile Coach", "Solutions Engineer"],
     growthAreas: [
-      "Desenvolver rigor na finalização de tarefas sem delegar a parte burocrática por tédio",
-      "Aprofundar nos detalhes técnicos e acompanhar documentações de arquitetura",
-      "Gerenciar expectativas com realismo métrico, evitando promessas precipitadas",
-      "Cultivar a disciplina de execução silenciosa e focada"
+      "Desenvolver rigor na finalização de tarefas até os últimos detalhes",
+      "Aprofundar o acompanhamento de especificações, requisitos e documentação",
+      "Gerenciar expectativas com base em métricas reais, evitando promessas precipitadas",
+      "Cultivar disciplina em momentos de estudo e execução individual silenciosa"
     ],
     color: "#f59e0b",
     accentColor: "from-amber-400 to-orange-500",
@@ -273,30 +273,30 @@ export const PROFILES: Record<DiscLetter, ProfileDetails> = {
   S: {
     letter: "S",
     title: "O Engenheiro Estável",
-    tagline: "Confiável, consistente, resiliente e o verdadeiro alicerce da squad.",
-    summary: "Profissionais com alta Estabilidade são a âncora de qualquer time de alta performance. Entregam com consistência contínua, apoiam novos integrantes e asseguram que os sistemas operem com confiabilidade duradoura.",
+    tagline: "Confiável, consistente, resiliente e o verdadeiro alicerce da equipe.",
+    summary: "Profissionais com alta Estabilidade são a base de qualquer time de alta performance. Entregam com constância, apoiam novos integrantes e garantem que sistemas e rotinas operem com tranquilidade duradoura.",
     superpowers: [
-      "Mantém serenidade e sangue frio durante crises severas de infraestrutura e produção",
-      "Excepcional em onboarding, mentoria empática e retenção de conhecimentos do time",
-      "Garante estabilidade operacional e previsibilidade constante nas sprints",
-      "Excelente jogador de equipe, prevenindo conflitos destrutivos e mantendo o clima saudável"
+      "Mantém serenidade e clareza mesmo em momentos críticos de pressão ou instabilidade",
+      "Excepcional na integração de novos colegas, mentoria empática e troca de conhecimento",
+      "Garante previsibilidade e ritmo saudável de entregas semana após semana",
+      "Excelente colaborador, prevenindo conflitos destrutivos e mantendo o clima positivo"
     ],
     debugs: [
       {
-        issue: "Deprecation Warning: Resistência silenciosa a pivôs de tecnologia ou metodologia",
-        fix: "Hotfix: Encare cada nova ferramenta como um 'Feature Flag': proponha testar em um microserviço isolado por 2 semanas antes de avaliar a migração definitiva."
+        issue: "Resistência a Mudanças: Desconforto silencioso diante de novas ferramentas ou métodos",
+        fix: "Ajuste prático: Encare cada novidade como um teste controlado em pequena escala por duas semanas antes de avaliar a adoção definitiva."
       },
       {
-        issue: "Silenced Exceptions: Evitar confrontos necessários mesmo com risco iminente",
-        fix: "Hotfix: Adote a fórmula construtiva 'Eu observo X (fato), me preocupo com Y (impacto técnico), proponho Z (alternativa)'. Divergir com elegância é o maior sinal de senioridade."
+        issue: "Silêncio diante de Riscos: Evitar posicionamentos necessários mesmo percebendo problemas",
+        fix: "Ajuste prático: Adote a fórmula construtiva 'Observo X (fato), me preocupo com Y (impacto), proponho Z (alternativa)'. Discordar com respeito e clareza é sinal de maturidade."
       }
     ],
     careers: ["Site Reliability Engineer (SRE)", "DevOps / Platform Engineer", "QA Engineer / SDET", "Senior Backend Developer", "Infrastructure Specialist"],
     growthAreas: [
-      "Aumentar a flexibilidade diante de mudanças dinâmicas do mercado tech",
-      "Tomar a iniciativa para verbalizar discordâncias e propor novas soluções",
-      "Dar visibilidade às próprias conquistas e impacto gerado para a empresa",
-      "Desenvolver conforto em tomar decisões técnicas mesmo sob incerteza"
+      "Aumentar a flexibilidade diante de mudanças rápidas de prioridade no mercado",
+      "Tomar iniciativa para expressar discordâncias construtivas e sugerir melhorias",
+      "Dar mais visibilidade às próprias conquistas e ao impacto gerado no time",
+      "Desenvolver conforto para decidir mesmo quando ainda existem incertezas"
     ],
     color: "#10b981",
     accentColor: "from-emerald-400 to-teal-500",
@@ -306,30 +306,30 @@ export const PROFILES: Record<DiscLetter, ProfileDetails> = {
   C: {
     letter: "C",
     title: "O Arquiteto Analítico",
-    tagline: "Precisão, excelência técnica, rigor estrutural e qualidade inegociável.",
-    summary: "Profissionais com alta Conformidade são os guardiões da integridade técnica. Antecipam falhas silenciosas, constroem arquiteturas resilientes e garantem que o software escale com segurança e padrões irrepreensíveis.",
+    tagline: "Precisão, excelência técnica, rigor estrutural e qualidade acima da média.",
+    summary: "Profissionais com alta Conformidade são os guardiões da qualidade. Antecipam falhas discretas, estruturam soluções bem pensadas e garantem que produtos cresçam com segurança e critérios sólidos.",
     superpowers: [
-      "Atenção cirúrgica a edge cases, falhas de concorrência, tipagens e segurança",
-      "Capacidade analítica de decompor problemas matemáticos e computacionais complexos",
-      "Excelência em modelagem de dados, automação de testes e governança de código",
-      "Garante que o débito técnico seja auditado e controlado de forma sistemática"
+      "Atenção minuciosa a cenários de exceção, consistência de dados e segurança",
+      "Capacidade analítica para decompor problemas complexos em etapas claras",
+      "Excelência em organização estrutural, testes, padronização e documentação",
+      "Garante que a qualidade do trabalho seja mantida de forma sistemática"
     ],
     debugs: [
       {
-        issue: "Paralisia por Análise (Deadlock): Perfeccionismo que adia o momento do deploy",
-        fix: "Hotfix: Aplique o paradigma 'Done is Better Than Perfect': defina critérios objetivos de 'Definition of Done (DoD)' e itere as melhorias em releases subsequentes."
+        issue: "Paralisia por Análise: Perfeccionismo excessivo que adia a entrega de versões iniciais",
+        fix: "Ajuste prático: Aplique o princípio de evolução contínua: defina critérios objetivos do que precisa estar pronto agora e planeje melhorias para as versões seguintes."
       },
       {
-        issue: "Permission Denied: Relutância em delegar e ceticismo com código de outros",
-        fix: "Hotfix: Faça sessões de Pair Programming e crie Linters automatizados na esteira. Deixe que a pipeline aponte o estilo, libertando você para focar na lógica de alto nível."
+        issue: "Dificuldade em Delegar: Relutância em confiar tarefas técnicas a outras pessoas",
+        fix: "Ajuste prático: Pratique sessões em dupla e utilize checklists automatizados de revisão. Automatizar padrões libera você para focar na estratégia e na lógica central."
       }
     ],
-    careers: ["Software Architect", "Data Engineer / Scientist", "Security / AppSec Engineer", "Principal Software Engineer", "Core Systems Specialist"],
+    careers: ["Software Architect", "Design System Specialist", "Data Engineer / Scientist", "Security / AppSec Engineer", "Principal Software Engineer"],
     growthAreas: [
-      "Aceitar que 'bom o suficiente' para atender a janela de negócio é uma virtude de engenharia",
-      "Desenvolver tolerância à ambiguidade nas fases iniciais de experimentação",
-      "Aprimorar a empatia ao fornecer apontamentos em code reviews para não desmotivar os juniores",
-      "Investir em habilidades relacionais para influenciar decisões sem precisar apenas de dados brutos"
+      "Aceitar que uma entrega 'boa o suficiente' para validar valor cedo também é qualidade",
+      "Desenvolver tolerância à ambiguidade nas fases iniciais de descoberta de projetos",
+      "Aprimorar o tom ao dar feedbacks técnicos para incentivar quem está começando",
+      "Investir em comunicação interpessoal para influenciar decisões além dos dados técnicos"
     ],
     color: "#06b6d4",
     accentColor: "from-cyan-400 to-blue-500",
@@ -447,7 +447,9 @@ export const TECH_CAREERS: TechCareer[] = [
       "Refinamento técnico de histórias e desenho de soluções escaláveis"
     ],
     commonChallenges: "Risco de centralizar decisões e não dar espaço para a equipe crescer; equilibrar tempo entre codificar e liderar pessoas.",
-    discFitReason: "A alta Dominância (D) fornece a coragem necessária para tomar decisões difíceis sob pressão, enquanto a Influência (I) mobiliza os desenvolvedores em torno da visão técnica."
+    discFitReason: "A alta Dominância (D) fornece a coragem necessária para tomar decisões difíceis sob pressão, enquanto a Influência (I) mobiliza os desenvolvedores em torno da visão técnica.",
+    roadmapUrl: "https://roadmap.sh/engineering-manager",
+    roadmapLabel: "Roadmap Engineering Manager (roadmap.sh)",
   },
   {
     id: "engineering-manager",
@@ -470,7 +472,9 @@ export const TECH_CAREERS: TechCareer[] = [
       "Retrospectivas e planos de ação para melhoria do ambiente e segurança psicológica"
     ],
     commonChallenges: "Sensação de não produzir coisas tangíveis (código) e risco de se afastar demais dos desafios técnicos da operação.",
-    discFitReason: "A alta Influência (I) cria segurança psicológica e laços de confiança sólidos, enquanto a Dominância (D) garante assertividade na cobrança e defesa da equipe perante a liderança."
+    discFitReason: "A alta Influência (I) cria segurança psicológica e laços de confiança sólidos, enquanto a Dominância (D) garante assertividade na cobrança e defesa da equipe perante a liderança.",
+    roadmapUrl: "https://roadmap.sh/engineering-manager",
+    roadmapLabel: "Roadmap Engineering Manager (roadmap.sh)",
   },
   {
     id: "software-architect",
@@ -493,7 +497,9 @@ export const TECH_CAREERS: TechCareer[] = [
       "Planos de mitigação de débito técnico e modernização de legado"
     ],
     commonChallenges: "Cair na armadilha da 'arquitetura de torre de marfim' distante da realidade prática do código dos times.",
-    discFitReason: "A alta Conformidade (C) garante rigor analítico e antecipação de falhas catastróficas, enquanto a Dominância (D) sustenta a autoridade para padronizar diretrizes técnicas."
+    discFitReason: "A alta Conformidade (C) garante rigor analítico e antecipação de falhas catastróficas, enquanto a Dominância (D) sustenta a autoridade para padronizar diretrizes técnicas.",
+    roadmapUrl: "https://roadmap.sh/software-architect",
+    roadmapLabel: "Roadmap Software Architect (roadmap.sh)",
   },
   {
     id: "sre-devops",
@@ -516,7 +522,9 @@ export const TECH_CAREERS: TechCareer[] = [
       "Infraestrutura elástica com auto-scaling e esteiras de deploy seguro (Canary/Blue-Green)"
     ],
     commonChallenges: "Fadiga de alertas e plantões, além da pressão contínua em momentos de instabilidade severa de produção.",
-    discFitReason: "A alta Estabilidade (S) confere sangue frio e compostura em crises, enquanto a Conformidade (C) assegura a precisão cirúrgica para diagnosticar causas-raiz."
+    discFitReason: "A alta Estabilidade (S) confere sangue frio e compostura em crises, enquanto a Conformidade (C) assegura a precisão cirúrgica para diagnosticar causas-raiz.",
+    roadmapUrl: "https://roadmap.sh/devops",
+    roadmapLabel: "Roadmap DevOps / SRE (roadmap.sh)",
   },
   {
     id: "devrel",
@@ -539,7 +547,9 @@ export const TECH_CAREERS: TechCareer[] = [
       "Relatórios de feedback da comunidade repassados para a equipe interna de produto"
     ],
     commonChallenges: "Dificuldade de mensurar impacto direto em receita e risco de esgotamento social em viagens frequentes.",
-    discFitReason: "A altíssima Influência (I) brilha no contato humano e na comunicação pública, amparada pela Conformidade (C) para manter o rigor e a exatidão técnica dos códigos de demonstração."
+    discFitReason: "A altíssima Influência (I) brilha no contato humano e na comunicação pública, amparada pela Conformidade (C) para manter o rigor e a exatidão técnica dos códigos de demonstração.",
+    roadmapUrl: "https://roadmap.sh/devrel",
+    roadmapLabel: "Roadmap DevRel (roadmap.sh)",
   },
   {
     id: "qa-sdet",
@@ -562,7 +572,9 @@ export const TECH_CAREERS: TechCareer[] = [
       "Matriz de testes de compatibilidade e segurança de dados"
     ],
     commonChallenges: "Pressão de times de desenvolvimento para liberar deploys rápidos em detrimento da validação exaustiva.",
-    discFitReason: "A alta Conformidade (C) faz desse profissional um radar vivo de edge cases, enquanto a Estabilidade (S) confere paciência para testes repetitivos e consistentes."
+    discFitReason: "A alta Conformidade (C) faz desse profissional um radar vivo de edge cases, enquanto a Estabilidade (S) confere paciência para testes repetitivos e consistentes.",
+    roadmapUrl: "https://roadmap.sh/qa",
+    roadmapLabel: "Roadmap QA Engineer (roadmap.sh)",
   },
   {
     id: "product-manager",
@@ -585,7 +597,9 @@ export const TECH_CAREERS: TechCareer[] = [
       "Análises de concorrência e pesquisas quantitativas/qualitativas com usuários"
     ],
     commonChallenges: "Equilibrar demandas concorrentes de stakeholders e saber dizer 'não' com firmeza e empatia.",
-    discFitReason: "A energia comunicativa (I) engaja os desenvolvedores na missão do produto, enquanto a Dominância (D) impulsiona o senso de urgência e foco implacável em resultados."
+    discFitReason: "A energia comunicativa (I) engaja os desenvolvedores na missão do produto, enquanto a Dominância (D) impulsiona o senso de urgência e foco implacável em resultados.",
+    roadmapUrl: "https://roadmap.sh/product-manager",
+    roadmapLabel: "Roadmap Product Manager (roadmap.sh)",
   },
   {
     id: "backend-specialist",
@@ -608,7 +622,9 @@ export const TECH_CAREERS: TechCareer[] = [
       "Migrações de esquema de banco de dados sem indisponibilidade (Zero-Downtime)"
     ],
     commonChallenges: "Resistir à pressão para entregar 'código rápido e sujo' quando o prazo da sprint está apertado.",
-    discFitReason: "A alta Conformidade (C) garante integridade de dados e arquitetura defensiva, enquanto a Estabilidade (S) mantém a cadência de entrega sólida dia após dia."
+    discFitReason: "A alta Conformidade (C) garante integridade de dados e arquitetura defensiva, enquanto a Estabilidade (S) mantém a cadência de entrega sólida dia após dia.",
+    roadmapUrl: "https://roadmap.sh/backend",
+    roadmapLabel: "Roadmap Backend Developer (roadmap.sh)",
   },
   {
     id: "data-security",
@@ -631,7 +647,9 @@ export const TECH_CAREERS: TechCareer[] = [
       "Diretrizes de proteção contra fraudes, vazamentos de credenciais e ataques comuns"
     ],
     commonChallenges: "Ser visto pela engenharia como um 'bloqueador de entregas' em vez de um parceiro de negócio.",
-    discFitReason: "A Conformidade (C) garante a detecção milimétrica de brechas de segurança, enquanto a Dominância (D) dá a firmeza necessária para barrar deploys que representem risco inaceitável."
+    discFitReason: "A Conformidade (C) garante a detecção milimétrica de brechas de segurança, enquanto a Dominância (D) dá a firmeza necessária para barrar deploys que representem risco inaceitável.",
+    roadmapUrl: "https://roadmap.sh/cyber-security",
+    roadmapLabel: "Roadmap Cyber Security (roadmap.sh)",
   },
   {
     id: "agile-coach",
@@ -654,7 +672,59 @@ export const TECH_CAREERS: TechCareer[] = [
       "Treinamentos de práticas ágeis e workshops de segurança psicológica"
     ],
     commonChallenges: "Evitar que cerimônias ágeis virem rituais burocráticos vazios e desengajados para os engenheiros.",
-    discFitReason: "A alta Estabilidade (S) traz paciência e capacidade de escuta profunda para mediar atritos, combinada com a Influência (I) que engaja as pessoas na cultura de colaboração."
+    discFitReason: "A alta Estabilidade (S) traz paciência e capacidade de escuta profunda para mediar atritos, combinada com a Influência (I) que engaja as pessoas na cultura de colaboração.",
+    roadmapUrl: "https://roadmap.sh/product-manager",
+    roadmapLabel: "Roadmap Product Manager (roadmap.sh)",
+  },
+  {
+    id: "product-designer",
+    title: "Product Designer (UX/UI)",
+    primaryDisc: "I",
+    secondaryDisc: "D",
+    description: "Conduz pesquisas com usuários (Discovery), define fluxos e protótipos interativos no Figma, testa usabilidade e acompanha métricas HEART.",
+    salaryRange: "R$ 8.500 – R$ 15.500 / mês",
+    keySkills: ["UX Research", "Prototipação Figma", "Arquitetura de Informação", "Testes A/B"],
+    weights: { D: 0.25, I: 0.35, S: 0.20, C: 0.20 },
+    dailyRoutine: [
+      "09h30: Alinhamento de Discovery com PM e Tech Lead sobre hipóteses da sprint",
+      "11h00: Entrevistas com usuários, síntese de personas e mapeamento de jornadas",
+      "14h00: Criação de fluxos e protótipos interativos no Figma aplicando heurísticas",
+      "16h30: Design Critique com o time de design e handoff detalhado para engenharia"
+    ],
+    typicalDeliverables: [
+      "Fluxos de navegação, wireframes e protótipos validados em testes de usabilidade",
+      "Relatórios de pesquisa qualitativa (JTBD, mapas de empatia e oportunidades)",
+      "Especificações de interface acessíveis (WCAG) prontas para desenvolvimento"
+    ],
+    commonChallenges: "Defender tempo para pesquisa e validação antes de partir direto para telas finais quando há pressão por entregas rápidas.",
+    discFitReason: "A Influência (I) favorece empatia nas entrevistas e articulação com stakeholders, enquanto a Dominância (D) conecta o design a metas concretas de produto.",
+    roadmapUrl: "https://roadmap.sh/product-design",
+    roadmapLabel: "Roadmap Product Design (roadmap.sh)"
+  },
+  {
+    id: "design-system-specialist",
+    title: "Design System Specialist",
+    primaryDisc: "C",
+    secondaryDisc: "S",
+    description: "Arquiteta tokens de design (cores, claro/escuro, tipografia), bibliotecas de componentes acessíveis e governança entre Figma e código.",
+    salaryRange: "R$ 10.000 – R$ 17.000 / mês",
+    keySkills: ["Design Tokens", "Atomic Design", "Acessibilidade (a11y)", "Figma e Código"],
+    weights: { D: 0.15, I: 0.20, S: 0.25, C: 0.40 },
+    dailyRoutine: [
+      "09h30: Auditoria visual de componentes em produção buscando inconsistências",
+      "11h00: Evolução de Design Tokens semânticos para temas claro/escuro e responsividade",
+      "14h00: Pareamento com devs Frontend para versionar componentes acessíveis",
+      "16h30: Documentação de diretrizes de uso, estados interativos e suporte às squads"
+    ],
+    typicalDeliverables: [
+      "Biblioteca centralizada no Figma sincronizada com componentes em código",
+      "Documentação técnica de tokens, grids, espaçamento e contraste WCAG",
+      "Processo de governança e versionamento para contribuições de outras squads"
+    ],
+    commonChallenges: "Equilibrar padronização rigorosa sem bloquear a velocidade criativa das equipes de produto.",
+    discFitReason: "A Conformidade (C) assegura rigor estrutural em tokens e acessibilidade, enquanto a Estabilidade (S) garante manutenção contínua e previsível do sistema.",
+    roadmapUrl: "https://roadmap.sh/design-system",
+    roadmapLabel: "Roadmap Design System (roadmap.sh)"
   }
 ];
 

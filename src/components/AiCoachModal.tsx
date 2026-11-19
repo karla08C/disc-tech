@@ -10,6 +10,7 @@ interface AiCoachModalProps {
   pct?: DiscPercentages;
   currentCareers?: string[];
   initialTargetRole?: string;
+  quizMode?: 'standard' | 'beginner';
 }
 
 export const AiCoachModal: React.FC<AiCoachModalProps> = ({
@@ -20,10 +21,13 @@ export const AiCoachModal: React.FC<AiCoachModalProps> = ({
   pct = { D: 35, I: 25, S: 20, C: 20 },
   currentCareers = [],
   initialTargetRole,
+  quizMode = 'beginner',
 }) => {
   const [requestType, setRequestType] = useState<'pdi' | 'interview'>('pdi');
   const [targetRole, setTargetRole] = useState<string>(
-    initialTargetRole || currentCareers[0] || 'Tech Lead'
+    initialTargetRole ||
+      currentCareers[0] ||
+      (quizMode === 'beginner' ? 'Primeira Vaga em Tecnologia (Júnior / Estágio)' : 'Tech Lead')
   );
   const [activeDominant, setActiveDominant] = useState<DiscLetter>(dominant);
   const [loading, setLoading] = useState<boolean>(false);
@@ -63,10 +67,35 @@ export const AiCoachModal: React.FC<AiCoachModalProps> = ({
       C: 'busca excessiva por perfeição técnica antes de colocar incrementos em produção',
     };
 
-    const roleName = role.trim() || 'Tech Lead';
-    const userLabel = nameValue.trim() || 'Profissional Tech';
+    const roleName = role.trim() || (quizMode === 'beginner' ? 'Primeira Vaga em TI' : 'Tech Lead');
+    const userLabel = nameValue.trim() || 'Profissional em Transição';
+    const isBeginnerPlan =
+      quizMode === 'beginner' ||
+      roleName.toLowerCase().includes('iniciante') ||
+      roleName.toLowerCase().includes('transição') ||
+      roleName.toLowerCase().includes('júnior') ||
+      roleName.toLowerCase().includes('estágio');
 
     if (mode === 'interview') {
+      if (isBeginnerPlan) {
+        return `### Simulador de Entrevista (1ª Vaga / Transição) — ${userLabel}
+Objetivo: ${roleName}
+Perfil base: ${profileTitles[dom]} (D: ${scores.D}% | I: ${scores.I}% | S: ${scores.S}% | C: ${scores.C}%)
+
+#### Pergunta 1 — Por que migrar para tecnologia agora?
+"O que te motivou a escolher esta área e como sua experiência anterior ajuda neste novo desafio?"
+- O que avaliam: clareza de propósito, capacidade de conectar habilidades transferíveis e interesse genuíno.
+- Dica STAR: cite uma situação real do seu trabalho ou estudo anterior em que você resolveu um problema usando comunicação, análise ou organização.
+
+#### Pergunta 2 — Aprendendo algo do zero
+"Conte sobre uma ferramenta ou tarefa totalmente nova que você precisou aprender sozinho(a). Como superou as dificuldades?"
+- O que avaliam: autonomia de estudo e como você lida com o ponto de atenção do seu perfil (${blindSpots[dom]}).
+
+#### Pergunta 3 — Trabalho em equipe e feedback
+"Descreva uma situação em que você recebeu uma crítica construtiva ou precisou alinhar expectativas com um grupo."
+- O que avaliam: maturidade emocional, escuta ativa e postura colaborativa para vagas júnior ou estágio.`;
+      }
+
       return `### Simulador STAR para ${userLabel} — ${roleName}
 Perfil base: ${profileTitles[dom]} (D: ${scores.D}% | I: ${scores.I}% | S: ${scores.S}% | C: ${scores.C}%)
 
@@ -83,6 +112,24 @@ Perfil base: ${profileTitles[dom]} (D: ${scores.D}% | I: ${scores.I}% | S: ${sco
 #### Pergunta 3 — Evolução comportamental
 "Qual feedback comportamental mais difícil você recebeu no último ano e o que mudou na sua rotina depois dele?"
 - O que avaliam: maturidade de senioridade e capacidade de autorregulação no dia a dia.`;
+    }
+
+    if (isBeginnerPlan) {
+      return `### Roteiro de Entrada e Transição (90 Dias) — ${userLabel}
+Área / Objetivo: ${roleName}
+Perfil base: ${profileTitles[dom]} (D: ${scores.D}% | I: ${scores.I}% | S: ${scores.S}% | C: ${scores.C}%)
+
+#### 1. Como usar seu perfil ${dom} a favor da transição
+- Sua vantagem natural: aproveitar seu estilo ${dom} para manter ritmo de estudo e destacar suas conquistas de experiências anteriores.
+- Cuidado principal no início: evitar ${blindSpots[dom]}.
+
+#### 2. Plano Prático 30-60-90 Dias
+- Dias 1 a 30 (Base + 1º Projeto): escolha apenas 1 trilha recomendada no roadmap.sh, estude 45 min/dia e construa um projeto simples resolvendo um problema real (mesmo pequeno).
+- Dias 31 a 60 (Portfólio + Visibilidade): publique seu projeto com explicação clara de como você pensou a solução (no GitHub, Figma, Notion ou LinkedIn) e conecte sua bagagem anterior com a vaga alvo.
+- Dias 61 a 90 (Candidaturas + Simulações): aplique para vagas Júnior/Estágio/Trainee adequadas ao nível atual, peça revisão do portfólio para 2 pessoas da área e pratique entrevistas no Simulador STAR.
+
+#### 3. Dica de Ouro para Quem Está Começando
+- Consistência vence intensidade: 5 horas bem estruturadas por semana durante 3 meses valem mais do que tentar aprender 5 ferramentas ao mesmo tempo em um único fim de semana.`;
     }
 
     return `### Plano de Desenvolvimento Individual (PDI) — ${userLabel}

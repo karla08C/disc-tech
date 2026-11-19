@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Header, ActiveTab } from './components/Header';
 import { AssessmentQuiz } from './components/AssessmentQuiz';
 import { ResultReport } from './components/ResultReport';
-import { SquadSimulator } from './components/SquadSimulator';
 import { CareerExplorer } from './components/CareerExplorer';
 import { TransitionExplorer } from './components/TransitionExplorer';
 import { HistoryComparison } from './components/HistoryComparison';
@@ -11,6 +10,7 @@ import { DiscLetter, QuizMode, TestRecord } from './types/disc';
 import { calculateDiscResult, loadTestHistory, saveTestRecord, deleteTestRecord } from './utils/discCalculator';
 import { decodeSharedProfile, buildAnswersFromPercentages } from './utils/shareUtils';
 import { PROFILES } from './data/discData';
+import { PREVIOUS_BACKGROUNDS } from './data/transitionData';
 import { ArrowRight, Zap, Users, BrainCircuit, Terminal, Map, FileText } from 'lucide-react';
 
 export default function App() {
@@ -24,12 +24,13 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('test');
   const [userName, setUserName] = useState<string>('');
   const [quizActive, setQuizActive] = useState<boolean>(false);
-  const [quizMode, setQuizMode] = useState<QuizMode>('standard');
+  const [quizMode, setQuizMode] = useState<QuizMode>('beginner');
+  const [selectedBgId, setSelectedBgId] = useState<string>('first-job');
   const [answers, setAnswers] = useState<DiscLetter[]>([]);
   const [history, setHistory] = useState<TestRecord[]>([]);
   const [savedResultId, setSavedResultId] = useState<string | null>(null);
   const [isAiCoachOpen, setIsAiCoachOpen] = useState<boolean>(false);
-  const [selectedTargetRole, setSelectedTargetRole] = useState<string>('Tech Lead');
+  const [selectedTargetRole, setSelectedTargetRole] = useState<string>('Primeira Vaga em TI (Júnior / Estágio)');
   const [sharedBanner, setSharedBanner] = useState<{ isShared: boolean; name: string; dominant: DiscLetter } | null>(null);
 
   // Sync theme class on documentElement and persist preference
@@ -159,7 +160,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0b0f17] text-slate-900 dark:text-slate-100 flex flex-col font-sans bg-tech-grid relative transition-colors">
+    <div className="min-h-screen bg-[#fafbfc] dark:bg-[#0b0f17] text-slate-900 dark:text-slate-100 flex flex-col font-sans bg-tech-grid relative transition-colors">
       {/* Top Navigation */}
       <Header
         activeTab={activeTab}
@@ -235,20 +236,20 @@ export default function App() {
               <div className="w-full max-w-5xl mx-auto px-4 py-12 space-y-12">
                 {/* Hero section */}
                 <div className="text-center space-y-6 max-w-3xl mx-auto">
-                  <div className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-300 text-xs font-mono">
+                  <div className="inline-flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs font-mono">
                     <Terminal className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-                    <span>Avaliação Comportamental para Carreiras em TI</span>
+                    <span>Avaliação Comportamental · Iniciantes e Transição para TI</span>
                   </div>
 
-                  <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight leading-tight text-balance">
-                    Descubra seu perfil DISC para o{' '}
+                  <h1 className="text-3xl sm:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight leading-[1.15] text-balance">
+                    Descubra qual área de tecnologia{' '}
                     <span className="text-indigo-600 dark:text-indigo-400">
-                      mercado tech
+                      combina com você
                     </span>
                   </h1>
 
-                  <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-                    20 perguntas de escolha forçada para quem já atua na área ou está começando do zero. Em 3 minutos você descobre seu perfil comportamental e quais caminhos em tecnologia mais combinam com você.
+                  <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Não sabe programar ou está migrando de outra profissão? Em 3 minutos você descobre seu perfil comportamental DISC, aproveita o que já sabe da sua área atual e recebe um roteiro de entrada de 30 dias + roadmap passo a passo.
                   </p>
 
                   {currentResult && (
@@ -271,7 +272,7 @@ export default function App() {
                   )}
 
                   {/* Name & Moment Selection Box */}
-                  <div className="mx-auto max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 sm:p-6 rounded-2xl shadow-sm space-y-4 text-left">
+                  <div className="mx-auto max-w-lg bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 rounded-2xl shadow-xs space-y-4 text-left">
                     <div>
                       <label htmlFor="name-input" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                         Como prefere ser chamado(a)?
@@ -283,14 +284,33 @@ export default function App() {
                         onChange={(e) => setUserName(e.target.value)}
                         placeholder="Ex: Lucas, Camila, Rafael..."
                         maxLength={60}
-                        className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition"
+                        className="w-full px-4 py-3 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 transition"
                       />
+                    </div>
+
+                    {/* Previous Background Quick Picker */}
+                    <div className="space-y-1.5">
+                      <label htmlFor="bg-select" className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                        Qual é o seu ponto de partida hoje?
+                      </label>
+                      <select
+                        id="bg-select"
+                        value={selectedBgId}
+                        onChange={(e) => setSelectedBgId(e.target.value)}
+                        className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-950 text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 transition cursor-pointer"
+                      >
+                        {PREVIOUS_BACKGROUNDS.map((bg) => (
+                          <option key={bg.id} value={bg.id}>
+                            {bg.label}
+                          </option>
+                        ))}
+                      </select>
                     </div>
 
                     {/* Quiz Mode Selector */}
                     <div className="space-y-2">
                       <span className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                        Qual é o seu momento atual?
+                        Formato das perguntas:
                       </span>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                         <button
@@ -298,13 +318,13 @@ export default function App() {
                           onClick={() => setQuizMode('beginner')}
                           className={`p-3 rounded-xl border text-left transition cursor-pointer ${
                             quizMode === 'beginner'
-                              ? 'bg-indigo-50 dark:bg-indigo-600/20 border-indigo-500 text-slate-900 dark:text-white'
-                              : 'bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-700'
+                              ? 'bg-indigo-50/70 dark:bg-indigo-600/20 border-indigo-500 text-slate-900 dark:text-white'
+                              : 'bg-slate-50/70 dark:bg-slate-950 border-slate-200/80 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-700'
                           }`}
                         >
-                          <div className="text-xs font-semibold">Iniciante ou em Transição</div>
+                          <div className="text-xs font-semibold">Iniciante ou Transição</div>
                           <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                            Linguagem simples, sem siglas técnicas
+                            Recomendado · Sem siglas técnicas
                           </div>
                         </button>
 
@@ -313,13 +333,13 @@ export default function App() {
                           onClick={() => setQuizMode('standard')}
                           className={`p-3 rounded-xl border text-left transition cursor-pointer ${
                             quizMode === 'standard'
-                              ? 'bg-indigo-50 dark:bg-indigo-600/20 border-indigo-500 text-slate-900 dark:text-white'
-                              : 'bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-700'
+                              ? 'bg-indigo-50/70 dark:bg-indigo-600/20 border-indigo-500 text-slate-900 dark:text-white'
+                              : 'bg-slate-50/70 dark:bg-slate-950 border-slate-200/80 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-700'
                           }`}
                         >
                           <div className="text-xs font-semibold">Já atuo em Tecnologia</div>
                           <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                            Cenários de squad, PRs e produção
+                            Cenários de equipe, UX e código
                           </div>
                         </button>
                       </div>
@@ -328,15 +348,19 @@ export default function App() {
                     <button
                       type="button"
                       onClick={() => handleStartQuiz(quizMode)}
-                      className="w-full py-3.5 px-6 rounded-xl font-semibold text-sm tracking-wide bg-indigo-600 hover:bg-indigo-700 dark:hover:bg-indigo-500 text-white border border-indigo-600/30 shadow-xs transition duration-150 flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full py-3.5 px-6 rounded-xl font-semibold text-sm tracking-wide bg-indigo-600 hover:bg-indigo-700 dark:hover:bg-indigo-500 text-white border border-indigo-600/30 shadow-2xs transition duration-150 flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <span>Iniciar Análise Comportamental</span>
+                      <span>
+                        {quizMode === 'beginner'
+                          ? 'Descobrir Minha Área em Tech'
+                          : 'Iniciar Análise Comportamental'}
+                      </span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
 
-                    <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2 text-xs">
-                      <span className="text-slate-600 dark:text-slate-400">
-                        Ainda não sabe qual área de TI escolher?
+                    <div className="pt-2 border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-2 text-xs">
+                      <span className="text-slate-500 dark:text-slate-400">
+                        Prefere comparar áreas antes de testar?
                       </span>
                       <button
                         type="button"
@@ -351,31 +375,31 @@ export default function App() {
                 </div>
 
                 {/* 4 DISC Quadrants Preview Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                   {(['D', 'I', 'S', 'C'] as DiscLetter[]).map((letter) => {
                     const p = PROFILES[letter];
                     return (
                       <div
                         key={letter}
-                        className="p-5 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition flex flex-col justify-between shadow-2xs"
+                        className="p-5 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition flex flex-col justify-between shadow-2xs"
                       >
                         <div>
                           <div
-                            className="w-10 h-10 rounded-xl flex items-center justify-center font-mono font-bold text-xl mb-3 border"
+                            className="w-10 h-10 rounded-xl flex items-center justify-center font-mono font-semibold text-lg mb-3 border"
                             style={{
-                              backgroundColor: `${p.color}15`,
+                              backgroundColor: `${p.color}12`,
                               color: p.color,
-                              borderColor: `${p.color}35`,
+                              borderColor: `${p.color}30`,
                             }}
                           >
                             {letter}
                           </div>
-                          <h3 className="font-bold text-slate-900 dark:text-white text-base">{p.title}</h3>
+                          <h3 className="font-semibold text-slate-900 dark:text-white text-base">{p.title}</h3>
                           <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
                             {p.tagline}
                           </p>
                         </div>
-                        <div className="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 text-[11px] font-mono font-medium" style={{ color: p.color }}>
+                        <div className="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 text-[11px] font-mono font-medium" style={{ color: p.color }}>
                           {letter === 'D' && 'Dominância · Execução & Decisão'}
                           {letter === 'I' && 'Influência · Pessoas & Articulação'}
                           {letter === 'S' && 'Estabilidade · Resiliência & Ritmo'}
@@ -387,9 +411,9 @@ export default function App() {
                 </div>
 
                 {/* Feature Highlights Grid */}
-                <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xs">
+                <div className="bg-white dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xs">
                   <h3 className="text-xs font-semibold text-slate-500 dark:text-slate-400 tracking-wide mb-4">
-                    O que você recebe ao concluir o teste
+                    Pensado para quem está entrando ou migrando para TI
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs text-slate-600 dark:text-slate-300">
                     <div className="flex items-start gap-3">
@@ -398,9 +422,9 @@ export default function App() {
                       </div>
                       <div>
                         <strong className="text-slate-900 dark:text-white block text-sm mb-0.5">
-                          Superpoderes & Bugs
+                          Aproveite sua Experiência
                         </strong>
-                        Diagnóstico prático com pontos fortes, alertas comportamentais e recomendações para o dia a dia.
+                        Traduza habilidades de vendas, administração, atendimento, saúde, direito ou design para vagas tech.
                       </div>
                     </div>
 
@@ -410,9 +434,9 @@ export default function App() {
                       </div>
                       <div>
                         <strong className="text-slate-900 dark:text-white block text-sm mb-0.5">
-                          Simulador de Squad
+                          Portas de Entrada Claras
                         </strong>
-                        Teste como o seu perfil interage com Tech Leads, POs, SREs e arquitetos para evitar gargalos na equipe.
+                        Compare áreas com e sem código obrigatório (UX/UI, Dados/BI, QA, Produto, Frontend, Backend e Cloud).
                       </div>
                     </div>
 
@@ -422,9 +446,9 @@ export default function App() {
                       </div>
                       <div>
                         <strong className="text-slate-900 dark:text-white block text-sm mb-0.5">
-                          Carreiras & PDI 90 Dias
+                          Plano 30 Dias + Roadmap
                         </strong>
-                        Recomendações didáticas de cargos tech e plano personalizado de desenvolvimento de carreira.
+                        Receba seu 1º projeto de portfólio e trilha interativa conectada ao roadmap.sh para estudar com foco.
                       </div>
                     </div>
                   </div>
@@ -445,6 +469,8 @@ export default function App() {
           <TransitionExplorer
             userPct={currentResult?.pct || null}
             userName={userName}
+            selectedBgId={selectedBgId}
+            onSelectBgId={setSelectedBgId}
             onStartBeginnerQuiz={() => handleStartQuiz('beginner')}
             onSelectCareerForCoach={handleSelectCareerForCoach}
           />
@@ -459,6 +485,8 @@ export default function App() {
             dualCode={currentResult.dualCode}
             pct={currentResult.pct}
             quizMode={quizMode}
+            selectedBgId={selectedBgId}
+            onSelectBgId={setSelectedBgId}
             onRestart={() => handleStartQuiz(quizMode)}
             onOpenAiCoach={() => setIsAiCoachOpen(true)}
             onOpenTransitionGuide={() => setActiveTab('transition')}
@@ -473,22 +501,6 @@ export default function App() {
             userPct={currentResult?.pct || null}
             userName={userName}
             onSelectCareerForCoach={handleSelectCareerForCoach}
-          />
-        )}
-
-        {/* TAB: SQUAD SIMULATOR */}
-        {activeTab === 'squad' && (
-          <SquadSimulator
-            currentUserProfile={
-              currentResult
-                ? {
-                    name: userName || 'Você',
-                    dominant: currentResult.dominant,
-                    secondary: currentResult.secondary,
-                    pct: currentResult.pct,
-                  }
-                : null
-            }
           />
         )}
 
@@ -512,6 +524,7 @@ export default function App() {
         pct={currentResult?.pct || { D: 35, I: 25, S: 20, C: 20 }}
         currentCareers={currentResult ? PROFILES[currentResult.dominant].careers : []}
         initialTargetRole={selectedTargetRole}
+        quizMode={quizMode}
       />
     </div>
   );

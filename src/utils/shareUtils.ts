@@ -106,32 +106,31 @@ export function generateSocialPostText(
   const userName = data.name || 'Profissional Tech';
 
   if (platform === 'twitter') {
-    return `Meu perfil comportamental no DISC Tech: ${title} 🎯\n` +
+    return `Meu perfil comportamental no DISC Tech: ${title}\n` +
       `Distribuição: D: ${data.pct.D}% | I: ${data.pct.I}% | S: ${data.pct.S}% | C: ${data.pct.C}%\n` +
-      `Veja minha análise completa e benchmark de Desenvolvedor Pleno:\n${url}\n\n#DISCTech #Dev`;
+      `Veja minha análise completa e trilhas recomendadas:\n${url}\n\n#DISCTech #CarreiraTech`;
   }
 
   if (platform === 'whatsapp') {
-    return `*DISC Tech • Análise Comportamental de TI*\n` +
+    return `*DISC Tech — Análise Comportamental para TI*\n` +
       `Confira o perfil mapeado de ${userName}:\n` +
-      `🎯 *Dominante:* ${title} (${data.dominant})\n` +
-      `📊 *Distribuição:* D:${data.pct.D}% | I:${data.pct.I}% | S:${data.pct.S}% | C:${data.pct.C}%\n` +
-      (dual ? `💡 *Diferencial:* ${dual.naturalStrength}\n` : '') +
-      `\n🔗 Veja o relatório interativo completo aqui:\n${url}`;
+      `*Dominante:* ${title} (${data.dominant})\n` +
+      `*Distribuição:* D:${data.pct.D}% | I:${data.pct.I}% | S:${data.pct.S}% | C:${data.pct.C}%\n` +
+      (dual ? `*Diferencial:* ${dual.naturalStrength}\n` : '') +
+      `\nVeja o relatório interativo completo aqui:\n${url}`;
   }
 
   // LinkedIn format
-  return `🚀 Acabei de mapear meu perfil comportamental no DISC Tech!\n\n` +
-    `👤 Meu resultado dominante: ${data.dominant} — ${title}\n` +
-    `📊 Minha distribuição DISC:\n` +
-    `• Dominância (D): ${data.pct.D}% (Iniciativa & resolução de problemas)\n` +
-    `• Influência (I): ${data.pct.I}% (Comunicação & engajamento de time)\n` +
-    `• Estabilidade (S): ${data.pct.S}% (Consistência & previsibilidade de entrega)\n` +
-    `• Conformidade (C): ${data.pct.C}% (Rigor técnico & qualidade de código)\n\n` +
-    (dual ? `💡 Diferencial chave no time: "${dual.naturalStrength}"\n\n` : '') +
-    `O relatório compara meus resultados com o benchmark comportamental de Desenvolvedor Pleno da indústria tech.\n\n` +
-    `Confira o meu relatório interativo completo:\n${url}\n\n` +
-    `#DISCTech #EngenhariaDeSoftware #TechCareer #DesenvolvimentoProfissional #LiderancaTech`;
+  return `Acabei de mapear meu perfil comportamental no DISC Tech.\n\n` +
+    `Resultado dominante: ${data.dominant} — ${title}\n` +
+    `Distribuição DISC:\n` +
+    `- Dominância (D): ${data.pct.D}% (Iniciativa e resolução de problemas)\n` +
+    `- Influência (I): ${data.pct.I}% (Comunicação e articulação)\n` +
+    `- Estabilidade (S): ${data.pct.S}% (Consistência e previsibilidade)\n` +
+    `- Conformidade (C): ${data.pct.C}% (Rigor analítico e qualidade)\n\n` +
+    (dual ? `Diferencial no trabalho em equipe: "${dual.naturalStrength}"\n\n` : '') +
+    `Confira meu relatório interativo com áreas recomendadas e roadmap:\n${url}\n\n` +
+    `#DISCTech #TransicaoDeCarreira #TechCareer #DesenvolvimentoProfissional`;
 }
 
 /**

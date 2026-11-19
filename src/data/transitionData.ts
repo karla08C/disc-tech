@@ -60,7 +60,7 @@ export const BEGINNER_QUESTIONS: Question[] = [
     options: [
       { text: "Ir direto para a prática tentando fazer algo real, mesmo errando no início", letter: "D" },
       { text: "Assistir vídeos dinâmicos, trocar experiências com outras pessoas e ver exemplos reais", letter: "I" },
-      { text: "Seguir um curso passo a passo em um ritmo constante, um pouco por dia", letter: "S" },
+      { text: "Seguir uma trilha guiada (estilo roadmap.sh) passo a passo, um pouco por dia", letter: "S" },
       { text: "Ler guias completos, manuais e entender toda a lógica por trás antes de aplicar", letter: "C" },
     ],
   },
@@ -219,8 +219,8 @@ export const BEGINNER_QUESTIONS: Question[] = [
     prompt: "Pensando no seu futuro na área de tecnologia, qual papel mais chama sua atenção?",
     options: [
       { text: "Liderar iniciativas, tomar decisões estratégicas ou empreender com produtos digitais", letter: "D" },
-      { text: "Conectar usuários, negócios e times criando experiências e produtos incríveis", letter: "I" },
-      { text: "Ser o profissional confiável que garante sistemas estáveis, seguros e times unidos", letter: "S" },
+      { text: "Criar experiências visuais (UX/UI) e conectar usuários, design e produto", letter: "I" },
+      { text: "Seguir uma trilha estruturada para garantir sistemas estáveis, seguros e times unidos", letter: "S" },
       { text: "Analisar dados, investigar falhas ou construir sistemas complexos com alta precisão", letter: "C" },
     ],
   },
@@ -333,6 +333,8 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     ],
     starterProject: "Painel de Vendas ou Desempenho de E-commerce: pegue uma base gratuita no Kaggle, limpe os dados e crie 4 gráficos respondendo o que vende mais e onde há prejuízo.",
     freeTools: ["Google Sheets", "Power BI Desktop", "SQLite Online", "Kaggle Datasets"],
+    roadmapUrl: "https://roadmap.sh/data-analyst",
+    roadmapLabel: "Trilha Data Analyst (roadmap.sh)",
   },
   {
     id: "qa-entry",
@@ -365,6 +367,8 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     ],
     starterProject: "Portfólio de Auditoria de QA: escolha um e-commerce ou app de demonstração, escreva 10 cenários de teste (login, carrinho, pagamento) e documente 5 bugs encontrados.",
     freeTools: ["Postman", "Chrome DevTools", "Cypress / Playwright", "Trello / Notion"],
+    roadmapUrl: "https://roadmap.sh/qa",
+    roadmapLabel: "Trilha QA Engineer (roadmap.sh)",
   },
   {
     id: "frontend-entry",
@@ -397,6 +401,8 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     ],
     starterProject: "Página de Links ou Buscador de CEP Interativo: uma interface limpa feita por você em HTML/CSS/JS que responde em tempo real ao usuário.",
     freeTools: ["VS Code", "GitHub Pages / Vercel", "MDN Web Docs", "Chrome DevTools"],
+    roadmapUrl: "https://roadmap.sh/frontend-beginner",
+    roadmapLabel: "Trilha Frontend Beginner (roadmap.sh)",
   },
   {
     id: "ux-ui-design",
@@ -428,7 +434,9 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
       { week: "Semana 4", focus: "Montar 1 estudo de caso explicando o problema, o processo e as telas redesenhadas." },
     ],
     starterProject: "Redesign de Fluxo Problemático: escolha um app local (ex: transporte público ou agendamento médico) e redesenhe 4 telas no Figma resolvendo uma dor real.",
-    freeTools: ["Figma (Plano Gratuito)", "Miro / FigJam", "Notion", "Material Design Guidelines"],
+    freeTools: ["Figma (Plano Gratuito)", "Miro / FigJam", "Notion", "roadmap.sh/ux-design"],
+    roadmapUrl: "https://roadmap.sh/ux-design",
+    roadmapLabel: "Trilha UX Design (roadmap.sh)",
   },
   {
     id: "product-agile",
@@ -461,6 +469,8 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     ],
     starterProject: "Mini-Case de Produto: escolha um produto que você usa (ex: Nubank ou iFood), proponha 1 nova funcionalidade, explique o ganho de negócio e escreva as tarefas para o time.",
     freeTools: ["Trello / Jira Free", "Notion", "Miro", "Whimsical"],
+    roadmapUrl: "https://roadmap.sh/product-manager",
+    roadmapLabel: "Trilha Product Manager (roadmap.sh)",
   },
   {
     id: "backend-entry",
@@ -493,6 +503,8 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     ],
     starterProject: "API de Controle de Hábitos ou Finanças: um pequeno servidor em Node.js ou Python onde é possível cadastrar, listar e excluir registros em banco de dados.",
     freeTools: ["VS Code", "Python / Node.js", "PostgreSQL / SQLite", "Git & GitHub"],
+    roadmapUrl: "https://roadmap.sh/backend-beginner",
+    roadmapLabel: "Trilha Backend Beginner (roadmap.sh)",
   },
   {
     id: "support-cloud",
@@ -525,6 +537,8 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     ],
     starterProject: "Guia de Diagnóstico & Servidor Linux: documente no GitHub como configurar um servidor web simples no Linux e resolver 5 erros comuns de rede/permissão.",
     freeTools: ["Linux (WSL ou VM)", "AWS Skill Builder (Gratuito)", "Docker Desktop", "Terminal"],
+    roadmapUrl: "https://roadmap.sh/devops-beginner",
+    roadmapLabel: "Trilha DevOps Beginner (roadmap.sh)",
   },
   {
     id: "cyber-grc",
@@ -557,5 +571,7 @@ export const ENTRY_TECH_AREAS: EntryTechArea[] = [
     ],
     starterProject: "Política & Diagnóstico LGPD para Startup: elabore um documento prático mapeando riscos de acesso e recomendações de proteção de dados.",
     freeTools: ["OWASP Top 10 (Leitura)", "Cisco Skills for All (Cybersecurity)", "Notion", "Checklists ISO 27001"],
+    roadmapUrl: "https://roadmap.sh/cyber-security",
+    roadmapLabel: "Trilha Cyber Security (roadmap.sh)",
   },
 ];

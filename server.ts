@@ -70,12 +70,12 @@ O profissional se chama "${name || 'Dev'}" e obteve o seguinte resultado no DISC
 - Alvo de Carreira: ${targetRole || 'Tech Lead / Staff Engineer'}
 
 Crie um Plano de Desenvolvimento Individual (PDI) hiperpersonalizado contendo:
-1. 🎯 Diagnóstico Comportamental no Contexto Tech (pontos fortes como diferencial e armadilhas diárias em squads ágeis).
-2. 🛠️ Plano de Ação 30-60-90 Dias (ações concretas com rituais de squad, code review, 1:1 e arquitetura).
-3. 💬 Script de Comunicação com Outros Perfis (ex: como alinhar expectativas com o Product Manager e com pares analíticos).
-4. 📚 2 Recomendações de Livros/Recursos essenciais para este momento de carreira.
+1. Diagnóstico Comportamental no Contexto Tech (pontos fortes como diferencial e armadilhas diárias no trabalho).
+2. Plano de Ação 30-60-90 Dias (ações concretas de aprendizado, portfólio, comunicação e rotina).
+3. Roteiro de Comunicação com Outros Perfis (como alinhar expectativas com perfis mais analíticos, comunicativos ou executores).
+4. 2 Recomendações de Livros/Recursos essenciais para este momento de carreira.
 
-Retorne em Markdown bem formatado, direto ao ponto e sem enrolação, em Português do Brasil.`;
+Retorne em Markdown bem formatado, sem emojis, direto ao ponto e em Português do Brasil.`;
     }
 
     const response = await aiClient.models.generateContent({
@@ -108,21 +108,21 @@ function generateStructuredPdi(name: string, dominant: string, pct: any, targetR
     C: 'O Arquiteto Analítico (Conformidade)'
   };
 
-  return `### 🎯 Diagnóstico Comportamental para ${name}
+  return `### Diagnóstico Comportamental para ${name}
 **Perfil:** ${profileNames[dominant] || dominant}  
 **Distribuição:** D: ${pct.D}% | I: ${pct.I}% | S: ${pct.S}% | C: ${pct.C}%  
 **Carreira Alvo:** ${targetRole}
 
-#### ⚡ Seus Superpoderes em Squads Ágeis
-- Capacidade natural de liderar iniciativas com base no seu quadrante predominante.
-- Visão pragmática de entrega de software e resolução de problemas técnicos.
+#### Pontos Fortes no Dia a Dia
+- Capacidade natural de contribuir para iniciativas com base no seu quadrante predominante.
+- Visão pragmática de entrega e resolução de problemas práticos.
 
-#### 🛠️ Plano de Ação Personalizado (30-60-90 Dias)
-- **Primeiros 30 Dias:** Mapeie os seus 2 maiores "bugs comportamentais" durante dailies e code reviews. Solicite feedback de 2 pares de confiança.
-- **Em 60 Dias:** Pratique comunicação adaptada com colegas que possuem perfis opostos (ex: se for D, dê mais espaço a C e S; se for C, pratique entregar MVPs antes da perfeição).
-- **Em 90 Dias:** Assuma a facilitação de um alinhamento arquitetural ou retrospectiva de squad usando o framework de escuta ativa e dados objetivos.
+#### Plano de Ação Personalizado (30-60-90 Dias)
+- **Primeiros 30 Dias:** Mapeie seus 2 principais pontos de atenção comportamentais durante reuniões e revisões. Solicite feedback direto a 2 pares de confiança.
+- **Em 60 Dias:** Pratique comunicação adaptada com colegas que possuem perfis opostos (ex.: se for D, dê mais espaço a C e S; se for C, pratique entregar versões incrementais antes da perfeição).
+- **Em 90 Dias:** Lidere um alinhamento ou melhoria de processo utilizando escuta ativa e critérios objetivos.
 
-#### 📚 Leituras Recomendadas
+#### Leituras Recomendadas
 - *The Manager's Path* — Camille Fournier
 - *Crucial Conversations* — Kerry Patterson`;
 }

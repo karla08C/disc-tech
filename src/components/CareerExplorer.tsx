@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { DiscLetter, DiscPercentages } from '../types/disc';
 import { TECH_CAREERS, PROFILES } from '../data/discData';
 import { calculateCareerMatches } from '../utils/discCalculator';
-import { Briefcase, Search, BrainCircuit, TrendingUp, CheckCircle, ChevronRight, Award } from 'lucide-react';
+import { Briefcase, Search, BrainCircuit, TrendingUp, CheckCircle, ChevronRight, Award, ExternalLink } from 'lucide-react';
+import { ROADMAP_SH_DESIGN_HUB_URL } from '../data/roadmapData';
 
 interface CareerExplorerProps {
   userPct?: DiscPercentages | null;
@@ -40,7 +41,7 @@ export const CareerExplorer: React.FC<CareerExplorerProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-8 space-y-8">
       {/* Header */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xs">
+      <div className="bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xs">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-2">
@@ -49,11 +50,21 @@ export const CareerExplorer: React.FC<CareerExplorerProps> = ({
                 Matriz de Carreiras & Aderência DISC em TI
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+            <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
               Guia de Carreiras Tech & Aderência Comportamental
             </h1>
             <p className="text-sm text-slate-600 dark:text-slate-400 mt-2 max-w-2xl">
-              Descubra quais posições de liderança técnica, gestão, arquitetura ou especialista possuem maior sinergia com o seu perfil natural.
+              Descubra quais posições de liderança técnica, design, produto, arquitetura ou especialista possuem maior sinergia com o seu perfil natural, com trilhas conectadas ao{' '}
+              <a
+                href={ROADMAP_SH_DESIGN_HUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 hover:underline font-medium"
+              >
+                roadmap.sh (incl. Design)
+                <ExternalLink className="w-3 h-3" />
+              </a>
+              .
             </p>
           </div>
 
@@ -145,10 +156,10 @@ export const CareerExplorer: React.FC<CareerExplorerProps> = ({
 
       {/* Carreiras Tech Recomendadas (Top 3) */}
       {userPct && (
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-5 shadow-2xs">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div className="bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 space-y-5 shadow-2xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/80 dark:border-slate-800 pb-4">
             <div>
-              <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <h2 className="text-base sm:text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                 <Award className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                 Carreiras Tech Recomendadas para o seu Perfil
               </h2>
@@ -162,9 +173,9 @@ export const CareerExplorer: React.FC<CareerExplorerProps> = ({
             </div>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="p-3.5 rounded-xl bg-slate-50/70 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <strong className="text-slate-900 dark:text-white">Como escolher entre as 3 recomendações:</strong> Leia{' '}
+              <strong className="font-semibold text-slate-900 dark:text-white">Como escolher entre as 3 recomendações:</strong> Leia{' '}
               <span className="text-slate-900 dark:text-slate-100 font-medium">o que a pessoa faz na prática</span> e o{' '}
               <span className="text-indigo-700 dark:text-indigo-300 font-medium">motivo da compatibilidade</span>. Clique em qualquer card abaixo para abrir a rotina, os entregáveis e o principal desafio na matriz completa.
             </div>
@@ -188,11 +199,11 @@ export const CareerExplorer: React.FC<CareerExplorerProps> = ({
                       ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                   }, 60);
                 }}
-                className="text-left p-5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 transition cursor-pointer flex flex-col justify-between gap-4"
+                className="text-left p-5 rounded-xl bg-slate-50/60 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 hover:border-indigo-500/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 transition cursor-pointer flex flex-col justify-between gap-4"
               >
                 <div className="space-y-2.5">
                   <div className="flex items-center justify-between text-xs font-mono tabular-nums">
-                    <span className="text-indigo-600 dark:text-indigo-400 font-bold">
+                    <span className="text-indigo-600 dark:text-indigo-400 font-semibold">
                       #0{idx + 1} · {topCareer.primaryDisc}
                       {topCareer.secondaryDisc ? `+${topCareer.secondaryDisc}` : ''}
                     </span>
@@ -200,19 +211,19 @@ export const CareerExplorer: React.FC<CareerExplorerProps> = ({
                       {topCareer.matchScore}% Aderência
                     </span>
                   </div>
-                  <div className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
+                  <div className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white">
                     {topCareer.title}
                   </div>
                   <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                    <strong className="text-slate-900 dark:text-slate-100">O que faz:</strong> {topCareer.description}
+                    <strong className="font-semibold text-slate-900 dark:text-slate-100">O que faz:</strong> {topCareer.description}
                   </p>
                   {topCareer.discFitReason && (
                     <p className="text-xs text-indigo-700 dark:text-indigo-300 leading-relaxed">
-                      <strong>Por que combina com seu DISC:</strong> {topCareer.discFitReason}
+                      <strong className="font-semibold">Por que combina com seu DISC:</strong> {topCareer.discFitReason}
                     </p>
                   )}
                 </div>
-                <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2 text-[11px]">
+                <div className="pt-3 border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-2 text-[11px]">
                   <span className="font-mono text-slate-500 dark:text-slate-400 tabular-nums">
                     {topCareer.salaryRange}
                   </span>
@@ -229,7 +240,7 @@ export const CareerExplorer: React.FC<CareerExplorerProps> = ({
 
       {/* Career Cards Grid */}
       {filtered.length === 0 ? (
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 text-center space-y-3">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-8 text-center space-y-3">
           <p className="text-sm text-slate-600 dark:text-slate-300">
             Nenhuma carreira encontrada para os filtros selecionados.
           </p>
@@ -254,20 +265,20 @@ export const CareerExplorer: React.FC<CareerExplorerProps> = ({
             <div
               key={career.id}
               id={`career-${career.id}`}
-              className={`bg-white dark:bg-slate-900 border rounded-2xl p-6 transition-all duration-150 flex flex-col justify-between shadow-2xs ${
+              className={`bg-white dark:bg-slate-900/90 border rounded-2xl p-6 transition-all duration-150 flex flex-col justify-between shadow-2xs ${
                 isSelected
                   ? 'border-indigo-500 ring-2 ring-indigo-500/20 shadow-sm'
-                  : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
+                  : 'border-slate-200/80 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
               }`}
             >
               <div>
                 <div className="flex items-start justify-between gap-4 mb-3">
                   <div>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                       {career.title}
                     </h3>
                     <div className="flex items-center gap-2 mt-1 text-xs">
-                      <span className="font-mono font-bold" style={{ color: primaryProfile.color }}>
+                      <span className="font-mono font-semibold" style={{ color: primaryProfile.color }}>
                         Primário: {career.primaryDisc} ({primaryProfile.title.split(' ')[1] || primaryProfile.title})
                       </span>
                       {career.secondaryDisc && (
@@ -411,6 +422,20 @@ export const CareerExplorer: React.FC<CareerExplorerProps> = ({
                       </div>
                     </div>
                   </div>
+
+                  {career.roadmapUrl && (
+                    <div className="pt-2 border-t border-slate-200 dark:border-slate-800/60">
+                      <a
+                        href={career.roadmapUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300 hover:text-indigo-900 dark:hover:text-white underline underline-offset-2 transition"
+                      >
+                        <span>{career.roadmapLabel || 'Abrir trilha oficial no roadmap.sh'}</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

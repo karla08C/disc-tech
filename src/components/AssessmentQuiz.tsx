@@ -138,12 +138,12 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
       </div>
 
       {/* Question Card */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+      <div className="bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xs relative overflow-hidden">
         <div className="flex items-start gap-4 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-200 flex items-center justify-center font-mono font-bold text-lg shrink-0 tabular-nums">
+          <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-900 dark:text-slate-200 flex items-center justify-center font-mono font-semibold text-base shrink-0 tabular-nums">
             {currentQuestion.id}
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-relaxed">
+          <h2 className="text-lg sm:text-2xl font-semibold text-slate-900 dark:text-white leading-relaxed">
             {currentQuestion.prompt}
           </h2>
         </div>
@@ -161,17 +161,17 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
             const letter = option.letter;
 
             const letterColorMap: Record<DiscLetter, string> = {
-              D: 'group-hover:border-rose-400 dark:group-hover:border-rose-500/50 group-hover:bg-rose-50/60 dark:group-hover:bg-rose-950/10',
-              I: 'group-hover:border-amber-400 dark:group-hover:border-amber-500/50 group-hover:bg-amber-50/60 dark:group-hover:bg-amber-950/10',
-              S: 'group-hover:border-emerald-400 dark:group-hover:border-emerald-500/50 group-hover:bg-emerald-50/60 dark:group-hover:bg-emerald-950/10',
-              C: 'group-hover:border-sky-400 dark:group-hover:border-sky-500/50 group-hover:bg-sky-50/60 dark:group-hover:bg-sky-950/10',
+              D: 'group-hover:border-rose-400 dark:group-hover:border-rose-500/50 group-hover:bg-rose-50/50 dark:group-hover:bg-rose-950/10',
+              I: 'group-hover:border-amber-400 dark:group-hover:border-amber-500/50 group-hover:bg-amber-50/50 dark:group-hover:bg-amber-950/10',
+              S: 'group-hover:border-emerald-400 dark:group-hover:border-emerald-500/50 group-hover:bg-emerald-50/50 dark:group-hover:bg-emerald-950/10',
+              C: 'group-hover:border-sky-400 dark:group-hover:border-sky-500/50 group-hover:bg-sky-50/50 dark:group-hover:bg-sky-950/10',
             };
 
             const keyColorMap: Record<number, string> = {
-              0: 'bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-500/30',
-              1: 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-500/30',
-              2: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/30',
-              3: 'bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-500/30',
+              0: 'bg-rose-50/80 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-200/80 dark:border-rose-500/30',
+              1: 'bg-amber-50/80 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-200/80 dark:border-amber-500/30',
+              2: 'bg-emerald-50/80 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-200/80 dark:border-emerald-500/30',
+              3: 'bg-sky-50/80 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-200/80 dark:border-sky-500/30',
             };
 
             return (
@@ -181,8 +181,8 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
                 onClick={() => handleSelectOption(idx)}
                 className={`group w-full text-left p-4 sm:p-5 rounded-xl border transition-all duration-150 flex items-center gap-4 cursor-pointer relative ${
                   isCurrentlySelected
-                    ? 'border-indigo-500 bg-indigo-50 dark:bg-slate-800/80 shadow-xs'
-                    : 'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/60 hover:bg-slate-100/70 dark:hover:bg-slate-800/40'
+                    ? 'border-indigo-500 bg-indigo-50/70 dark:bg-slate-800/80 shadow-2xs'
+                    : 'border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/60 hover:bg-white dark:hover:bg-slate-800/40'
                 } ${letterColorMap[letter]}`}
               >
                 <div
@@ -195,7 +195,7 @@ export const AssessmentQuiz: React.FC<AssessmentQuizProps> = ({
                   {idx + 1}
                 </div>
 
-                <div className="flex-1 text-sm sm:text-base text-slate-800 dark:text-slate-200 font-medium group-hover:text-slate-950 dark:group-hover:text-white transition-colors">
+                <div className="flex-1 text-sm sm:text-base text-slate-800 dark:text-slate-200 font-normal group-hover:text-slate-950 dark:group-hover:text-white transition-colors">
                   {option.text}
                 </div>
 

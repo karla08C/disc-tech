@@ -66,15 +66,8 @@ export interface TechCareer {
   typicalDeliverables?: string[];
   commonChallenges?: string;
   discFitReason?: string;
-}
-
-export interface SquadMember {
-  id: string;
-  name: string;
-  role: string;
-  dominant: DiscLetter;
-  secondary: DiscLetter;
-  pct: DiscPercentages;
+  roadmapUrl?: string;
+  roadmapLabel?: string;
 }
 
 export interface TestRecord {
@@ -122,5 +115,29 @@ export interface EntryTechArea {
   }[];
   starterProject: string;
   freeTools: string[];
+  roadmapUrl?: string;
+  roadmapLabel?: string;
 }
+
+export interface RoadmapStage {
+  step: string;
+  title: string;
+  summary: string;
+  topics: string[];
+}
+
+export interface RoadmapTrack {
+  id: string;
+  title: string;
+  category: 'design' | 'engineering' | 'product-data' | 'infra-sec';
+  categoryLabel: string;
+  url: string;
+  primaryDisc: DiscLetter;
+  secondaryDisc: DiscLetter;
+  weights: Record<DiscLetter, number>;
+  overview: string;
+  discAdvice: Record<DiscLetter, string>;
+  stages: RoadmapStage[];
+}
+
 

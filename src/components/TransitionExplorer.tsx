@@ -13,7 +13,9 @@ import {
   Code2,
   Database,
   Users,
+  ExternalLink,
 } from 'lucide-react';
+import { ROADMAP_SH_DESIGN_HUB_URL } from '../data/roadmapData';
 import { DiscLetter, DiscPercentages, EntryTechArea } from '../types/disc';
 import { PREVIOUS_BACKGROUNDS, ENTRY_TECH_AREAS } from '../data/transitionData';
 import { PROFILES } from '../data/discData';
@@ -21,6 +23,8 @@ import { PROFILES } from '../data/discData';
 interface TransitionExplorerProps {
   userPct?: DiscPercentages | null;
   userName?: string;
+  selectedBgId?: string;
+  onSelectBgId?: (id: string) => void;
   onStartBeginnerQuiz: () => void;
   onSelectCareerForCoach?: (careerTitle: string) => void;
 }
@@ -32,10 +36,17 @@ type CodeFilter = 'all' | 'no-code' | 'low-code' | 'code';
 export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
   userPct,
   userName,
+  selectedBgId: controlledBgId,
+  onSelectBgId,
   onStartBeginnerQuiz,
   onSelectCareerForCoach,
 }) => {
-  const [selectedBgId, setSelectedBgId] = useState<string>('first-job');
+  const [internalBgId, setInternalBgId] = useState<string>('first-job');
+  const selectedBgId = controlledBgId ?? internalBgId;
+  const setSelectedBgId = (id: string) => {
+    setInternalBgId(id);
+    onSelectBgId?.(id);
+  };
   const [preferredFocus, setPreferredFocus] = useState<FocusChoice>(null);
   const [codeComfort, setCodeComfort] = useState<CodeComfort>(null);
   const [problemStyle, setProblemStyle] = useState<FocusChoice>(null);
@@ -134,7 +145,7 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-8 space-y-8">
       {/* Intro Banner */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xs">
+      <div className="bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xs">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
             <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
@@ -144,11 +155,21 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
               <span aria-hidden="true">·</span>
               <span>Iniciantes e Transição de Carreira</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight text-balance">
+            <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight text-balance">
               Ainda não sabe qual área de TI escolher?
             </h1>
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              Você não precisa saber programar para descobrir seu espaço na tecnologia. Escolha de onde você vem, responda 3 preferências simples e veja quais portas de entrada combinam com você — com roteiro prático de 30 dias sem jargões.
+              Você não precisa saber programar para descobrir seu espaço na tecnologia. Escolha de onde você vem, responda 3 preferências simples e veja quais portas de entrada combinam com você — com roteiro prático de 30 dias e trilhas conectadas ao{' '}
+              <a
+                href={ROADMAP_SH_DESIGN_HUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 hover:underline font-medium"
+              >
+                roadmap.sh
+                <ExternalLink className="w-3 h-3" />
+              </a>
+              .
             </p>
           </div>
 
@@ -205,9 +226,9 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
       {/* Step 1 & Step 2 Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Step 1: Previous Background */}
-        <div className="lg:col-span-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-5 shadow-2xs">
+        <div className="lg:col-span-6 bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 space-y-5 shadow-2xs">
           <div>
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
               01. Qual é o seu ponto de partida hoje?
             </h2>
             <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
@@ -225,8 +246,8 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
                   onClick={() => setSelectedBgId(bg.id)}
                   className={`text-left p-3.5 rounded-xl border transition cursor-pointer ${
                     active
-                      ? 'bg-indigo-50 dark:bg-indigo-600/15 border-indigo-500 text-slate-900 dark:text-white'
-                      : 'bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-950 dark:hover:text-white'
+                      ? 'bg-indigo-50/70 dark:bg-indigo-600/15 border-indigo-500 text-slate-900 dark:text-white'
+                      : 'bg-slate-50/60 dark:bg-slate-950 border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-950 dark:hover:text-white'
                   }`}
                 >
                   <div className="text-xs font-semibold leading-snug">{bg.label}</div>
@@ -239,7 +260,7 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
           </div>
 
           {/* Transferable Skills Display */}
-          <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+          <div className="pt-4 border-t border-slate-200/80 dark:border-slate-800 space-y-3">
             <div className="text-xs font-semibold text-slate-900 dark:text-slate-200">
               Vantagens que você já traz nessa transição:
             </div>
@@ -251,17 +272,17 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
                 </li>
               ))}
             </ul>
-            <p className="text-xs text-indigo-700 dark:text-indigo-300 pt-2 border-t border-slate-200 dark:border-slate-800/70 leading-relaxed">
-              <strong>Dica prática:</strong> {selectedBg.transitionTip}
+            <p className="text-xs text-indigo-700 dark:text-indigo-300 pt-2 border-t border-slate-200/80 dark:border-slate-800/70 leading-relaxed">
+              <strong className="font-semibold">Dica prática:</strong> {selectedBg.transitionTip}
             </p>
           </div>
         </div>
 
         {/* Step 2: Quick 3-Question Discovery Triage */}
-        <div className="lg:col-span-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-5 shadow-2xs">
+        <div className="lg:col-span-6 bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 space-y-5 shadow-2xs">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+              <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
                 02. Triagem rápida de afinidade
               </h2>
               <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
@@ -367,9 +388,9 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
 
       {/* Step 3: Personalized Entry Areas */}
       <div className="space-y-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-slate-800 pb-4">
           <div>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+            <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
               03. Carreiras Tech Recomendadas para Você
             </h2>
             <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
@@ -378,7 +399,7 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
           </div>
 
           {/* Filter by Code Requirement */}
-          <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-x-auto">
+          <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl overflow-x-auto">
             {[
               { id: 'all', label: 'Todas' },
               { id: 'no-code', label: 'Sem código' },
@@ -403,7 +424,7 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
 
         {/* Areas List */}
         {rankedAreas.length === 0 ? (
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 text-center space-y-3">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-8 text-center space-y-3">
             <p className="text-sm text-slate-700 dark:text-slate-300">
               Nenhuma área encontrada para este filtro específico.
             </p>
@@ -423,10 +444,10 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
               return (
                 <div
                   key={area.id}
-                  className={`bg-white dark:bg-slate-900 border rounded-2xl transition-colors shadow-2xs ${
+                  className={`bg-white dark:bg-slate-900/90 border rounded-2xl transition-colors shadow-2xs ${
                     isExpanded
                       ? 'border-indigo-500/70'
-                      : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
+                      : 'border-slate-200/80 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                   }`}
                 >
                   <div className="p-6">
@@ -445,12 +466,12 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
                           </span>
                         </div>
 
-                        <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2.5">
+                        <h3 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white flex items-center gap-2.5">
                           {getCodeIcon(area.codeLevel)}
                           <span>{area.title}</span>
                         </h3>
 
-                        <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed max-w-3xl">
+                        <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
                           {area.summary}
                         </p>
 
@@ -464,7 +485,7 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
                       <div className="flex md:flex-col items-center md:items-end justify-between gap-3 shrink-0">
                         <div className="text-right">
                           <div className="text-xs text-slate-500 dark:text-slate-400">Afinidade estimada</div>
-                          <div className="text-2xl font-bold font-mono tabular-nums text-slate-900 dark:text-white">
+                          <div className="text-2xl font-semibold font-mono tabular-nums text-slate-900 dark:text-white">
                             {area.matchScore}%
                           </div>
                         </div>
@@ -599,6 +620,19 @@ export const TransitionExplorer: React.FC<TransitionExplorerProps> = ({
                           <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                             {area.starterProject}
                           </p>
+                          {area.roadmapUrl && (
+                            <div className="pt-1">
+                              <a
+                                href={area.roadmapUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300 hover:text-indigo-900 dark:hover:text-white underline underline-offset-2 transition"
+                              >
+                                <span>{area.roadmapLabel || 'Abrir trilha oficial no roadmap.sh'}</span>
+                                <ExternalLink className="w-3.5 h-3.5" />
+                              </a>
+                            </div>
+                          )}
                         </div>
 
                         {onSelectCareerForCoach && (
